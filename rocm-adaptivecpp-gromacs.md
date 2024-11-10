@@ -113,7 +113,7 @@ A GPU deverá ser identificada. Caso não consiga, experimente `reboot` e verifi
 
 ## 📜 Citação
 
-- FAUSTINO, P. A. S. Tutorials: Compilando ROCm com HIPSyCL (AdaptiveCpp) no Ubuntu 22.04 para Gromacs 2024, 2024. README. Disponível em: \<https://github.com/patrickallanfaustino/tutorials/blob/main/rocm-adaptivecpp-gromacs.md\>. Acesso em: [dia] de [mês] de [ano].
+- FAUSTINO, P. A. S. Tutorials: Compilando ROCm com HIPSyCL (AdaptiveCpp) no Ubuntu 22.04 para Gromacs 2024, 2024. README. Disponível em: <https://github.com/patrickallanfaustino/tutorials/blob/main/rocm-adaptivecpp-gromacs.md>. Acesso em: [dia] de [mês] de [ano].
 
 ## 📝 Licença
 
