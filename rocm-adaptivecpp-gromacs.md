@@ -10,16 +10,28 @@
 
 > Tutorial para compilar ROCm 5.7.1 e HipSyCL (AdaptiveCpp 24.04) no Ubuntu 22.04 para utilizar GPUs Navi23 RDNA no Gromacs 2024.
 
-## 💻 Computador testado:
+## 💻 Computador testado e Pré-requisitos:
 - CPU Ryzen 7 2700X, Memória 2x16 GB DDR4, Chipset X470, GPU ASRock RX 6600 CLD 8 GB, dual boot com Windows 11 e Ubuntu 22.04 instalados em SSD's separados.
-
-## ⚙️ Pré-requisitos
 
 Antes de começar, verifique se você atendeu aos seguintes requisitos:
 
 - Você tem uma máquina `Linux Ubuntu 22.04` atualizado.
 - Você tem uma GPU série `RX 6xxx RDNA 2`. Não testado com outras arquiteturas.
 - Documentações [ROCm 5.7.1](https://rocm.docs.amd.com/en/docs-5.7.1/), [AdaptiveCpp 24.06](https://github.com/AdaptiveCpp/AdaptiveCpp).
+
+Você também vai precisar atualizar e instalar os pacotes da sua máquina:
+
+```
+sudo apt update && sudo apt upgrade -y
+```
+
+```
+sudo apt install cmake libboost-all-dev git build-essential libstdc++-12-dev
+```
+
+```
+sudo apt autoremove && sudo apt autoclean
+```
 
 ## 🔧 Instalando Kernel 5.15 generic
 
@@ -35,19 +47,69 @@ Adicione os headers e módulos extras do kernel:
 sudo apt install "linux-headers-$(uname -r)" "linux-modules-extra-$(uname -r)"
 ```
 
-Em seguida e _nessa ordem_, altere para o Kernel 5.15 em uso e remova todos os demais Kernel instalados. Essa tarefa pode ser feita com o [GRUB CUSTOMIZER](https://www.edivaldobrito.com.br/grub-customizer-no-ubuntu/). Tem muito material na internet para auxiliar nessa etapa, aqui coloco apenas a tarefa principal que é instalar o Kernel 5.15 na máquina.
+Em seguida e *nessa ordem*, altere para usar o Kernel 5.15 e remova os demais Kernel instalados. Essa tarefa pode ser feita com o [GRUB CUSTOMIZER](https://www.edivaldobrito.com.br/grub-customizer-no-ubuntu/) ou no terminal. Existe vasto material na internet para auxiliar nessa tarefa, aqui coloco apenas o objetivo principal que é instalar e usar o Kernel 5.15 na máquina.
 
 >[!NOTE]
 >
 >**Meu Caso**: Com dual boot, então realizei um reboot e utilizei o GRUB para alterar o Kernel. Depois `sudo apt autoremove -y` e `sudo apt autoclean -y` para remover os outros Kernel instalados.
 
-O comando abaixo ajudará a identificar o Kernel instalado:
+>[!TIP]
+>
+>O comando abaixo ajudará a identificar o Kernel instalado:
+>
+>```
+>uname -r
+>```
+
+## 🪛 Instalando ROCm 5.7.1
+
+Vamos instalar o `ROCm versão 5.7.1`. Precisaremos dar previlégios ao usuário e adiciona-lo a grupos:
 
 ```
-uname -r
+sudo usermod -a -G render,video $LOGNAME
+echo ‘ADD_EXTRA_GROUPS=1’ | sudo tee -a /etc/adduser.conf
+echo ‘EXTRA_GROUPS=video’ | sudo tee -a /etc/adduser.conf
+echo ‘EXTRA_GROUPS=render’ | sudo tee -a /etc/adduser.conf
 ```
 
-Working...
+Download e instalação do pacote `ROCm 5.7.1`:
+
+```
+https://repo.radeon.com/amdgpu-install/5.7.1/ubuntu/jammy/amdgpu-install_5.7.50701-1_all.deb
+sudo apt install ./amdgpu-install_5.7.50701-1_all.deb
+```
+
+Utilizando o `amdgpu-install`, instalar o pacote `rocm,hip,hiplibsdk`:
+
+```
+sudo amdgpu-install --usecase=rocm,hip,hiplibsdk
+```
+
+Atualizar todos os indices e links de bibliotecas:
+
+```
+sudo ldconfig
+```
+
+>[!TIP]
+>
+>Utilize o comando abaixo para listar todos os `cases` disponíveis para instalar com o `amdgpu-install`:
+>
+>```
+>sudo amdgpu-install --list-usecase
+>```
+
+Para verificar a instalação, utilize:
+
+```
+sudo clinfo
+```
+
+```
+sudo rocminfo
+```
+
+A GPU deverá ser identificada. Caso não consiga, experimente `reboot` e verifique novamente.
 
 ## 📝 Licença
 
