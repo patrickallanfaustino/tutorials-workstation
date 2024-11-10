@@ -1,10 +1,10 @@
 # Compilando ROCm com HIPSyCL (AdaptiveCpp) no Ubuntu 22.04 para Gromacs 2024
 
-![GitHub repo size](https://img.shields.io/github/repo-size/patrickallanfaustino/README-template?style=for-the-badge)
-![GitHub language count](https://img.shields.io/github/languages/count/patrickallanfaustino/README-template?style=for-the-badge)
-![GitHub forks](https://img.shields.io/github/forks/patrickallanfaustino/README-template?style=for-the-badge)
-![Bitbucket open issues](https://img.shields.io/bitbucket/issues/patrickallanfaustino/README-template?style=for-the-badge)
-![Bitbucket open pull requests](https://img.shields.io/bitbucket/pr-raw/patrickallanfaustino/README-template?style=for-the-badge)
+![GitHub repo size](https://img.shields.io/github/repo-size/patrickallanfaustino/tutorials?style=for-the-badge)
+![GitHub language count](https://img.shields.io/github/languages/count/patrickallanfaustino/tutorials?style=for-the-badge)
+![GitHub forks](https://img.shields.io/github/forks/patrickallanfaustino/tutorials?style=for-the-badge)
+![Bitbucket open issues](https://img.shields.io/bitbucket/issues/patrickallanfaustino/tutorials?style=for-the-badge)
+![Bitbucket open pull requests](https://img.shields.io/bitbucket/pr-raw/patrickallanfaustino/tutorials?style=for-the-badge)
 
 <img src="imagem.png" alt="computer">
 
