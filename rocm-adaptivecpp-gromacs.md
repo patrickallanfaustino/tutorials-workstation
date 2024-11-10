@@ -14,13 +14,13 @@
 
 Antes de começar, verifique se você atendeu aos seguintes requisitos:
 
-- Você tem uma máquina `<Linux Ubuntu 22.04>` atualizado.
-- Você tem uma GPU série `<RX 6xxx RDNA 2>`. Não testado com outras arquiteturas.
-- Documentações ROCm 5.7.1: `<https://rocm.docs.amd.com/en/docs-5.7.1/>`, AdaptiveCpp 24.06: `<https://github.com/AdaptiveCpp/AdaptiveCpp>`.
+- Você tem uma máquina `Linux Ubuntu 22.04` atualizado.
+- Você tem uma GPU série `RX 6xxx RDNA 2`. Não testado com outras arquiteturas.
+- Documentações [ROCm 5.7.1](https://rocm.docs.amd.com/en/docs-5.7.1/), [AdaptiveCpp 24.06](https://github.com/AdaptiveCpp/AdaptiveCpp).
 
 ## 🔧 Instalando Kernel 5.15 generic
 
-Para instalar o <Kernel 5.15 generic> no Ubuntu 22.04, siga estas etapas:
+Para instalar o `Kernel 5.15 generic` no Ubuntu 22.04, siga estas etapas:
 
 ```
 sudo apt install linux-image-generic
@@ -32,11 +32,11 @@ Adicione os headers e módulos extras do kernel:
 sudo apt install "linux-headers-$(uname -r)" "linux-modules-extra-$(uname -r)"
 ```
 
-Em seguida e nessa ordem, altere para o Kernel 5.15 em uso e remova todos os demais Kernel instalados. Essa tarefa pode ser feita com o <GRUB CUSTOMIZER>. Tem muito material na internet para auxiliar nessa etapa, aqui coloco apenas a tarefa principal que é instalar o Kernel 5.15 e utilizado na máquina.
+Em seguida e \_nessa ordem_\, altere para o Kernel 5.15 em uso e remova todos os demais Kernel instalados. Essa tarefa pode ser feita com o [GRUB CUSTOMIZER](https://www.edivaldobrito.com.br/grub-customizer-no-ubuntu/). Tem muito material na internet para auxiliar nessa etapa, aqui coloco apenas a tarefa principal que é instalar o Kernel 5.15 na máquina.
 
 >[!NOTE]
 >
->**Meu Caso**: Tenho dual boot, então utilizei reboot e utilizei o GRUB para alterar o Kernel. Depois "sudo apt autoremove -y" e "sudo apt autoclean -y".
+>**Meu Caso**: Com dual boot, então realizei um reboot e utilizei o GRUB para alterar o Kernel. Depois `sudo apt autoremove -y` e `sudo apt autoclean -y` para remover os outros Kernel instalados.
 
 O comando abaixo ajudará a identificar o Kernel instalado:
 
