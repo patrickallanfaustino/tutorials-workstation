@@ -34,7 +34,9 @@ sudo apt install "linux-headers-$(uname -r)" "linux-modules-extra-$(uname -r)"
 
 Em seguida e nessa ordem, altere para o Kernel 5.15 em uso e remova todos os demais Kernel instalados. Essa tarefa pode ser feita com o <GRUB CUSTOMIZER>. Tem muito material na internet para auxiliar nessa etapa, aqui coloco apenas a tarefa principal que é instalar o Kernel 5.15 e utilizado na máquina.
 
-Meu Caso: Tenho dual boot, então utilizei reboot e utilizei o GRUB para alterar o Kernel. Depois <sudo apt autoremove -y> e <sudo apt autoclean -y>.
+>[!NOTE]
+>
+>**Meu Caso**: Tenho dual boot, então utilizei reboot e utilizei o GRUB para alterar o Kernel. Depois "sudo apt autoremove -y" e "sudo apt autoclean -y".
 
 O comando abaixo ajudará a identificar o Kernel instalado:
 
