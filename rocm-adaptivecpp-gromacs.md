@@ -204,6 +204,9 @@ sudo make -j 16 && sudo make check -j 16
 ```
 sudo make install -j 16
 ```
+
+Para carregar a biblioteca e chamar o Gromacs:
+
 ```
 source /home/patrick/gromacs/bin/GMXRC
 ```
