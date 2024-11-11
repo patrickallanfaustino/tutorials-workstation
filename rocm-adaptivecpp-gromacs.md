@@ -179,12 +179,12 @@ sudo make install -j 16
 
 ## 💎 Instalação do Gromacs 2024.x
 
-**OPCIONAL!** Antes de instalar o Gromacs, você talvez queira instalar algumas bibliotecas que ajudam o Gromacs, melhorando o desempenho e eficiência nos cálculos. No caso abaixo, irá instalar as bibliotecas `BLAS LAPACK 64bit`.
+**OPCIONAL!** Antes de instalar o Gromacs, você talvez queira instalar algumas bibliotecas que melhora o desempenho e eficiência de cálculos no Gromacs. *Essas bibliotecas são opcionais, pois o Gromacs já possue imbutidas em seu código*. No caso abaixo, irá instalar as bibliotecas `BLAS LAPACK 64bit`.
 
 ```
 sudo apt install libhwloc-dev hwloc grace liblapack64-dev libblas64-dev
 ```
-**ROCBLAS E ROCSOLVER!** São bibliotecas otimizadas para hardwares AMD. São opcionais e também tem `HIPBLAS HIPSOLVER`. Já são pré instaladas com o `amdgpu-install`.
+**ROCBLAS E ROCSOLVER!** São bibliotecas otimizadas para hardwares AMD. São opcionais e também tem `HIPBLAS HIPSOLVER`. São pré instaladas com o `amdgpu-install`.
 
 A partir de agora, você poderá seguir a documentação [guia de instalação](https://manual.gromacs.org/current/install-guide/index.html) do Gromacs. No momento de compilar com CMake, utilize:
 
