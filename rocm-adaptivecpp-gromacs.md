@@ -179,22 +179,23 @@ sudo make install -j 16
 
 ## 💎 Instalação do Gromacs 2024.x
 
-**OPCIONAL!** Antes de instalar o Gromacs, você talvez queira instalar algumas bibliotecas que ajudam o Gromacs, melhorando o desempenho.
+**OPCIONAL!** Antes de instalar o Gromacs, você talvez queira instalar algumas bibliotecas que ajudam o Gromacs, melhorando o desempenho e eficiência nos cálculos. No caso abaixo, irá instalar as bibliotecas `BLAS LAPACK 64bit`.
 
 ```
 sudo apt install libhwloc-dev hwloc grace liblapack64-dev libblas64-dev
 ```
+**ROCBLAS E ROCSOLVER!** São bibliotecas otimizadas para hardwares AMD. São opcionais e também tem `HIPBLAS HIPSOLVER`. Já são pré instaladas com o `amdgpu-install`.
 
 A partir de agora, você poderá seguir a documentação [guia de instalação](https://manual.gromacs.org/current/install-guide/index.html) do Gromacs. No momento de compilar com CMake, utilize:
 
 ```
-sudo cmake .. -DGMX_BUILD_OWN_FFTW=ON -DREGRESSIONTEST_DOWNLOAD=ON -DCMAKE_C_COMPILER=/opt/rocm/llvm/bin/clang -DCMAKE_CXX_COMPILER=/opt/rocm/llvm/bin/clang++ -DHIPSYCL_TARGETS='hip:gfx1032' -DGMX_GPU=SYCL -DGMX_SYCL=ACPP -DCMAKE_INSTALL_PREFIX=/home/patrick/gromacs -DCMAKE_PREFIX_PATH=/home/patrick/sycl -DSYCL_CXX_FLAGS_EXTRA=-DHIPSYCL_ALLOW_INSTANT_SUBMISSION=1 -DGMX_EXTERNAL_BLAS=on -DGMX_EXTERNAL_LAPACK=on -DGMX_BLAS_USER=/usr/lib/x86_64-linux-gnu/blas64/libblas64.so -DGMX_LAPACK_USER=/usr/lib/x86_64-linux-gnu/lapack64/liblapack64.so
+sudo cmake .. -DGMX_BUILD_OWN_FFTW=ON -DREGRESSIONTEST_DOWNLOAD=ON -DCMAKE_C_COMPILER=/opt/rocm/llvm/bin/clang -DCMAKE_CXX_COMPILER=/opt/rocm/llvm/bin/clang++ -DHIPSYCL_TARGETS='hip:gfx1032' -DGMX_GPU=SYCL -DGMX_SYCL=ACPP -DCMAKE_INSTALL_PREFIX=/home/patrick/gromacs -DCMAKE_PREFIX_PATH=/home/patrick/sycl -DSYCL_CXX_FLAGS_EXTRA=-DHIPSYCL_ALLOW_INSTANT_SUBMISSION=1 -DGMX_EXTERNAL_BLAS=on -DGMX_EXTERNAL_LAPACK=on -DGMX_BLAS_USER=/opt/rocm/rocblas/lib/librocblas.so -DGMX_LAPACK_USER=/opt/rocm/rocsolver/lib/librocsolver.so
 ```
 Novamente, criei uma pasta chamada `gromacs` para os arquivos compilados e indiquei com `-DCMAKE_INSTALL_PREFIX`. 
 
 >[!NOTE]
 >
->**Meu Caso**: Utilizei outras bibliotecas para os cálculos `BLAS64` e `LAPACK64`, indiquei com `-DGMX_EXTERNAL_BLAS -DGMX_EXTERNAL_LAPACK -DGMX_BLAS_USER -DGMX_LAPACK_USER`. Atenção ao `-DHIPSYCL_TARGETS='hip:gfxABC'`, substitua com os seus valores. 
+>**Meu Caso**: Utilizei outras bibliotecas para os cálculos `ROCBLAS` e `ROCSOLVER`, indiquei com `-DGMX_EXTERNAL_BLAS -DGMX_EXTERNAL_LAPACK -DGMX_BLAS_USER -DGMX_LAPACK_USER`. Atenção ao `-DHIPSYCL_TARGETS='hip:gfxABC'`, substitua com os seus valores.
 
 Agora é o momento de compilar, checar e instalar:
 
@@ -216,9 +217,9 @@ gmx -version
 
 >[!WARNING]
 >
->Durante `sudo make check -j 16` ocorreram erros por TIMEOUT. Prossegui e testei uma dinâmica simples e não houve nenhum problema. Aparentemente, mais usuários do Gromacs 2024 enfrentam esses problemas.
+>Durante `sudo make check -j 16` ocorreram erros por TIMEOUT. Prossegui e testei uma dinâmica simples e não houve nenhum problema. Aparentemente, mais usuários do Gromacs 2024 enfrentam esses problemas `-DGMX_TEST_TIMEOUT_FACTOR=2` pode dar mais tempo para o teste.
 
-🧪🧬⚗️🧪 *Boas dinâmicas moleculares!*
+🧪🧬⚗️ *Boas dinâmicas moleculares!*
 
 ## 📜 Citação
 
