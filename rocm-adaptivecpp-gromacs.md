@@ -22,7 +22,7 @@ Antes de começar, verifique se você atendeu aos seguintes requisitos:
 Você também vai precisar atualizar e instalar pacotes em sua máquina:
 
 ```
-sudo apt update && sudo apt upgrade -y
+sudo apt update && sudo apt upgrade -y  #comentário teste
 
 sudo apt install cmake libboost-all-dev git build-essential libstdc++-12-dev
 
