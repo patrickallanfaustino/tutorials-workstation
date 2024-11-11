@@ -24,7 +24,9 @@ Você também vai precisar atualizar e instalar pacotes em sua máquina:
 ```
 sudo apt update && sudo apt upgrade -y
 ```
+```
 sudo apt install cmake libboost-all-dev git build-essential libstdc++-12-dev
+```
 ```
 sudo apt autoremove && sudo apt autoclean
 ```
@@ -63,11 +65,14 @@ Vamos instalar o `ROCm 5.7.1`. Precisaremos dar previlégios ao usuário e adici
 
 ```
 sudo usermod -a -G render,video $LOGNAME
-
+```
+```
 echo ‘ADD_EXTRA_GROUPS=1’ | sudo tee -a /etc/adduser.conf
-
+```
+```
 echo ‘EXTRA_GROUPS=video’ | sudo tee -a /etc/adduser.conf
-
+```
+```
 echo ‘EXTRA_GROUPS=render’ | sudo tee -a /etc/adduser.conf
 ```
 
@@ -75,7 +80,8 @@ Download e instalação do pacote `ROCm 5.7.1`:
 
 ```
 https://repo.radeon.com/amdgpu-install/5.7.1/ubuntu/jammy/amdgpu-install_5.7.50701-1_all.deb
-
+```
+```
 sudo apt install ./amdgpu-install_5.7.50701-1_all.deb
 ```
 
@@ -95,7 +101,8 @@ Para verificar a instalação, utilize:
 
 ```
 sudo clinfo
-
+```
+```
 sudo rocminfo
 ```
 
@@ -113,7 +120,8 @@ A GPU deverá ser identificada. Caso não consiga, experimente `reboot` e verifi
 >
 >```
 >amdgpu-uninstall
->
+>```
+>```
 >sudo apt purge amdgpu-install
 >```
 >
@@ -125,11 +133,14 @@ O `AdaptiveCpp` requer LLVM e algumas bibliotecas. Para instalar, faça:
 
 ```
 wget https://apt.llvm.org/llvm.sh
-
+```
+```
 sudo chmod +x llvm.sh
-
+```
+```
 sudo ./llvm.sh 16
-
+```
+```
 sudo apt install -y libclang-16-dev clang-tools-16 libomp-16-dev llvm-16-dev lld-16
 ```
 
@@ -139,9 +150,11 @@ O `AdaptiveCpp 24.06` irá trabalhar em backend com `ROCm 5.7.1`. Ele contém o 
 
 ```
 git clone https://github.com/AdaptiveCpp/AdaptiveCpp
-
+```
+```
 cd AdaptiveCpp
-
+```
+```
 sudo mkdir build && cd build
 ```
 
@@ -149,7 +162,8 @@ Para compilar com CMake:
 
 ```
 sudo cmake .. -DCMAKE_INSTALL_PREFIX=/home/patrick/hipsycl -DCMAKE_C_COMPILER=/opt/rocm/llvm/bin/clang -DCMAKE_CXX_COMPILER=/opt/rocm/llvm/bin/clang++ -DLLVM_DIR=/opt/rocm/llvm/lib/cmake/llvm/ -DROCM_PATH=/opt/rocm -DWITH_ROCM_BACKEND=ON -DWITH_SSCP_COMPILER=OFF -DWITH_OPENCL_BACKEND=OFF -DWITH_LEVEL_ZERO_BACKEND=OFF -DDEFAULT_TARGETS='hip:gfx1032'
-
+```
+```
 sudo make install -j 16
 ```
 
@@ -161,6 +175,7 @@ sudo make install -j 16
 >[!WARNING]
 >
 >Sempre fique atento aos endereçamentos, *i.e* `/path/to/user/...`, porque são eles os maiores causadores de erros.
+
 
 ## 💎 Instalação do Gromacs 2024.x
 
@@ -184,14 +199,15 @@ Novamente, criei uma pasta chamada `gromacs` para os arquivos compilados e indiq
 Agora é o momento de compilar, checar e instalar:
 
 ```
-sudo make -j 16
-
-sudo make check -j 16
-
+sudo make -j 16 && sudo make check -j 16
+```
+```
 sudo make install -j 16
-
+```
+```
 source /home/patrick/gromacs/bin/GMXRC
-
+```
+```
 gmx -version
 ```
 
@@ -199,6 +215,7 @@ gmx -version
 >
 >Durante `sudo make check -j 16` ocorreram três erros por TIMEOUT. Prossegui e testei uma dinâmica simples e não houve nenhum erro.
 
+*Boas dinâmicas!*
 
 ## 📜 Citação
 
