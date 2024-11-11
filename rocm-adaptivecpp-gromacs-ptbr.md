@@ -25,7 +25,7 @@ Você também vai precisar atualizar e instalar pacotes em sua máquina:
 sudo apt update && sudo apt upgrade -y
 ```
 ```
-sudo apt install cmake libboost-all-dev git build-essential libstdc++-12-dev libc++-16-dev
+sudo apt install cmake libboost-all-dev git build-essential libstdc++-12-dev libc++-16-dev libhwloc-dev hwloc grace
 ```
 ```
 sudo apt autoremove && sudo apt autoclean
@@ -179,12 +179,13 @@ sudo make install -j 16
 
 ## 💎 Instalação do Gromacs 2024.x
 
-**OPCIONAL!** Antes de instalar o Gromacs, você talvez queira instalar algumas bibliotecas que melhora o desempenho e eficiência de cálculos no Gromacs. *Essas bibliotecas são opcionais, pois o Gromacs já possue imbutidas em seu código*. No caso abaixo, irá instalar as bibliotecas `BLAS LAPACK 64bit`.
+**OPCIONAL!** Antes de instalar o Gromacs, você talvez queira instalar algumas bibliotecas que melhora o desempenho e eficiência de cálculos no Gromacs. *Essas bibliotecas são opcionais porque o Gromacs já tem BLAS e LAPACK built-in*. No caso abaixo, irá instalar as bibliotecas `BLAS LAPACK 64bit` em `/usr/lib/x86_64-linux-gnu/blas64/libblas64.so` e `/usr/lib/x86_64-linux-gnu/lapack64/liblapack64.so`.
 
 ```
-sudo apt install libhwloc-dev hwloc grace liblapack64-dev libblas64-dev
+sudo apt install liblapack64-dev libblas64-dev
 ```
-**ROCBLAS E ROCSOLVER!** São bibliotecas otimizadas para hardwares AMD. São opcionais e também tem `HIPBLAS HIPSOLVER`. São pré instaladas com o `amdgpu-install`.
+
+**ROCBLAS E ROCSOLVER!** São bibliotecas otimizadas para hardwares AMD. São opcionais e também tem `HIPBLAS HIPSOLVER`. São instaladas com o `amdgpu-install`.
 
 A partir de agora, você poderá seguir a documentação [guia de instalação](https://manual.gromacs.org/current/install-guide/index.html) do Gromacs. No momento de compilar com CMake, utilize:
 
@@ -195,7 +196,7 @@ Novamente, criei uma pasta chamada `gromacs` para os arquivos compilados e indiq
 
 >[!NOTE]
 >
->**Meu Caso**: Utilizei outras bibliotecas para os cálculos `ROCBLAS` e `ROCSOLVER`, indiquei com `-DGMX_EXTERNAL_BLAS -DGMX_EXTERNAL_LAPACK -DGMX_BLAS_USER -DGMX_LAPACK_USER`. Atenção ao `-DHIPSYCL_TARGETS='hip:gfxABC'`, substitua com os seus valores.
+>**Meu Caso**: Utilizei as bibliotecas `ROCBLAS` e `ROCSOLVER` para os cálculos, indicando com `-DGMX_EXTERNAL_BLAS=ON -DGMX_EXTERNAL_LAPACK=ON -DGMX_BLAS_USER= -DGMX_LAPACK_USER=`. Atenção ao `-DHIPSYCL_TARGETS='hip:gfxABC'`, substitua com os seus valores.
 
 Agora é o momento de compilar, checar e instalar:
 
@@ -206,7 +207,7 @@ sudo make -j 16 && sudo make check -j 16
 sudo make install -j 16
 ```
 
-Para carregar a biblioteca e chamar o Gromacs:
+Para carregar a biblioteca e invocar o Gromacs:
 
 ```
 source /home/patrick/gromacs/bin/GMXRC
@@ -218,6 +219,10 @@ gmx -version
 >[!WARNING]
 >
 >Durante `sudo make check -j 16` ocorreram erros por TIMEOUT. Prossegui e testei uma dinâmica simples e não houve nenhum problema. Aparentemente, mais usuários do Gromacs 2024 enfrentam esses problemas `-DGMX_TEST_TIMEOUT_FACTOR=2` pode dar mais tempo para o teste.
+
+>[!TIP]
+>
+>Você poderá editar o arquivo `/home/patrick/.bashrc` e adicionar o código `source /home/patrick/gromacs/bin/GMXRC`. Assim, toda vez que abrir o terminal já irá carregar o Gromacs.
 
 🧪🧬⚗️ *Boas dinâmicas moleculares!*
 
