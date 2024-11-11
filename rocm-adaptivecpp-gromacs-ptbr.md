@@ -194,7 +194,7 @@ Novamente, criei uma pasta chamada `gromacs` para os arquivos compilados e indiq
 
 >[!NOTE]
 >
->**Meu Caso**: Utilizei as bibliotecas `ROCBLAS` e `ROCSOLVER` para os cálculos, indicando com `-DGMX_EXTERNAL_BLAS=ON -DGMX_EXTERNAL_LAPACK=ON -DGMX_BLAS_USER= -DGMX_LAPACK_USER=`. SE não for o seu caso, apagar essas tags. Atenção ao `-DHIPSYCL_TARGETS='hip:gfxABC'`, substitua com os seus valores.
+>**Meu Caso**: Utilizei as bibliotecas `ROCBLAS` e `ROCSOLVER` para os cálculos, indicando com `-DGMX_EXTERNAL_BLAS=ON -DGMX_EXTERNAL_LAPACK=ON -DGMX_BLAS_USER= -DGMX_LAPACK_USER=`. Se não for o seu caso, apagar essas tags. Atenção ao `-DHIPSYCL_TARGETS='hip:gfxABC'`, substitua com os seus valores.
 
 Agora é o momento de compilar, checar e instalar:
 
