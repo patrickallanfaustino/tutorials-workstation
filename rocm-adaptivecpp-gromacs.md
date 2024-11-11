@@ -1,4 +1,4 @@
-# Compilando Gromacs 2024.x com ROCm AdaptiveCpp/SyCL no Ubuntu 22.04
+# Compilando Gromacs 2024.x com ROCm e AdaptiveCpp/SyCL no Ubuntu 22.04
 
 ![GitHub repo size](https://img.shields.io/github/repo-size/patrickallanfaustino/tutorials?style=for-the-badge)
 ![GitHub language count](https://img.shields.io/github/languages/count/patrickallanfaustino/tutorials?style=for-the-badge)
