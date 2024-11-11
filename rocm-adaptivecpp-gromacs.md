@@ -8,7 +8,7 @@
 
 <img src="imagem1.png" alt="computer">
 
-> Tutorial para compilar ROCm 5.7.1 e HipSyCL (AdaptiveCpp 24.04) no Ubuntu 22.04 para utilizar GPUs Navi23 RDNA no Gromacs 2024.
+> Tutorial para compilar HipSyCL (AdaptiveCpp 24.04) com backend ROCm 5.7.1 em Ubuntu 22.04, para utilizar aceleração GPU Navi23 RDNA 2 no Gromacs 2024.x em HOME DESKTOP.
 
 ## 💻 Computador testado e Pré-requisitos:
 - CPU Ryzen 7 2700X, Memória 2x16 GB DDR4, Chipset X470, GPU ASRock RX 6600 CLD 8 GB, dual boot com Windows 11 e Ubuntu 22.04 instalados em SSD's separados.
