@@ -2,7 +2,7 @@
 
 1. A permissão é concedida, gratuitamente, a qualquer pessoa que obtenha uma cópia deste arquivo, sem restrição nos direitos de usar, copiar, modificar e mesclar.
 1. Para uso científico, pesquisas e desenvolvimentos.
-1. Não me responsabilizo por uso indevido por qualquer pessoa.
+1. Não me responsabilizo pelo uso indevido por qualquer pessoa.
 
 #### Citação
 
