@@ -23,13 +23,9 @@ Você também vai precisar atualizar e instalar os pacotes da sua máquina:
 
 ```
 sudo apt update && sudo apt upgrade -y
-```
 
-```
 sudo apt install cmake libboost-all-dev git build-essential libstdc++-12-dev
-```
 
-```
 sudo apt autoremove && sudo apt autoclean
 ```
 
@@ -63,12 +59,15 @@ Em seguida e *nessa ordem*, altere para usar o Kernel 5.15 e remova os demais Ke
 
 ## 🪛 Instalando ROCm 5.7.1
 
-Vamos instalar o `ROCm versão 5.7.1`. Precisaremos dar previlégios ao usuário e adiciona-lo a grupos:
+Vamos instalar o `ROCm 5.7.1`. Precisaremos dar previlégios ao usuário e adiciona-lo a grupos:
 
 ```
 sudo usermod -a -G render,video $LOGNAME
+
 echo ‘ADD_EXTRA_GROUPS=1’ | sudo tee -a /etc/adduser.conf
+
 echo ‘EXTRA_GROUPS=video’ | sudo tee -a /etc/adduser.conf
+
 echo ‘EXTRA_GROUPS=render’ | sudo tee -a /etc/adduser.conf
 ```
 
@@ -76,6 +75,7 @@ Download e instalação do pacote `ROCm 5.7.1`:
 
 ```
 https://repo.radeon.com/amdgpu-install/5.7.1/ubuntu/jammy/amdgpu-install_5.7.50701-1_all.deb
+
 sudo apt install ./amdgpu-install_5.7.50701-1_all.deb
 ```
 
@@ -85,11 +85,21 @@ Utilizando o `amdgpu-install`, instalar o pacote `rocm,hip,hiplibsdk`:
 sudo amdgpu-install --usecase=rocm,hip,hiplibsdk
 ```
 
-Atualizar todos os indices e links de bibliotecas:
+Atualizar todos os índices e links de bibliotecas:
 
 ```
 sudo ldconfig
 ```
+
+Para verificar a instalação, utilize:
+
+```
+sudo clinfo
+
+sudo rocminfo
+```
+
+A GPU deverá ser identificada. Caso não consiga, experimente `reboot` e verifique novamente.
 
 >[!TIP]
 >
@@ -98,22 +108,102 @@ sudo ldconfig
 >```
 >sudo amdgpu-install --list-usecase
 >```
+>
+>Para remover `amdgpu-install`, utilize:
+>
+>```
+>amdgpu-uninstall
+>sudo apt purge amdgpu-install
+>```
+>
+> Instalação ficará em `PATH=/opt/rocm`
 
-Para verificar a instalação, utilize:
+## 🔨 Instalação LLVM e bibliotecas
+
+O `AdaptiveCpp` requer LLVM e algumas bibliotecas. Para instalar, faça:
 
 ```
-sudo clinfo
+wget https://apt.llvm.org/llvm.sh
+
+sudo chmod +x llvm.sh
+
+sudo ./llvm.sh 16
+
+sudo apt install -y libclang-16-dev clang-tools-16 libomp-16-dev llvm-16-dev lld-16
 ```
 
+## 🪚 Instalação do AdaptiveCPP 24.06
+
+O `AdaptiveCpp 24.06` irá trabalhar em backend com o `ROCm 5.7.1`. Ele contém o `SyCL`. Para instalar:
+
 ```
-sudo rocminfo
+git clone https://github.com/AdaptiveCpp/AdaptiveCpp
+
+cd AdaptiveCpp
+
+sudo mkdir build && cd build
 ```
 
-A GPU deverá ser identificada. Caso não consiga, experimente `reboot` e verifique novamente.
+Para compilar com CMake:
+
+```
+sudo cmake .. -DCMAKE_INSTALL_PREFIX=/home/patrick/hipsycl -DCMAKE_C_COMPILER=/opt/rocm/llvm/bin/clang -DCMAKE_CXX_COMPILER=/opt/rocm/llvm/bin/clang++ -DLLVM_DIR=/opt/rocm/llvm/lib/cmake/llvm/ -DROCM_PATH=/opt/rocm -DWITH_ROCM_BACKEND=ON -DWITH_SSCP_COMPILER=OFF -DWITH_OPENCL_BACKEND=OFF -DWITH_LEVEL_ZERO_BACKEND=OFF -DDEFAULT_TARGETS='hip:gfx1032'
+
+sudo make install -j 16
+```
+
+>[!NOTE]
+>
+>**Meu Caso**: Recomendo criar pastas para os arquivos, assim se algo der errado é só apagar a pasta. Criei a pasta `hipsycl` com `sudo mkdir hipsycl` e defini em `-DCMAKE_INSTALL_PREFIX`.
+>Em `-DDEFAULT_TARGETS` completar `ABC` em `hip:gfx1ABC` com a informação da obtida em `clinfo` ou `rocminfo`. Esse código corresponde ao endereçamento da GPU.
+> No `sudo make install -j 16`, a tag `-j` seguida de numero define a quantidade de CPUs utilizadas na compilação.
+
+>[!WARNING]
+>
+>Sempre fique atento nos endereçamentos, *i.e* `/path/to/user/...`, porque são eles os maiores causadores de erros.
+
+## 💎 Instalação do Gromacs 2024.x
+
+**OPCIONAL!** Antes de instalar o Gromacs, você talvez queira instalar algumas bibliotecas que ajudam o Gromacs, melhorando o desempenho.
+
+```
+sudo apt install libhwloc-dev hwloc grace liblapack64-dev libblas64-dev
+```
+
+A partir de agora, você poderá seguir a documentação de [guia de instalação](https://manual.gromacs.org/current/install-guide/index.html) do Gromacs. No momento de compilar com CMake, utilize:
+
+```
+sudo cmake .. -DGMX_BUILD_OWN_FFTW=ON -DREGRESSIONTEST_DOWNLOAD=ON -DCMAKE_C_COMPILER=/opt/rocm/llvm/bin/clang -DCMAKE_CXX_COMPILER=/opt/rocm/llvm/bin/clang++ -DHIPSYCL_TARGETS='hip:gfx1032' -DGMX_GPU=SYCL -DGMX_SYCL=ACPP -DCMAKE_INSTALL_PREFIX=/home/patrick/gromacs -DCMAKE_PREFIX_PATH=/home/patrick/hipsycl -DSYCL_CXX_FLAGS_EXTRA=-DHIPSYCL_ALLOW_INSTANT_SUBMISSION=1 -DGMX_EXTERNAL_BLAS=on -DGMX_EXTERNAL_LAPACK=on -DGMX_BLAS_USER=/usr/lib/x86_64-linux-gnu/blas64/libblas64.so -DGMX_LAPACK_USER=/usr/lib/x86_64-linux-gnu/lapack64/liblapack64.so
+```
+Novamente, criei uma pasta chamada `gromacs` para os arquivos compilados e indiquei em `-DCMAKE_INSTALL_PREFIX`. 
+
+>[!NOTE]
+>
+>**Meu Caso**: Como eu utilizei outras bibliotecas para os cálculos `BLAS64` e `LAPACK64`, indiquei em `-DGMX_EXTERNAL_BLAS -DGMX_EXTERNAL_LAPACK -DGMX_BLAS_USER -DGMX_LAPACK_USER`. Atenção ao `-DHIPSYCL_TARGETS='hip:gfxABC'`, substitua com os seus valores. 
+
+Agora é o momento de compilar, checar e instalar:
+
+```
+sudo make -j 16
+
+sudo make check -j 16
+
+sudo make install -j 16
+
+source /home/patrick/gromacs/bin/GMXRC
+
+gmx -version
+```
+
+>[!WARNING]
+>
+>Durante `sudo make check -j 16` ocorreram três erros. Prossegui e testei uma dinâmica simples e não houve nenhum erro.
+
 
 ## 📜 Citação
 
 - FAUSTINO, P. A. S. Tutorials: Compilando ROCm com HIPSyCL (AdaptiveCpp) no Ubuntu 22.04 para Gromacs 2024, 2024. README. Disponível em: <https://github.com/patrickallanfaustino/tutorials/blob/main/rocm-adaptivecpp-gromacs.md>. Acesso em: [dia] de [mês] de [ano].
+
 
 ## 📝 Licença
 
