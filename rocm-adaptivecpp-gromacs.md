@@ -216,9 +216,9 @@ gmx -version
 
 >[!WARNING]
 >
->Durante `sudo make check -j 16` ocorreram três erros por TIMEOUT. Prossegui e testei uma dinâmica simples e não houve nenhum erro.
+>Durante `sudo make check -j 16` ocorreram erros por TIMEOUT. Prossegui e testei uma dinâmica simples e não houve nenhum problema. Aparentemente, mais usuários do Gromacs 2024 enfrentam esses problemas.
 
-*Boas dinâmicas!*
+🧪🧬⚗️🧪 *Boas dinâmicas moleculares!*
 
 ## 📜 Citação
 
