@@ -8,7 +8,7 @@
 
 <img src="imagem1.png" alt="computer">
 
-> Tutorial para compilar o Gromacs 2024.x com AdaptiveCpp 24.04 em backend com ROCm 5.7.1 em Ubuntu 22.04, para utilizar aceleração GPU RDNA2 em máquinas pequenas.
+> Tutorial para compilar o Gromacs 2024.x com AdaptiveCpp 24.06 em backend com ROCm 5.7.1 no Ubuntu 22.04, para utilizar aceleração GPU RDNA2 em máquinas pequenas.
 
 ## 💻 Computador testado e Pré-requisitos:
 - CPU Ryzen 7 2700X, Memória 2x16 GB DDR4, Chipset X470, GPU ASRock RX 6600 CLD 8 GB, dual boot com Windows 11 e Ubuntu 22.04 instalados em SSD's separados.
@@ -49,7 +49,7 @@ Em seguida e *nessa ordem*, altere para usar o Kernel 5.15 e remova os demais Ke
 
 >[!NOTE]
 >
->**Meu Caso**: Com dual boot, então realizei um reboot e utilizei o GRUB para alterar o Kernel. Depois `sudo dpkg -l | grep linux-image`, `sudo apt remove` e `sudo apt autoremove && sudo apt autoclean` para, respectivamente, listar e remover os outros Kernels instalados.
+>**Meu Caso**: Realizei um reboot e utilizei o GRUB para alterar o Kernel. Depois `sudo dpkg -l | grep linux-image` para listar os Kernels, `sudo apt remove` e `sudo apt autoremove && sudo apt autoclean` remover os Kernels instalados.
 
 >[!TIP]
 >
@@ -106,7 +106,7 @@ sudo clinfo
 sudo rocminfo
 ```
 
-A GPU deverá ser identificada. Caso não consiga, experimente `reboot` e verifique novamente.
+A GPU deverá ser identificada. Caso não consiga, experimente `reboot` e verifique novamente. Instalação ficará em `PATH=/opt/rocm`.
 
 >[!TIP]
 >
@@ -125,7 +125,6 @@ A GPU deverá ser identificada. Caso não consiga, experimente `reboot` e verifi
 >sudo apt purge amdgpu-install
 >```
 >
-> Instalação ficará em `PATH=/opt/rocm`
 
 ## 🔨 Instalação LLVM e bibliotecas
 
@@ -169,12 +168,11 @@ sudo make install -j 16
 
 >[!NOTE]
 >
->**Meu Caso**: Recomendo criar pastas para as compilações, assim se algo der errado é só apagar. Criei a pasta `sycl` com `sudo mkdir sycl` e defini em `-DCMAKE_INSTALL_PREFIX` ao compilar. Em `-DDEFAULT_TARGETS` completar `ABC` em `hip:gfx1ABC` com a informação da obtida em `clinfo` ou `rocminfo`. Esse código corresponde ao endereçamento físico da GPU.
-> No `sudo make install -j 16`, a tag `-j` seguida de número define a quantidade de CPUs utilizadas na compilação.
+>**Meu Caso**: Recomendo criar pastas para as compilações, assim se algo der errado é só apagar e recomeçar. Criei a pasta `sycl` com `sudo mkdir sycl` e indiquei com `-DCMAKE_INSTALL_PREFIX` ao compilar. Em `-DDEFAULT_TARGETS` completar `ABC` em `hip:gfx1ABC` com a informação obtida em `clinfo` ou `rocminfo`. Esse código corresponde ao endereçamento físico da GPU. No `sudo make install -j 16`, a tag `-j 16` define a quantidade de CPUs (16) utilizadas na compilação.
 
 >[!WARNING]
 >
->Sempre fique atento aos endereçamentos, *i.e* `/path/to/user/...`, porque são os maiores causadores de erros durante as compilações.
+>Sempre fique atento aos caminhos de endereçamentos, *i.e* `/path/to/user/...`, porque são os maiores causadores de erros durante as compilações.
 
 
 ## 💎 Instalação do Gromacs 2024.x
@@ -196,7 +194,7 @@ Novamente, criei uma pasta chamada `gromacs` para os arquivos compilados e indiq
 
 >[!NOTE]
 >
->**Meu Caso**: Utilizei as bibliotecas `ROCBLAS` e `ROCSOLVER` para os cálculos, indicando com `-DGMX_EXTERNAL_BLAS=ON -DGMX_EXTERNAL_LAPACK=ON -DGMX_BLAS_USER= -DGMX_LAPACK_USER=`. Atenção ao `-DHIPSYCL_TARGETS='hip:gfxABC'`, substitua com os seus valores.
+>**Meu Caso**: Utilizei as bibliotecas `ROCBLAS` e `ROCSOLVER` para os cálculos, indicando com `-DGMX_EXTERNAL_BLAS=ON -DGMX_EXTERNAL_LAPACK=ON -DGMX_BLAS_USER= -DGMX_LAPACK_USER=`. SE não for o seu caso, apagar essas tags. Atenção ao `-DHIPSYCL_TARGETS='hip:gfxABC'`, substitua com os seus valores.
 
 Agora é o momento de compilar, checar e instalar:
 
@@ -218,7 +216,7 @@ gmx -version
 
 >[!WARNING]
 >
->Durante `sudo make check -j 16` ocorreram erros por TIMEOUT. Prossegui e testei uma dinâmica simples e não houve nenhum problema. Aparentemente, mais usuários do Gromacs 2024 enfrentam esses problemas `-DGMX_TEST_TIMEOUT_FACTOR=2` pode dar mais tempo para o teste.
+>Durante `sudo make check -j 16` ocorreram erros por TIMEOUT. Prossegui e testei uma dinâmica simples e não houve nenhum problema. Aparentemente, mais usuários do Gromacs 2024 enfrentam esses problemas e com `-DGMX_TEST_TIMEOUT_FACTOR=2` pode dar mais tempo para o teste.
 
 >[!TIP]
 >
