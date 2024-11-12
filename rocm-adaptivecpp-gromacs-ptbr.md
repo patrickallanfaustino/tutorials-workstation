@@ -126,7 +126,7 @@ A GPU deverá ser identificada. Caso não consiga, experimente `reboot` e verifi
 >```
 >
 ---
-## 🔨 Instalação LLVM e bibliotecas
+## 🔨 Instalando LLVM e bibliotecas
 
 O `AdaptiveCpp` requer LLVM/Clang e algumas bibliotecas. Para instalar, faça:
 
@@ -143,7 +143,7 @@ sudo ./llvm.sh 16
 sudo apt install -y libclang-16-dev clang-tools-16 libomp-16-dev llvm-16-dev lld-16
 ```
 ---
-## 🪚 Instalação do AdaptiveCpp 24.06
+## 🪚 Instalando AdaptiveCpp 24.06
 
 O `AdaptiveCpp 24.06` irá trabalhar em backend com `ROCm 5.7.1`. Ele contém o `SyCL`. Para instalar:
 
@@ -182,18 +182,18 @@ sudo make install -j 16
 sudo apt install liblapack64-dev libblas64-dev
 ```
 
-**ROCBLAS E ROCSOLVER!** São bibliotecas otimizadas para hardwares AMD. São opcionais e também tem `HIPBLAS HIPSOLVER`. São instaladas com o `amdgpu-install`.
+**ROCBLAS e ROCSOLVER!** São bibliotecas otimizadas para hardwares AMD. São opcionais e também tem `HIPBLAS HIPSOLVER`. São instaladas com o `amdgpu-install`.
 
 A partir de agora, você poderá seguir a documentação [guia de instalação](https://manual.gromacs.org/current/install-guide/index.html) do Gromacs. No momento de compilar com CMake, utilize:
 
 ```
 sudo cmake .. -DGMX_BUILD_OWN_FFTW=ON -DREGRESSIONTEST_DOWNLOAD=ON -DGMX_HWLOC=ON -DCMAKE_C_COMPILER=/opt/rocm/llvm/bin/clang -DCMAKE_CXX_COMPILER=/opt/rocm/llvm/bin/clang++ -DHIPSYCL_TARGETS='hip:gfx1032' -DGMX_GPU=SYCL -DGMX_SYCL=ACPP -DCMAKE_INSTALL_PREFIX=/home/patrick/gromacs -DCMAKE_PREFIX_PATH=/home/patrick/sycl -DSYCL_CXX_FLAGS_EXTRA=-DHIPSYCL_ALLOW_INSTANT_SUBMISSION=1 -DGMX_EXTERNAL_BLAS=on -DGMX_EXTERNAL_LAPACK=on -DGMX_BLAS_USER=/opt/rocm/rocblas/lib/librocblas.so -DGMX_LAPACK_USER=/opt/rocm/rocsolver/lib/librocsolver.so
 ```
-Novamente, criei uma pasta chamada `gromacs` para os arquivos compilados e indiquei com `-DCMAKE_INSTALL_PREFIX`. 
+Note que criei uma pasta chamada `gromacs` para os arquivos compilados e indiquei com `-DCMAKE_INSTALL_PREFIX`. 
 
 >[!NOTE]
 >
->**Meu Caso**: Utilizei as bibliotecas `ROCBLAS` e `ROCSOLVER` para os cálculos, indicando com `-DGMX_EXTERNAL_BLAS=ON -DGMX_EXTERNAL_LAPACK=ON -DGMX_BLAS_USER= -DGMX_LAPACK_USER=`. Se não for o seu caso, apagar essas tags. Também utilizei suporte RAy Atenção ao `-DHIPSYCL_TARGETS='hip:gfxABC'`, substitua com os seus valores.
+>**Meu Caso**: Utilizei as bibliotecas `ROCBLAS` e `ROCSOLVER` para os cálculos, indicando com `-DGMX_EXTERNAL_BLAS=ON -DGMX_EXTERNAL_LAPACK=ON -DGMX_BLAS_USER= -DGMX_LAPACK_USER=`. Se não for o seu caso, apagar essas tags. Atenção ao `-DHIPSYCL_TARGETS='hip:gfxABC'`, substitua com os seus valores.
 
 Agora é o momento de compilar, checar e instalar:
 
@@ -221,7 +221,7 @@ gmx -version
 >
 >Você poderá editar o arquivo `/home/patrick/.bashrc` e adicionar o código `source /home/patrick/gromacs/bin/GMXRC`. Assim, toda vez que abrir o terminal já irá carregar o Gromacs.
 
-🧪🧬⚗️ *Boas dinâmicas moleculares!*
+🧪🧬⚗️ *Boas simulações moleculares!*
 
 ---
 ## 📜 Citação
