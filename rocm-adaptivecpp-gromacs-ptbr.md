@@ -3,6 +3,8 @@
 ![GitHub repo size](https://img.shields.io/github/repo-size/patrickallanfaustino/tutorials?style=for-the-badge)
 ![GitHub language count](https://img.shields.io/github/languages/count/patrickallanfaustino/tutorials?style=for-the-badge)
 ![GitHub forks](https://img.shields.io/github/forks/patrickallanfaustino/tutorials?style=for-the-badge)
+![GitHub Release](https://img.shields.io/github/v/release/patrickfallanfaustino/tutorials?style=for-the-badge)
+![GitHub Tag](https://img.shields.io/github/v/tag/patrickallanfaustino/tutorials?style=for-the-badge)
 
 <img src="imagem1.png" alt="computer">
 
