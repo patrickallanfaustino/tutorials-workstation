@@ -226,7 +226,7 @@ gmx -version
 ---
 ## 📜 Citação
 
-- FAUSTINO, P. A. S. Tutorials: Compilando Gromacs 2024.x com ROCm e AdaptiveCpp/SyCL no Ubuntu 22.04, 2024. README. Disponível em: <https://github.com/patrickallanfaustino/tutorials/blob/main/rocm-adaptivecpp-gromacs.md>. Acesso em: [dia] de [mês] de [ano].
+- FAUSTINO, P. A. S. Tutorials: Compilando Gromacs 2024.x com ROCm e AdaptiveCpp/SyCL no Ubuntu 22.04, 2024. README. Disponível em: <[https://github.com/patrickallanfaustino/tutorials/blob/main/rocm-adaptivecpp-gromacs.md](https://github.com/patrickallanfaustino/tutorials/blob/main/rocm-adaptivecpp-gromacs-ptbr.md)>. Acesso em: [dia] de [mês] de [ano].
 
 ---
 ## 📝 Licença
