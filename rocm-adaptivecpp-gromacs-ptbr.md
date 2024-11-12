@@ -9,7 +9,7 @@
 <img src="imagem1.png" alt="computer">
 
 > Tutorial para compilar o Gromacs 2024.x com AdaptiveCpp 24.06 em backend com ROCm 5.7.1 no Ubuntu 22.04, para utilizar aceleração GPU RDNA2 em máquinas pequenas.
-
+---
 ## 💻 Computador testado e Pré-requisitos:
 - CPU Ryzen 7 2700X, Memória 2x16 GB DDR4, Chipset X470, GPU ASRock RX 6600 CLD 8 GB, dual boot com Windows 11 e Ubuntu 22.04 instalados em SSD's separados.
 
@@ -30,7 +30,7 @@ sudo apt install cmake libboost-all-dev git build-essential libstdc++-12-dev lib
 ```
 sudo apt autoremove && sudo apt autoclean
 ```
-
+---
 ## 🔧 Instalando Kernel 5.15 generic
 
 Para instalar o `Kernel 5.15 generic` no Ubuntu 22.04, siga estas etapas:
@@ -58,7 +58,7 @@ Em seguida e *nessa ordem*, altere para usar o Kernel 5.15 e remova os demais Ke
 >```
 >uname -r
 >```
-
+---
 ## 🪛 Instalando ROCm 5.7.1
 
 Vamos instalar o `ROCm 5.7.1`. Precisamos dar previlégios ao usuário e adicioná-lo a grupos:
@@ -125,7 +125,7 @@ A GPU deverá ser identificada. Caso não consiga, experimente `reboot` e verifi
 >sudo apt purge amdgpu-install
 >```
 >
-
+---
 ## 🔨 Instalação LLVM e bibliotecas
 
 O `AdaptiveCpp` requer LLVM/Clang e algumas bibliotecas. Para instalar, faça:
@@ -142,7 +142,7 @@ sudo ./llvm.sh 16
 ```
 sudo apt install -y libclang-16-dev clang-tools-16 libomp-16-dev llvm-16-dev lld-16
 ```
-
+---
 ## 🪚 Instalação do AdaptiveCpp 24.06
 
 O `AdaptiveCpp 24.06` irá trabalhar em backend com `ROCm 5.7.1`. Ele contém o `SyCL`. Para instalar:
@@ -173,8 +173,7 @@ sudo make install -j 16
 >[!WARNING]
 >
 >Sempre fique atento aos caminhos de endereçamentos, *i.e* `/path/to/user/...`, porque são os maiores causadores de erros durante as compilações.
-
-
+---
 ## 💎 Instalação do Gromacs 2024.x
 
 **OPCIONAL!** Antes de instalar o Gromacs, você talvez queira instalar algumas bibliotecas que melhora o desempenho e eficiência de cálculos no Gromacs. *Essas bibliotecas são opcionais porque o Gromacs já tem BLAS e LAPACK built-in*. No caso abaixo, irá instalar as bibliotecas `BLAS LAPACK 64bit` em `/usr/lib/x86_64-linux-gnu/blas64/libblas64.so` e `/usr/lib/x86_64-linux-gnu/lapack64/liblapack64.so`.
@@ -224,11 +223,12 @@ gmx -version
 
 🧪🧬⚗️ *Boas dinâmicas moleculares!*
 
+---
 ## 📜 Citação
 
 - FAUSTINO, P. A. S. Tutorials: Compilando Gromacs 2024.x com ROCm e AdaptiveCpp/SyCL no Ubuntu 22.04, 2024. README. Disponível em: <https://github.com/patrickallanfaustino/tutorials/blob/main/rocm-adaptivecpp-gromacs.md>. Acesso em: [dia] de [mês] de [ano].
 
-
+---
 ## 📝 Licença
 
 Esse projeto está sob licença. Veja o arquivo [LICENÇA](LICENSE.md) para mais detalhes.
