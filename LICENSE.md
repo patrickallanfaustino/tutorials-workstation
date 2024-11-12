@@ -4,9 +4,9 @@
 > - Uso científico, pesquisas e desenvolvimentos.
 > - Não me responsabilizo pelo uso indevido por qualquer pessoa.
 
->-Permission is granted, free, to anyone obtaining a copy of this file, without restriction on the rights to use, copy, modify, and merge.
->-Use only scientific, research and development.
->-I am not responsible for any misuse by anyone.
+> - Permission is granted, free, to anyone obtaining a copy of this file, without restriction on the rights to use, copy, modify, and merge.
+> - Use only scientific, research and development.
+> - I am not responsible for any misuse by anyone.
 ---
 #### Citation
 
