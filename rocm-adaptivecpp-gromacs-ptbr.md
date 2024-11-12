@@ -9,7 +9,7 @@
 <img src="imagem1.png" alt="computer">
 
 > Tutorial para compilar o Gromacs 2024.x com AdaptiveCpp 24.06 em backend com ROCm 5.7.1 no Ubuntu 22.04, para utilizar aceleração GPU RDNA2 em máquinas pequenas.
----
+
 ## 💻 Computador testado e Pré-requisitos:
 - CPU Ryzen 7 2700X, Memória 2x16 GB DDR4, Chipset X470, GPU ASRock RX 6600 CLD 8 GB, dual boot com Windows 11 e Ubuntu 22.04 instalados em SSD's separados.
 
