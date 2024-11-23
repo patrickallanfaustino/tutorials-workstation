@@ -79,7 +79,7 @@ echo ‘EXTRA_GROUPS=render’ | sudo tee -a /etc/adduser.conf
 Download and install `ROCm 5.7.1` package:
 
 ```
-https://repo.radeon.com/amdgpu-install/5.7.1/ubuntu/jammy/amdgpu-install_5.7.50701-1_all.deb
+wget https://repo.radeon.com/amdgpu-install/5.7.1/ubuntu/jammy/amdgpu-install_5.7.50701-1_all.deb
 ```
 ```
 sudo apt install ./amdgpu-install_5.7.50701-1_all.deb
