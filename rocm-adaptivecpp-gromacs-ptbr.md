@@ -25,7 +25,7 @@ Você também vai precisar atualizar e instalar pacotes em sua máquina:
 sudo apt update && sudo apt upgrade
 ```
 ```
-sudo apt install cmake libboost-all-dev git build-essential libstdc++-12-dev libc++-16-dev libhwloc-dev hwloc grace amd4-microcode texlive
+sudo apt install cmake libboost-all-dev git build-essential libstdc++-12-dev libc++-16-dev libhwloc-dev hwloc grace amd64-microcode texlive
 ```
 ```
 sudo apt autoremove && sudo apt autoclean
