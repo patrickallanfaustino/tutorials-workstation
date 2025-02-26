@@ -172,7 +172,7 @@ sudo ./llvm.sh 16
 sudo apt install -y libclang-16-dev clang-tools-16 libomp-16-dev llvm-16-dev lld-16
 ```
 ---
-## 🪚 Instalando AdaptiveCpp 24.xx
+## 📊 Instalando AdaptiveCpp 24.xx
 
 O `AdaptiveCpp 24.xx` irá trabalhar em backend com `ROCm 5.7.1`. Ele contém o `SyCL`. Para instalar:
 
