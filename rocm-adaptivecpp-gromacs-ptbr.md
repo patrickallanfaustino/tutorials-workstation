@@ -11,7 +11,7 @@
 > Tutorial para compilar o Gromacs 2025.x com AdaptiveCpp 24.xx em backend com ROCm 5.7.1 no Ubuntu 22.04, para utilizar aceleração GPU RDNA2 em máquinas pequenas.
 
 ## 💻 Computador testado e Pré-requisitos:
-- CPU Ryzen 7 2700X, Memória 2x16 GB DDR4, Chipset X470, GPU ASRock RX 6600 CLD 8 GB, dual boot com Windows 11 e Ubuntu 22.04 instalados em SSD's separados.
+- CPU Ryzen 9 5900X, Memória 2x16 GB DDR4, Chipset X470, GPU ASRock RX 6600 CLD 8 GB, dual boot com Windows 11 e Ubuntu 22.04 instalados em SSD's separados.
 
 Antes de começar, verifique se você atendeu aos seguintes requisitos:
 
@@ -25,7 +25,7 @@ Você também vai precisar atualizar e instalar pacotes em sua máquina:
 sudo apt update && sudo apt upgrade
 ```
 ```
-sudo apt install cmake libboost-all-dev git build-essential libstdc++-12-dev libc++-16-dev libhwloc-dev hwloc grace amd64-microcode texlive
+sudo apt install cmake libboost-all-dev git build-essential libhwloc-dev hwloc texlive python3-setuptools python3-wheel
 ```
 ```
 sudo apt autoremove && sudo apt autoclean
@@ -97,7 +97,7 @@ sudo apt install ./amdgpu-install_5.7.50701-1_all.deb
 Utilizando o `amdgpu-install`, instalar o pacote `rocm,hip,hiplibsdk`:
 
 ```
-sudo amdgpu-install --usecase=rocm,hip,hiplibsdk
+sudo amdgpu-install --usecase=rocm,rocmdev,hip,hiplibsdk
 ```
 
 Atualizar todos os índices e links de bibliotecas:
