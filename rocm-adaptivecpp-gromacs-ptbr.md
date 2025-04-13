@@ -115,6 +115,11 @@ sudo clinfo
 sudo rocminfo
 ```
 
+Pode ser necessário a instalação da biblioteca `rocm-llvm-dev`:
+```
+sudo apt install rocm-llvm-dev
+```
+
 A GPU deverá ser identificada. Caso não consiga, experimente `reboot` e verifique novamente. Instalação ficará em `PATH=/opt/rocm`.
 
 >[!TIP]
