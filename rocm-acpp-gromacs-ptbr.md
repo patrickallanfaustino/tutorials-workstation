@@ -17,7 +17,7 @@ Antes de começar, verifique se você atendeu aos seguintes requisitos:
 
 - Você tem uma máquina `Linux Ubuntu 24.04` com instalação limpa e atualizado.
 - Você tem uma GPU série `AMD RX 6xxx RDNA2`. Não testado com outras arquiteturas.
-- Documentações [ROCm 6.3.3](https://rocm.docs.amd.com/projects/install-on-linux/en/docs-6.3.3/index.html), [AdaptiveCpp 24.xx](https://github.com/AdaptiveCpp/AdaptiveCpp).
+- Documentações [ROCm 6.3.3](https://rocm.docs.amd.com/projects/install-on-linux/en/docs-6.3.3/index.html) e [AdaptiveCpp 24.xx](https://github.com/AdaptiveCpp/AdaptiveCpp).
 
 Você também vai precisar atualizar e instalar pacotes em sua máquina:
 
@@ -37,7 +37,7 @@ sudo add-apt-repository ppa:ubuntu-toolchain-r/test
 ```
 sudo apt update && sudo apt upgrade
 ```
-Verifique também a versão do kernel:
+Verifique também a versão do kernel >= 6.11(HWE):
 ```
 uname -r
 ```
