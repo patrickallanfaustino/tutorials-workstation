@@ -141,7 +141,7 @@ wget https://github.com/ilya-zlobintsev/LACT/releases/download/v0.7.3/lact-0.7.3
 sudo dpkg -i lact-0.7.3-0.amd64.ubuntu-2404.deb
 sudo systemctl enable --now lactd
 ```
-**AMD Overclocking!**: ative a função no LACT.
+**AMD Overclocking:** ative a função no LACT.
 
 >[!TIP]
 >
@@ -261,12 +261,10 @@ gmx -version
 🧪🧬⚗️ *Boas simulações moleculares!*
 
 ---
-> Fonte: [Install workflow with AMD GPU support (Framework 16, Ubuntu 24.04, GPU: AMD Radeon RX 7700S)](https://gromacs.bioexcel.eu/t/install-workflow-with-amd-gpu-support-framework-16-ubuntu-24-04-gpu-amd-radeon-rx-7700s/10870)
-
----
 ## 📜 Citação
 
 - FAUSTINO, P. A. S. Tutorials: Workflow Install Gromacs 2025.x com ROCm 6.3.3 e AdaptiveCpp 24.x no Ubuntu 24.04 Noble Numbat, 2025. README. Disponível em: <[https://github.com/patrickallanfaustino/tutorials/blob/main/rocm-acpp-gromacs.md](https://github.com/patrickallanfaustino/tutorials/blob/main/rocm-acpp-gromacs-ptbr.md)>. Acesso em: [dia] de [mês] de [ano].
+- Fonte: [Install workflow with AMD GPU support (Framework 16, Ubuntu 24.04, GPU: AMD Radeon RX 7700S)](https://gromacs.bioexcel.eu/t/install-workflow-with-amd-gpu-support-framework-16-ubuntu-24-04-gpu-amd-radeon-rx-7700s/10870)
 
 ---
 ## 📝 Licença
