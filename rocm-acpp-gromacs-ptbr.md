@@ -282,9 +282,27 @@ Com os comandos acima será carregado no prompt (`source ~/.bashrc`) o conda `ba
 >Certifique de que a instalação será no path `home/patrickfaustino/anaconda3`, confirmando `yes` para todas as respostas. Não utilize `sudo`.
 >
 
+Agora, vamos criar um ambiente virtual e instalar o [Pytorch](https://pytorch.org/get-started/locally/). No diretório /home/patrickfaustino, crie um ambiente `gromacs-nnpot`:
+```
+sudo apt install python3-venv libjpeg-dev python3-dev python3-pip
+python3 -m venv gromacs-nnpot
+source gromacs-nnpot/bin/activate
+pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/rocm6.2.4
+```
+Para testar:
+```
+python3 -c 'import torch' 2> /dev/null && echo 'Success' || echo 'Failure'
+python3 -c "import torch; print(torch.cuda.is_available())" 
+python3 -c "import torch; print(torch.cuda.get_device_properties(0))"
+python3 -c "import torch; x = torch.rand(5, 3); print(x)" 
+```
 
+>[!TIP]
+>
+>Embora a versão do Pytorch-rocm 6.2.4 seja diferente do rocm instalado, durante os testes não houve problemas. Os testes irão retornar valores positivos de sucesso.
+>
 
-🧪🧬⚗️ *Boas simulações moleculares!*
+## 🧪🧬⚗️ *Boas simulações moleculares!*
 
 ---
 ## 📜 Citação
