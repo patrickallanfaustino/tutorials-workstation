@@ -299,7 +299,8 @@ python3 -c "import torch; x = torch.rand(5, 3); print(x)"
 
 >[!TIP]
 >
->Embora a versão do Pytorch-rocm 6.2.4 seja diferente do rocm instalado, durante os testes não houve problemas. Os testes irão retornar valores positivos de sucesso.
+>Embora a versão do Pytorch-rocm 6.2.4 seja diferente do rocm instalado, durante os testes não houve problemas. Os testes deverão retornar valores positivos de sucesso.
+>Caso deseje desistalar utilize `pip3 uninstall <biblioteca>`, para atualizar `pip3 upgrade <biblioteca>` e para listar os pacotes instalados `pip3 list`.
 >
 
 ### 🧪🧬⚗️ *Boas simulações moleculares!*
