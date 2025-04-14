@@ -258,6 +258,31 @@ gmx -version
 >Você poderá editar o arquivo `/home/patrickfaustino/.bashrc` e adicionar o código `source /home/patrick/gromacs/bin/GMXRC`. Assim, toda vez que abrir o terminal já irá carregar o Gromacs.
 >
 
+---
+## ⌚ Instalando ANACONDA e PyTorch
+
+O [Anaconda](https://www.anaconda.com/download) é um importante pacote de bibliotecas voltados para o uso científico, escritos em python. Para instalação, recomendamos a pasta `Downloads`:
+
+```
+wget https://repo.anaconda.com/archive/Anaconda3-2024.06-1-Linux-x86_64.sh
+bash Anaconda3-2024.06-1-Linux-x86_64.sh
+source ~/.bashrc
+conda config --set auto_activate_base false
+conda info
+```
+Com os comandos acima será carregado no prompt (`source ~/.bashrc`) o conda `base`. Para desativar o carregamento automatico, utilizar `conda config --set auto_activate_base false`.
+
+>[!TIP]
+>
+>Faça o download do pacote [Anaconda](https://www.anaconda.com/download) mais recente.
+>
+
+>[!WARNING]
+>
+>Certifique de que a instalação será no path `home/patrickfaustino/anaconda3`, confirmando `yes` para todas as respostas. Não utilize `sudo`.
+>
+
+
 🧪🧬⚗️ *Boas simulações moleculares!*
 
 ---
