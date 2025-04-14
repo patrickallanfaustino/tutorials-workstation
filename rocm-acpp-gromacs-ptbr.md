@@ -6,7 +6,7 @@
 ![GitHub Release](https://img.shields.io/github/v/release/patrickallanfaustino/tutorials?style=for-the-badge)
 ![GitHub Tag](https://img.shields.io/github/v/tag/patrickallanfaustino/tutorials?style=for-the-badge)
 
-<img src="imagem1.png" alt="computer">
+<img src="picture_1.png" alt="computer">
 
 > Tutorial para compilar o Gromacs 2025.1 com suporte NNPOT-PyTorch (Redes Neurais), usando AdaptiveCpp 24.10 em backend e ROCm 6.3.3 no Ubuntu 24.04 Kernel 6.11, para utilizar aceleração GPU AMD RDNA2 em desktop.
 
