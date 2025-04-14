@@ -1,4 +1,4 @@
-# Compilando Gromacs 2025.x com ROCm e AdaptiveCpp/SyCL no Ubuntu 22.04
+# Workflow para compilar Gromacs 2025.x com ROCm 6.3.3 e AdaptiveCpp 24.x no Ubuntu 24.04 Noble Numbat
 
 ![GitHub repo size](https://img.shields.io/github/repo-size/patrickallanfaustino/tutorials?style=for-the-badge)
 ![GitHub language count](https://img.shields.io/github/languages/count/patrickallanfaustino/tutorials?style=for-the-badge)
@@ -8,25 +8,23 @@
 
 <img src="imagem1.png" alt="computer">
 
-> Tutorial para compilar o Gromacs 2025.x com AdaptiveCpp 24.xx em backend com ROCm 5.7.1 no Ubuntu 22.04, para utilizar aceleração GPU RDNA2 em máquinas pequenas.
+> Tutorial para compilar o Gromacs 2025.x com AdaptiveCpp 24.xx backend com ROCm 6.3.3 no Ubuntu 24.04 Kernel 6.11, para utilizar aceleração GPU AMD RDNA2 em desktop.
 
 ## 💻 Computador testado e Pré-requisitos:
-- CPU Ryzen 9 5900X, Memória 2x16 GB DDR4, Chipset X470, GPU ASRock RX 6600 CLD 8 GB, dual boot com Windows 11 e Ubuntu 22.04 instalados em SSD's separados.
+- CPU Ryzen 9 5900XT, Memória 2x16 GB DDR4, Chipset X470, GPU ASRock RX 6600 CLD 8 GB, dual boot com Windows 11 e Ubuntu 24.04 instalados em SSD's separados.
 
 Antes de começar, verifique se você atendeu aos seguintes requisitos:
 
-- Você tem uma máquina `Linux Ubuntu 22.04` atualizado.
+- Você tem uma máquina `Linux Ubuntu 24.04` com instalação limpa e atualizado.
 - Você tem uma GPU série `AMD RX 6xxx RDNA2`. Não testado com outras arquiteturas.
-- Documentações [ROCm 5.7.1](https://rocm.docs.amd.com/en/docs-5.7.1/), [AdaptiveCpp 24.xx](https://github.com/AdaptiveCpp/AdaptiveCpp).
+- Documentações [ROCm 6.3.3](https://rocm.docs.amd.com/projects/install-on-linux/en/docs-6.3.3/index.html), [AdaptiveCpp 24.xx](https://github.com/AdaptiveCpp/AdaptiveCpp).
 
 Você também vai precisar atualizar e instalar pacotes em sua máquina:
 
 ```
 sudo apt update && sudo apt upgrade
 ```
-```
-sudo apt install cmake libboost-all-dev git build-essential libhwloc-dev hwloc texlive python3-setuptools python3-wheel
-```
+
 ```
 sudo apt autoremove && sudo apt autoclean
 ```
@@ -39,33 +37,40 @@ sudo add-apt-repository ppa:ubuntu-toolchain-r/test
 ```
 sudo apt update && sudo apt upgrade
 ```
+Verifique também a versão do kernel:
+```
+uname -r
+```
+
 ---
-## 🔧 Instalando Kernel 5.15 generic
+## 🔧 Instalando Timeshif
 
-Para instalar o `Kernel 5.15 generic` no Ubuntu 22.04, siga estas etapas:
-
-```
-sudo apt install linux-image-generic
-```
-
-Adicione os headers e módulos extras do Kernel:
+O [Timeshift](https://www.edivaldobrito.com.br/como-instalar-o-timeshift-no-ubuntu-linux-e-derivados/) é um software para criar backups. Recomendamos que seja criada backups para cada etapa. Para instalar o `Timeshift`, siga estas etapas:
 
 ```
-sudo apt install "linux-headers-$(uname -r)" "linux-modules-extra-$(uname -r)"
+sudo add-apt-repository ppa:teejee2008/timeshift
 ```
-
-Em seguida e *nessa ordem*, altere para usar o Kernel 5.15 e remova os demais Kernels instalados. Essa tarefa pode ser feita com o [GRUB CUSTOMIZER](https://www.edivaldobrito.com.br/grub-customizer-no-ubuntu/) ou no terminal. Existe vasto material na internet para auxiliar nessa tarefa, aqui coloco apenas o objetivo principal que é instalar e usar o Kernel 5.15 na máquina.
-
->[!NOTE]
->
->**Meu Caso**: Realizei um reboot e utilizei o GRUB para alterar o Kernel. Depois `sudo dpkg -l | grep linux-image` para listar os Kernels, `sudo apt remove` e `sudo apt autoremove && sudo apt autoclean` remover os Kernels instalados.
+```
+sudo apt update
+```
+```
+sudo apt install timeshift
+```
 
 >[!TIP]
 >
->O comando abaixo ajudará a identificar o Kernel instalado:
+>Se desejar, pode-se instalar o [GRUB CUSTOMIZER](https://www.edivaldobrito.com.br/grub-customizer-no-ubuntu/) para gerenciar o inicializador e [MAINLINE](https://www.edivaldobrito.com.br/como-instalar-o-ubuntu-mainline-kernel-installer-no-ubuntu-e-derivados/) para gerenciar kernel instalados.
 >
 >```
->uname -r
+>sudo add-apt-repository ppa:danielrichter2007/grub-customizer
+>sudo apt update
+>sudo apt install grub-customizer
+>```
+>
+>```
+>sudo add-apt-repository ppa:cappelikan/ppa
+>sudo apt update
+>sudo apt install mainline
 >```
 ---
 ## 🔎 Instalando ROCm 5.7.1
