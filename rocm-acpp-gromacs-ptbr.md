@@ -15,9 +15,9 @@
 
 Antes de começar, verifique se você atendeu aos seguintes requisitos:
 
-- Você tem uma máquina `Linux Ubuntu 24.04` com instalação limpa e atualizado.
+- Você tem uma máquina linux `Ubuntu 24.04` com instalação limpa e atualizado.
 - Você tem uma GPU série `AMD RX 6xxx RDNA2`. Não testado com outras arquiteturas.
-- Documentações [ROCm 6.3.3](https://rocm.docs.amd.com/projects/install-on-linux/en/docs-6.3.3/index.html) e [AdaptiveCpp 24.xx](https://github.com/AdaptiveCpp/AdaptiveCpp).
+- Documentações [ROCm 6.3.3](https://rocm.docs.amd.com/projects/install-on-linux/en/docs-6.3.3/index.html), [AdaptiveCpp 24.xx](https://github.com/AdaptiveCpp/AdaptiveCpp) e [Gromacs 2025.1](https://manual.gromacs.org/current/index.html).
 
 Você também vai precisar atualizar e instalar pacotes em sua máquina:
 
@@ -34,7 +34,7 @@ sudo add-apt-repository ppa:ubuntu-toolchain-r/test
 sudo apt update && sudo apt upgrade
 ```
 
-Verifique também a versão do kernel >= 6.8:
+Verifique também a versão do kernel (versão >= 6.8):
 ```
 uname -r
 ```
@@ -212,7 +212,7 @@ tar -xvfz gromacs-2025.1.tar.gz
 cd gromacs-2025.1
 sudo mkdir build && cd build
 ```
-Para compilar com cmake:
+Para compilar com Cmake (versão >=3.28):
 ```
 sudo cmake .. -DGMX_BUILD_OWN_FFTW=ON \
 -DREGRESSIONTEST_DOWNLOAD=ON \
