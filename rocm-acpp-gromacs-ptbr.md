@@ -259,7 +259,7 @@ gmx -version
 >
 
 ---
-## ⌚ Instalando ANACONDA e PyTorch
+## 🐍 Instalando ANACONDA e PyTorch
 
 O [Anaconda](https://www.anaconda.com/download) é um importante pacote de bibliotecas voltados para o uso científico, escritos em python. Para instalação, recomendamos a pasta `Downloads`:
 
@@ -281,6 +281,7 @@ Com os comandos acima será carregado no prompt (`source ~/.bashrc`) o conda `ba
 >
 >Certifique de que a instalação será no path `home/patrickfaustino/anaconda3`, confirmando `yes` para todas as respostas. Não utilize `sudo`.
 >
+
 
 
 🧪🧬⚗️ *Boas simulações moleculares!*
