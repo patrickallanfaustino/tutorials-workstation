@@ -24,9 +24,11 @@ Você também vai precisar atualizar e instalar pacotes em sua máquina:
 ```
 sudo apt update && sudo apt upgrade
 ```
-
 ```
 sudo apt autoremove && sudo apt autoclean
+```
+```
+sudo apt install build-essential
 ```
 
 Para adicionar ferramentas necessárias ou atualizar com versões mais recentes:
@@ -37,7 +39,8 @@ sudo add-apt-repository ppa:ubuntu-toolchain-r/test
 ```
 sudo apt update && sudo apt upgrade
 ```
-Verifique também a versão do kernel >= 6.11(HWE):
+
+Verifique também a versão do kernel >= 6.8:
 ```
 uname -r
 ```
@@ -73,10 +76,25 @@ sudo apt install timeshift
 >sudo apt install mainline
 >```
 ---
-## 🔎 Instalando ROCm 5.7.1
+## 🔎 Instalando ROCm 6.3.3
 
-Vamos instalar o `ROCm 5.7.1`. Precisamos dar previlégios ao usuário e adicioná-lo a grupos:
+Recomenda-se realizar todas as instalações na pasta `Downloads`.Vamos instalar o `rocm 6.3.3`.
 
+```
+sudo apt install "linux-headers-$(uname -r)" "linux-modules-extra-$(uname -r)"
+```
+```
+sudo apt install python3-setuptools python3-wheel
+```
+```
+wget https://repo.radeon.com/amdgpu-install/6.3.3/ubuntu/noble/amdgpu-install_6.3.60303-1_all.deb
+```
+```
+sudo apt install ./amdgpu-install_6.3.60303-1_all.deb && sudo apt update
+```
+```
+sudo amdgpu-install --usecase=rocm,rocmdev,hip,hiplibsdk
+```
 ```
 sudo usermod -a -G render,video $LOGNAME
 ```
@@ -89,35 +107,23 @@ echo ‘EXTRA_GROUPS=video’ | sudo tee -a /etc/adduser.conf
 ```
 echo ‘EXTRA_GROUPS=render’ | sudo tee -a /etc/adduser.conf
 ```
-
-Download e instalação do pacote `ROCm 5.7.1`:
-
 ```
-wget https://repo.radeon.com/amdgpu-install/5.7.1/ubuntu/jammy/amdgpu-install_5.7.50701-1_all.deb
-```
-```
-sudo apt install ./amdgpu-install_5.7.50701-1_all.deb
-```
-
-Utilizando o `amdgpu-install`, instalar o pacote `rocm,hip,hiplibsdk`:
-
-```
-sudo amdgpu-install --usecase=rocm,rocmdev,hip,hiplibsdk
-```
-
-Atualizar todos os índices e links de bibliotecas:
-
-```
-sudo ldconfig
+reboot
 ```
 
 Para verificar a instalação, utilize:
 
 ```
+groups
+```
+```
 sudo clinfo
 ```
 ```
 sudo rocminfo
+```
+```
+sudo rocm-smi
 ```
 
 Pode ser necessário a instalação da biblioteca `rocm-llvm-dev`:
@@ -138,19 +144,33 @@ A GPU deverá ser identificada. Caso não consiga, experimente `reboot` e verifi
 >Para remover `amdgpu-install`, utilize:
 >
 >```
->amdgpu-uninstall
+>sudo amdgpu-install --uninstall --rocmrelease=all
 >```
 >```
->sudo apt purge amdgpu-install
+>sudo apt purge amdgpu-install && sudo apt autoremove
+>```
+>```
+>sudo rm /etc/apt/sources.list.d/amdgpu.list
+>sudo rm /etc/apt/sources.list.d/rocm.list
+>sudo rm -rf /var/cache/apt/*
+>sudo apt clean all
+>sudo apt update
+>sudo reboot
 >```
 >
 ---
 ## ⌚ Instalando LACT
 
-O aplicativo `LACT` é utilizado para controlar e realizar overclocking em GPU AMD, Intel e Nvidia em sistemas Linux.
+O aplicativo [LACT](https://github.com/ilya-zlobintsev/LACT) é utilizado para controlar e realizar overclocking em GPU AMD, Intel e Nvidia em sistemas Linux.
 
 ```
-wget https://github.com/ilya-zlobintsev/LACT/releases/download/v0.7.0/lact-0.7.0-0.amd64.ubuntu-2204.deb
+wget https://github.com/ilya-zlobintsev/LACT/releases/download/v0.7.3/lact-0.7.3-0.amd64.ubuntu-2404.deb
+```
+```
+sudo dpkg -i lact-0.7.3-0.amd64.ubuntu-2404.deb
+```
+```
+sudo systemctl enable --now lactd
 ```
 
 >[!TIP]
@@ -158,12 +178,6 @@ wget https://github.com/ilya-zlobintsev/LACT/releases/download/v0.7.0/lact-0.7.0
 >Faça o download do pacote do [LACT](https://github.com/ilya-zlobintsev/LACT/releases/) de acordo com a distribuição do Linux.
 >
 
-```
-sudo dpkg -i lact-0.7.0-0.amd64.ubuntu-2204.deb
-```
-```
-sudo systemctl enable --now lactd
-```
 ---
 ## 🔨 Instalando LLVM e bibliotecas
 
