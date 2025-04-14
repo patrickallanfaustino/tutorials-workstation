@@ -23,11 +23,7 @@ Você também vai precisar atualizar e instalar pacotes em sua máquina:
 
 ```
 sudo apt update && sudo apt upgrade
-```
-```
 sudo apt autoremove && sudo apt autoclean
-```
-```
 sudo apt install build-essential
 ```
 
@@ -35,8 +31,6 @@ Para adicionar ferramentas necessárias ou atualizar com versões mais recentes:
 
 ```
 sudo add-apt-repository ppa:ubuntu-toolchain-r/test
-```
-```
 sudo apt update && sudo apt upgrade
 ```
 
@@ -52,11 +46,7 @@ O [Timeshift](https://www.edivaldobrito.com.br/como-instalar-o-timeshift-no-ubun
 
 ```
 sudo add-apt-repository ppa:teejee2008/timeshift
-```
-```
 sudo apt update
-```
-```
 sudo apt install timeshift
 ```
 
@@ -82,29 +72,15 @@ Recomenda-se realizar todas as instalações na pasta `Downloads`.Vamos instalar
 
 ```
 sudo apt install "linux-headers-$(uname -r)" "linux-modules-extra-$(uname -r)"
-```
-```
 sudo apt install python3-setuptools python3-wheel
-```
-```
 wget https://repo.radeon.com/amdgpu-install/6.3.3/ubuntu/noble/amdgpu-install_6.3.60303-1_all.deb
-```
-```
 sudo apt install ./amdgpu-install_6.3.60303-1_all.deb && sudo apt update
-```
-```
 sudo amdgpu-install --usecase=rocm,rocmdev,hip,hiplibsdk
-```
-```
 sudo usermod -a -G render,video $LOGNAME
 ```
 ```
 echo ‘ADD_EXTRA_GROUPS=1’ | sudo tee -a /etc/adduser.conf
-```
-```
 echo ‘EXTRA_GROUPS=video’ | sudo tee -a /etc/adduser.conf
-```
-```
 echo ‘EXTRA_GROUPS=render’ | sudo tee -a /etc/adduser.conf
 ```
 ```
@@ -115,14 +91,8 @@ Para verificar a instalação, utilize:
 
 ```
 groups
-```
-```
 sudo clinfo
-```
-```
 sudo rocminfo
-```
-```
 sudo rocm-smi
 ```
 
@@ -145,8 +115,6 @@ A GPU deverá ser identificada. Caso não consiga, experimente `reboot` e verifi
 >
 >```
 >sudo amdgpu-install --uninstall --rocmrelease=all
->```
->```
 >sudo apt purge amdgpu-install && sudo apt autoremove
 >```
 >```
@@ -165,11 +133,7 @@ O aplicativo [LACT](https://github.com/ilya-zlobintsev/LACT) é utilizado para c
 
 ```
 wget https://github.com/ilya-zlobintsev/LACT/releases/download/v0.7.3/lact-0.7.3-0.amd64.ubuntu-2404.deb
-```
-```
 sudo dpkg -i lact-0.7.3-0.amd64.ubuntu-2404.deb
-```
-```
 sudo systemctl enable --now lactd
 ```
 
