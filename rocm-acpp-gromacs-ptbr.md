@@ -8,7 +8,7 @@
 
 <img src="imagem1.png" alt="computer">
 
-> Tutorial para compilar o Gromacs 2025.x com suporte NNPOT-PyTorch (Redes Neurais), usando AdaptiveCpp 24.xx em backend e ROCm 6.3.3 no Ubuntu 24.04 Kernel 6.11, para utilizar aceleração GPU AMD RDNA2 em desktop.
+> Tutorial para compilar o Gromacs 2025.1 com suporte NNPOT-PyTorch (Redes Neurais), usando AdaptiveCpp 24.10 em backend e ROCm 6.3.3 no Ubuntu 24.04 Kernel 6.11, para utilizar aceleração GPU AMD RDNA2 em desktop.
 
 ## 💻 Computador testado e Pré-requisitos:
 - CPU Ryzen 9 5900XT, Memória 2x16 GB DDR4, Chipset X470, GPU ASRock RX 6600 CLD 8 GB, dual boot com Windows 11 e Ubuntu 24.04 instalados em SSD's separados.
@@ -120,7 +120,7 @@ A GPU deverá ser identificada. Caso não consiga, experimente `reboot` e verifi
 >
 >```
 >sudo amdgpu-install --uninstall --rocmrelease=all
->sudo apt purge amdgpu-install && sudo apt autoremove
+>sudo apt purge amdgpu-install && sudo apt autoremove && sudo apt autoclean
 >```
 >```
 >sudo rm /etc/apt/sources.list.d/amdgpu.list
@@ -141,6 +141,7 @@ wget https://github.com/ilya-zlobintsev/LACT/releases/download/v0.7.3/lact-0.7.3
 sudo dpkg -i lact-0.7.3-0.amd64.ubuntu-2404.deb
 sudo systemctl enable --now lactd
 ```
+**AMD Overclocking!**: ative a função no LACT.
 
 >[!TIP]
 >
@@ -258,6 +259,9 @@ gmx -version
 >
 
 🧪🧬⚗️ *Boas simulações moleculares!*
+
+---
+> Fonte: [Install workflow with AMD GPU support (Framework 16, Ubuntu 24.04, GPU: AMD Radeon RX 7700S)](https://gromacs.bioexcel.eu/t/install-workflow-with-amd-gpu-support-framework-16-ubuntu-24-04-gpu-amd-radeon-rx-7700s/10870)
 
 ---
 ## 📜 Citação
