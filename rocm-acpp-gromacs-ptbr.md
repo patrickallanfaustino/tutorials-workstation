@@ -302,9 +302,8 @@ python3 -c "import torch; x = torch.rand(5, 3); print(x)"
 >Embora a versão do Pytorch-rocm 6.2.4 seja diferente do rocm instalado, durante os testes não houve problemas. Os testes irão retornar valores positivos de sucesso.
 >
 
-## 🧪🧬⚗️ *Boas simulações moleculares!*
+### 🧪🧬⚗️ *Boas simulações moleculares!*
 
----
 ## 📜 Citação
 
 - FAUSTINO, P. A. S. Tutorials: Workflow Install Gromacs 2025.x com ROCm 6.3.3 e AdaptiveCpp 24.x no Ubuntu 24.04 Noble Numbat, 2025. README. Disponível em: <[https://github.com/patrickallanfaustino/tutorials-workstation/blob/main/rocm-acpp-gromacs.md](https://github.com/patrickallanfaustino/tutorials-workstation/blob/main/rocm-acpp-gromacs-ptbr.md)>. Acesso em: [dia] de [mês] de [ano].
