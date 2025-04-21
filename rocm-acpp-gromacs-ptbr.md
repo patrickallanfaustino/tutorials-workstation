@@ -11,7 +11,7 @@
 > Tutorial para compilar o Gromacs 2025.1 com suporte NNPOT-PyTorch (Redes Neurais), usando AdaptiveCpp 24.10 em backend e ROCm 6.3.3 no Ubuntu 24.04 Kernel 6.11, para utilizar aceleração GPU AMD RDNA2 em desktop.
 
 ## 💻 Computador testado e Pré-requisitos:
-- CPU Ryzen 9 5900XT, Memória 2x16 GB DDR4, Chipset X470, GPU ASRock RX 6600 CLD 8 GB, dual boot com Windows 11 e Ubuntu 24.04 instalados em SSD's separados.
+- CPU Ryzen 9 5900XT, Memória 2x16 GB DDR4, Chipset X570, GPU ASRock RX 6600 CLD 8 GB, dual boot com Windows 11 e Ubuntu 24.04 instalados em SSD's separados.
 
 Antes de começar, verifique se você atendeu aos seguintes requisitos:
 
@@ -302,6 +302,20 @@ python3 -c "import torch; x = torch.rand(5, 3); print(x)"
 >Embora a versão do Pytorch-rocm 6.2.4 seja diferente do rocm instalado, durante os testes não houve problemas. Os testes deverão retornar valores positivos de sucesso.
 >Caso deseje desistalar utilize `pip3 uninstall <biblioteca>`, para atualizar `pip3 upgrade <biblioteca>` e para listar os pacotes instalados `pip3 list`.
 >
+
+---
+## 🧬 Instalando VMD
+
+O [VMD](https://www.ks.uiuc.edu/Development/Download/download.cgi?PackageName=VMD) permite visualizar moléculas e realizar análises. Para instalação, recomendamos a pasta `Downloads`:
+
+```
+wget https://www.ks.uiuc.edu/Research/vmd/vmd-1.9.3/files/final/vmd-1.9.3.bin.LINUXAMD64-CUDA8-OptiX4-OSPRay111p1.opengl.tar.gz
+tar xvzf vmd-1.9.3.bin.LINUXAMD64-CUDA8-OptiX4-OSPRay111p1.opengl.tar.gz
+./configure
+cd src
+sudo make install -j$(nproc)
+vmd
+```
 
 ### 🧪🧬⚗️ *Boas simulações moleculares!*
 
