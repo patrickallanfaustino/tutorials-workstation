@@ -34,7 +34,7 @@ sudo add-apt-repository ppa:ubuntu-toolchain-r/test
 sudo apt update && sudo apt upgrade
 ```
 
-Also, check the kernel version (version >= 6.8)::
+Also, check the kernel version (version >= 6.8):
 ```
 uname -r
 ```
@@ -132,26 +132,26 @@ The GPU should be recognized in the information. If it's not detected, try reboo
 >```
 >
 ---
-## ⌚ Instalando LACT
+## ⌚ Install LACT
 
-O aplicativo [LACT](https://github.com/ilya-zlobintsev/LACT) é utilizado para controlar e realizar overclocking em GPU AMD, Intel e Nvidia em sistemas Linux.
+The [LACT](https://github.com/ilya-zlobintsev/LACT) application allows you to control and overclock AMD, Intel, and Nvidia GPUs on Linux systems.
 
 ```
 wget https://github.com/ilya-zlobintsev/LACT/releases/download/v0.7.3/lact-0.7.3-0.amd64.ubuntu-2404.deb
 sudo dpkg -i lact-0.7.3-0.amd64.ubuntu-2404.deb
 sudo systemctl enable --now lactd
 ```
-**AMD Overclocking:** ative a função no LACT.
+**AMD Overclocking:** activate the function in LACT.
 
 >[!WARNING]
 >
->Faça o download do pacote [LACT](https://github.com/ilya-zlobintsev/LACT/releases/) de acordo com a distribuição do Linux.
+>Download the [LACT](https://github.com/ilya-zlobintsev/LACT/releases/) package according to your Linux distribution.
 >
 
 ---
-## 🔨 Instalando AdaptiveCpp 24.xx
+## 🔨 Install AdaptiveCpp 24.xx
 
-O `AdaptiveCpp 24.xx` irá trabalhar em backend com `rocm 6.3.3`. Recomenda-se o uso da pasta `Downloads`. Para instalar:
+`AdaptiveCpp 24.xx` will work as a backend with `ROCm 6.3.3`. It is recommended to use the `Downloads` folder. To install:
 ```
 sudo apt install -y libboost-all-dev git cmake
 ```
@@ -161,7 +161,7 @@ cd AdaptiveCpp
 sudo mkdir build && cd build
 ```
 
-Para compilar com CMake (versão >=3.28):
+To compile with CMake (version >=3.28):
 ```
 sudo cmake .. -DCMAKE_INSTALL_PREFIX=/usr/local \
 -DCMAKE_C_COMPILER=/opt/rocm/llvm/bin/clang \
@@ -178,42 +178,42 @@ sudo cmake .. -DCMAKE_INSTALL_PREFIX=/usr/local \
 sudo make install -j$(nproc)
 ```
 
-Para verificar a instalação, `acpp-info` deverá apresentar as informações da GPU:
+To verify the installation, `acpp-info` should display the GPU information:
 ```
 acpp-info
 ```
 
 >[!NOTE]
 >
->**Meu Caso**: Utilizano `j$(nproc)`, define a quantidade de CPUs utilizadas na compilação. Pode ser omitido `-j$(nproc)`.
+>**In my particular case**: Using `j$(nproc)`, sets the number of CPUs to use during compilation. You can omit this option if desired.
 >
 
 >[!WARNING]
 >
->Sempre fique atento aos caminhos dos diretórios, *i.e* `/path/to/user/...`, porque são os maiores causadores de erros durante as compilações.
+>Be mindful of directory paths, such as /path/to/user/..., as incorrect paths often cause compilation errors.
 >
 ---
-## 💎 Instalação do Gromacs 2025.x
+## 💎 Install Gromacs 2025.x
 
-**LIBTORCH!** É possivel instalar a biblioteca [libtorch](https://pytorch.org/) para utilizar Redes Neurais. Verifique a versão mais recente. Utilize a pasta `Downloads`.
+**LIBTORCH!** It is possible to install the [libtorch](https://pytorch.org/) library to use Neural Networks. Check for the latest version. Use the `Downloads` folder.
 ```
-wget https://download.pytorch.org/libtorch/cpu/libtorch-cxx11-abi-shared-with-deps-2.6.0%2Bcpu.zip
-unzip libtorch-cxx11-abi-shared-with-deps-2.6.0%2Bcpu.zip
+wget https://download.pytorch.org/libtorch/cpu/libtorch-cxx11-abi-shared-with-deps-2.7.0%2Bcpu.zip
+unzip libtorch-cxx11-abi-shared-with-deps-2.7.0%2Bcpu.zip
 ```
 
-Podemos instalar algumas bibliotecas auxiliares para o Gromacs:
+To edit the media, simply click on the edit icon in the upper right corner.
 ```
 sudo apt install grace hwloc texlive
 ```
 
-A partir de agora, você poderá seguir a documentação oficial [guia de instalação](https://manual.gromacs.org/current/install-guide/index.html).
+From now on, you can follow the official documentation. [instalattion guide](https://manual.gromacs.org/current/install-guide/index.html).
 ```
 wget ftp://ftp.gromacs.org/gromacs/gromacs-2025.1.tar.gz
 tar -xvfz gromacs-2025.1.tar.gz
 cd gromacs-2025.1
 sudo mkdir build && cd build
 ```
-Para compilar com Cmake (versão >=3.28):
+To compile with CMake (version >=3.28):
 ```
 sudo cmake .. -DGMX_BUILD_OWN_FFTW=ON \
 -DREGRESSIONTEST_DOWNLOAD=ON \
@@ -228,21 +228,22 @@ sudo cmake .. -DGMX_BUILD_OWN_FFTW=ON \
 -DGMX_NNPOT=TORCH \
 -DCMAKE_PREFIX_PATH="/home/patrickfaustino/Downloads/libtorch"
 ```
-Note que criei uma pasta chamada `gromacs` para os arquivos compilados e indiquei com `-DCMAKE_INSTALL_PREFIX`, pois isso facilita a atualização do Gromacs no futuro.
+
+Note that I created a folder called `gromacs` for the compiled files and specified it with `-DCMAKE_INSTALL_PREFIX`, as this facilitates future updates of Gromacs.
 
 >[!NOTE]
 >
->**Meu Caso**: Atenção ao `-DHIPSYCL_TARGETS='hip:gfxABC'`, substitua com seus valores.
+>**In my particular case**: Pay attention to `-DHIPSYCL_TARGETS='hip:gfxABC'`, replace with your values.
 >
 
-Agora é o momento de compilar, checar e instalar:
+Now is the time to compile, check and install:
 ```
 sudo make -j$(nproc)
 sudo make check -j$(nproc)
 sudo make install -j$(nproc)
 ```
 
-Para carregar a biblioteca e invocar o Gromacs:
+To load the library and invoke Gromacs:
 ```
 source /home/patrickfaustino/gromacs/bin/GMXRC
 gmx -version
@@ -250,18 +251,18 @@ gmx -version
 
 >[!WARNING]
 >
->Durante `sudo make check -j$(nproc)` ocorreram erros por TIMEOUT. Prossegui e testei uma dinâmica simples e não houve problema. Aparentemente, usuários do Gromacs 2024/2025 enfrentam esses problemas e com `-DGMX_TEST_TIMEOUT_FACTOR=2` pode dar mais tempo para o teste.
+>Timeout errors occurred during `sudo make check -j$(nproc)`. I continued and successfully tested a simple dynamics. It seems that Gromacs 2024/2025 users often encounter such issues, and adding `-DGMX_TEST_TIMEOUT_FACTOR=2` can provide more time for the tests.
 >
 
 >[!TIP]
 >
->Você poderá editar o arquivo `/home/patrickfaustino/.bashrc` e adicionar o código `source /home/patrickfaustino/gromacs/bin/GMXRC`. Assim, toda vez que abrir o terminal carregara o Gromacs.
+>You can edit the file `/home/patrickfaustino/.bashrc` and add the code source `/home/patrickfaustino/gromacs/bin/GMXRC`. This way, every time you open the terminal, Gromacs will be loaded.
 >
 
 ---
-## 🐍 Instalando ANACONDA e PyTorch
+## 🐍 Install ANACONDA and PyTorch
 
-O [Anaconda](https://www.anaconda.com/download) é um importante pacote de bibliotecas Python voltados para o uso científico. Para instalação, recomendamos a pasta `Downloads`:
+The [Anaconda](https://www.anaconda.com/download) is an important package of Python libraries for scientific use. For installation, we recommend the `Downloads` folder:
 
 ```
 wget https://repo.anaconda.com/archive/Anaconda3-2024.06-1-Linux-x86_64.sh
@@ -270,26 +271,26 @@ source ~/.bashrc
 conda config --set auto_activate_base false
 conda info
 ```
-Com os comandos acima será carregado no prompt (`source ~/.bashrc`) o conda `base`. Para desativar o carregamento automatico, utilizar `conda config --set auto_activate_base false`.
+By running the above commands, the base conda environment will be automatically loaded into your shell prompt. If you want to disable this automatic loading, you can use: `conda config --set auto_activate_base false`.
 
 >[!TIP]
 >
->Faça o download do pacote [Anaconda](https://www.anaconda.com/download) mais recente.
+>Download the latest [Anaconda](https://www.anaconda.com/download) package.
 >
 
 >[!WARNING]
 >
->Certifique de que a instalação será no path `home/patrickfaustino/anaconda3` confirmando `yes` para todas as respostas. Não utilize `sudo`.
+>Make sure the installation will be in the path `$HOME/anaconda3` by confirming `yes` to all prompts. **DO NOT USE `sudo`**.
 >
 
-Agora, vamos criar um ambiente virtual e instalar o [Pytorch](https://pytorch.org/get-started/locally/). No diretório `/home/patrickfaustino`, crie um ambiente `gromacs-nnpot`:
+Now, let's create a virtual environment and install [Pytorch](https://pytorch.org/get-started/locally/). In the `$HOME` directory, create a `gromacs-nnpot` environment:
 ```
 sudo apt install python3-venv libjpeg-dev python3-dev python3-pip
 python3 -m venv gromacs-nnpot
 source gromacs-nnpot/bin/activate
 pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/rocm6.2.4
 ```
-Para testar:
+For check:
 ```
 python3 -c 'import torch' 2> /dev/null && echo 'Success' || echo 'Failure'
 python3 -c "import torch; print(torch.cuda.is_available())" 
@@ -299,14 +300,14 @@ python3 -c "import torch; x = torch.rand(5, 3); print(x)"
 
 >[!TIP]
 >
->Embora a versão do Pytorch-rocm 6.2.4 seja diferente do rocm instalado, durante os testes não houve problemas. Os testes deverão retornar valores positivos de sucesso.
->Caso deseje desistalar utilize `pip3 uninstall <biblioteca>`, para atualizar `pip3 upgrade <biblioteca>` e para listar os pacotes instalados `pip3 list`.
+>Although the PyTorch version (rocm 6.2.4) differs from the installed ROCm version, testing proceeded without issues, yielding positive results.
+>To uninstall a package, use `pip3 uninstall <package>`. To update a package, use `pip3 install --upgrade <package>`. To list installed packages, use `pip3 list`.
 >
 
 ---
-## 🧬 Instalando VMD
+## 🧬 Install VMD
 
-O [VMD](https://www.ks.uiuc.edu/Development/Download/download.cgi?PackageName=VMD) permite visualizar moléculas e realizar análises. Para instalação, recomendamos a pasta `Downloads`:
+The [VMD](https://www.ks.uiuc.edu/Development/Download/download.cgi?PackageName=VMD) allows you to visualize molecules and perform analyses. For installation, we recommend the `Downloads` folder.
 
 ```
 wget https://www.ks.uiuc.edu/Research/vmd/vmd-1.9.3/files/final/vmd-1.9.3.bin.LINUXAMD64-CUDA8-OptiX4-OSPRay111p1.opengl.tar.gz
@@ -317,15 +318,21 @@ sudo make install -j$(nproc)
 vmd
 ```
 
-### 🧪🧬⚗️ *Boas simulações moleculares!*
+>[!TIP]
+>
+>Download the VMD package for you system distribuition.
+>
+
+
+### 🧪🧬⚗️ *Good molecular simulations!*
 
 ---
-## 📜 Citação
+## 📜 Citation
 
-- FAUSTINO, P. A. S. Tutorials: Workflow Install Gromacs 2025.x com ROCm 6.3.3 e AdaptiveCpp 24.x no Ubuntu 24.04 Noble Numbat, 2025. README. Disponível em: <[https://github.com/patrickallanfaustino/tutorials-workstation/blob/main/rocm-acpp-gromacs.md](https://github.com/patrickallanfaustino/tutorials-workstation/blob/main/rocm-acpp-gromacs-ptbr.md)>. Acesso em: [dia] de [mês] de [ano].
-- Fonte auxiliar: [Install workflow with AMD GPU support (Framework 16, Ubuntu 24.04, GPU: AMD Radeon RX 7700S)](https://gromacs.bioexcel.eu/t/install-workflow-with-amd-gpu-support-framework-16-ubuntu-24-04-gpu-amd-radeon-rx-7700s/10870)
+- FAUSTINO, P. A. S. Tutorials: Workflow Install Gromacs 2025.x with ROCm 6.3.3 and AdaptiveCpp 24.x in Ubuntu 24.04 Noble Numbat, 2025. README. Available at: <[https://github.com/patrickallanfaustino/tutorials-workstation/blob/main/rocm-acpp-gromacs.md](https://github.com/patrickallanfaustino/tutorials-workstation/blob/main/rocm-acpp-gromacs-ptbr.md)>. Access at:xxx.
+- Auxiliary source: [Install workflow with AMD GPU support (Framework 16, Ubuntu 24.04, GPU: AMD Radeon RX 7700S)](https://gromacs.bioexcel.eu/t/install-workflow-with-amd-gpu-support-framework-16-ubuntu-24-04-gpu-amd-radeon-rx-7700s/10870)
 
 ---
-## 📝 Licença
+## 📝 License
 
-Esse projeto está sob licença. Veja o arquivo [LICENÇA](LICENSE.md) para mais detalhes.
+This project is under a license. See the [LICENÇA](LICENSE.md) file for more details.
