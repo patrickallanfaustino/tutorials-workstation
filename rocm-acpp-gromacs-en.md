@@ -38,6 +38,7 @@ Also, check the kernel version (version >= 6.8):
 ```
 uname -r
 ```
+Additionally, verify your default directory `$HOME`, as it serves as the primary path for most installations and configurations. Feel free to explore!
 
 ---
 ## 🔧 Install Timeshif
@@ -221,12 +222,12 @@ sudo cmake .. -DGMX_BUILD_OWN_FFTW=ON \
 -DCMAKE_CXX_COMPILER=/opt/rocm/llvm/bin/clang++ \
 -DGMX_GPU=SYCL \
 -DGMX_SYCL=ACPP \
--DCMAKE_INSTALL_PREFIX=/home/patrickfaustino/gromacs \
+-DCMAKE_INSTALL_PREFIX=$HOME/gromacs \
 -DHIPSYCL_TARGETS='hip:gfx1032' \
 -DGMX_HWLOC=ON \
 -DGMX_USE_PLUMED=ON \
 -DGMX_NNPOT=TORCH \
--DCMAKE_PREFIX_PATH="/home/patrickfaustino/Downloads/libtorch"
+-DCMAKE_PREFIX_PATH="$HOME/Downloads/libtorch"
 ```
 
 Note that I created a folder called `gromacs` for the compiled files and specified it with `-DCMAKE_INSTALL_PREFIX`, as this facilitates future updates of Gromacs.
@@ -288,7 +289,7 @@ Now, let's create a virtual environment and install [Pytorch](https://pytorch.or
 sudo apt install python3-venv libjpeg-dev python3-dev python3-pip
 python3 -m venv gromacs-nnpot
 source gromacs-nnpot/bin/activate
-pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/rocm6.2.4
+pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/rocm6.3
 ```
 For check:
 ```
@@ -300,7 +301,6 @@ python3 -c "import torch; x = torch.rand(5, 3); print(x)"
 
 >[!TIP]
 >
->Although the PyTorch version (rocm 6.2.4) differs from the installed ROCm version, testing proceeded without issues, yielding positive results.
 >To uninstall a package, use `pip3 uninstall <package>`. To update a package, use `pip3 install --upgrade <package>`. To list installed packages, use `pip3 list`.
 >
 
