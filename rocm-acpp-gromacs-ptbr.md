@@ -38,6 +38,7 @@ Verifique também a versão do kernel (versão >= 6.8):
 ```
 uname -r
 ```
+Verifique também o seu diretorio padrão `$HOME`, pois é o caminho que será utilizado para a maioria das instalações e condigurações. Explore!
 
 ---
 ## 🔧 Instalando Timeshif
