@@ -198,8 +198,8 @@ acpp-info
 
 **LIBTORCH!** É possivel instalar a biblioteca [libtorch](https://pytorch.org/) para utilizar Redes Neurais. Verifique a versão mais recente. Utilize a pasta `Downloads`.
 ```
-wget https://download.pytorch.org/libtorch/cpu/libtorch-cxx11-abi-shared-with-deps-2.6.0%2Bcpu.zip
-unzip libtorch-cxx11-abi-shared-with-deps-2.6.0%2Bcpu.zip
+wget https://download.pytorch.org/libtorch/cpu/libtorch-cxx11-abi-shared-with-deps-2.7.0%2Bcpu.zip
+unzip libtorch-cxx11-abi-shared-with-deps-2.7.0%2Bcpu.zip
 ```
 
 Podemos instalar algumas bibliotecas auxiliares para o Gromacs:
