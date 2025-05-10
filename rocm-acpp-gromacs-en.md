@@ -263,7 +263,7 @@ gmx -version
 ---
 ## 🐍 Install ANACONDA and PyTorch
 
-The [Anaconda](https://www.anaconda.com/download) is an important package of Python libraries for scientific use. For installation, we recommend the `Downloads` folder:
+The [Anaconda](https://www.anaconda.com/download) is an important package of Python libraries for scientific use. For installation:
 
 ```
 wget https://repo.anaconda.com/archive/Anaconda3-2024.06-1-Linux-x86_64.sh
