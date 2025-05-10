@@ -1,4 +1,4 @@
-# Workflow Install Gromacs 2025.x com ROCm 6.3.3 e AdaptiveCpp 24.x no Ubuntu 24.04 Noble Numbat
+# Workflow de Instalação Gromacs 2025.x com ROCm 6.3.3 e AdaptiveCpp 24.x no Ubuntu 24.04 Noble Numbat
 
 ![GitHub repo size](https://img.shields.io/github/repo-size/patrickallanfaustino/tutorials?style=for-the-badge)
 ![GitHub language count](https://img.shields.io/github/languages/count/patrickallanfaustino/tutorials?style=for-the-badge)
@@ -38,7 +38,7 @@ Verifique também a versão do kernel (versão >= 6.8):
 ```
 uname -r
 ```
-Verifique também o seu diretorio padrão `$HOME`, pois é o caminho que será utilizado para a maioria das instalações e condigurações. Explore!
+Verifique seu diretorio padrão `$HOME`, pois será o caminho utilizado para a maioria das instalações e configurações. Explore!
 
 ---
 ## 🔧 Instalando Timeshif
@@ -53,7 +53,7 @@ sudo apt install timeshift
 
 >[!TIP]
 >
->Se desejar, instalar o [GRUB CUSTOMIZER](https://www.edivaldobrito.com.br/grub-customizer-no-ubuntu/) para gerenciar o inicializador e [MAINLINE](https://www.edivaldobrito.com.br/como-instalar-o-ubuntu-mainline-kernel-installer-no-ubuntu-e-derivados/) para gerenciar o kernel instalado.
+>Se desejar, instale o [GRUB CUSTOMIZER](https://www.edivaldobrito.com.br/grub-customizer-no-ubuntu/) para gerenciar o inicializador e [MAINLINE](https://www.edivaldobrito.com.br/como-instalar-o-ubuntu-mainline-kernel-installer-no-ubuntu-e-derivados/) para gerenciar o kernel instalado.
 >
 >```
 >sudo add-apt-repository ppa:danielrichter2007/grub-customizer
@@ -99,7 +99,7 @@ sudo rocm-smi
 ```
 
 > [!IMPORTANT]  
->Quando printar `rocminfo`, verificar o nome da placa que no geral será apresentado como `gfx1032` (para RX 6600).
+>Quando printar `rocminfo`, verificar o nome da placa que será apresentado como `gfx1032` (para RX 6600).
 > 
 
 Pode ser necessário a instalação da biblioteca `rocm-llvm-dev`:
@@ -107,7 +107,7 @@ Pode ser necessário a instalação da biblioteca `rocm-llvm-dev`:
 sudo apt install rocm-llvm-dev
 ```
 
-A GPU deverá ser identificada nas informações. Caso não consiga, experimente `reboot` e verifique novamente. Instalação ficará em `PATH=/opt/rocm`.
+A GPU deverá ser identificada nas informações. Caso não consiga, experimente `reboot` e verifique novamente. A instalação ficará em `PATH=/opt/rocm`.
 
 >[!TIP]
 >
@@ -186,7 +186,7 @@ acpp-info
 
 >[!NOTE]
 >
->**Meu Caso**: Utilizano `j$(nproc)`, define a quantidade de CPUs utilizadas na compilação. Pode ser omitido `-j$(nproc)`.
+>**Meu Caso**: Utilizando `j$(nproc)`, define a quantidade de CPUs utilizadas na compilação. Pode ser omitido `-j$(nproc)`.
 >
 
 >[!WARNING]
@@ -222,12 +222,12 @@ sudo cmake .. -DGMX_BUILD_OWN_FFTW=ON \
 -DCMAKE_CXX_COMPILER=/opt/rocm/llvm/bin/clang++ \
 -DGMX_GPU=SYCL \
 -DGMX_SYCL=ACPP \
--DCMAKE_INSTALL_PREFIX=/home/patrickfaustino/gromacs \
+-DCMAKE_INSTALL_PREFIX=$HOME/gromacs \
 -DHIPSYCL_TARGETS='hip:gfx1032' \
 -DGMX_HWLOC=ON \
 -DGMX_USE_PLUMED=ON \
 -DGMX_NNPOT=TORCH \
--DCMAKE_PREFIX_PATH="/home/patrickfaustino/Downloads/libtorch"
+-DCMAKE_PREFIX_PATH="$HOME/Downloads/libtorch"
 ```
 Note que criei uma pasta chamada `gromacs` para os arquivos compilados e indiquei com `-DCMAKE_INSTALL_PREFIX`, pois isso facilita a atualização do Gromacs no futuro.
 
@@ -262,7 +262,7 @@ gmx -version
 ---
 ## 🐍 Instalando ANACONDA e PyTorch
 
-O [Anaconda](https://www.anaconda.com/download) é um importante pacote de bibliotecas Python voltados para o uso científico. Para instalação, recomendamos a pasta `Downloads`:
+O [Anaconda](https://www.anaconda.com/download) é um importante pacote de bibliotecas Python voltados para o uso científico.
 
 ```
 wget https://repo.anaconda.com/archive/Anaconda3-2024.06-1-Linux-x86_64.sh
@@ -280,7 +280,7 @@ Com os comandos acima será carregado no prompt (`source ~/.bashrc`) o conda `ba
 
 >[!WARNING]
 >
->Certifique de que a instalação será no path `home/patrickfaustino/anaconda3` confirmando `yes` para todas as respostas. Não utilize `sudo`.
+>Certifique de que a instalação será no path `home/patrickfaustino/anaconda3` confirmando `yes` para todas as respostas. **NÃO UTILIZE `sudo`**.
 >
 
 Agora, vamos criar um ambiente virtual e instalar o [Pytorch](https://pytorch.org/get-started/locally/). No diretório `/home/patrickfaustino`, crie um ambiente `gromacs-nnpot`:
@@ -288,7 +288,7 @@ Agora, vamos criar um ambiente virtual e instalar o [Pytorch](https://pytorch.or
 sudo apt install python3-venv libjpeg-dev python3-dev python3-pip
 python3 -m venv gromacs-nnpot
 source gromacs-nnpot/bin/activate
-pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/rocm6.2.4
+pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/rocm6.3
 ```
 Para testar:
 ```
@@ -300,8 +300,7 @@ python3 -c "import torch; x = torch.rand(5, 3); print(x)"
 
 >[!TIP]
 >
->Embora a versão do Pytorch-rocm 6.2.4 seja diferente do rocm instalado, durante os testes não houve problemas. Os testes deverão retornar valores positivos de sucesso.
->Caso deseje desistalar utilize `pip3 uninstall <biblioteca>`, para atualizar `pip3 upgrade <biblioteca>` e para listar os pacotes instalados `pip3 list`.
+>Caso deseje desistalar utilize `pip3 uninstall <biblioteca>`, para atualizar `pip3 install --upgrade <biblioteca>` e para listar os pacotes instalados `pip3 list`.
 >
 
 ---
@@ -323,7 +322,7 @@ vmd
 ---
 ## 📜 Citação
 
-- FAUSTINO, P. A. S. Tutorials: Workflow Install Gromacs 2025.x com ROCm 6.3.3 e AdaptiveCpp 24.x no Ubuntu 24.04 Noble Numbat, 2025. README. Disponível em: <[https://github.com/patrickallanfaustino/tutorials-workstation/blob/main/rocm-acpp-gromacs.md](https://github.com/patrickallanfaustino/tutorials-workstation/blob/main/rocm-acpp-gromacs-ptbr.md)>. Acesso em: [dia] de [mês] de [ano].
+- FAUSTINO, P. A. S. Tutorials: Workflow de Instalação Gromacs 2025.x com ROCm 6.3.3 e AdaptiveCpp 24.x no Ubuntu 24.04 Noble Numbat, 2025. README. Disponível em: <[https://github.com/patrickallanfaustino/tutorials-workstation/blob/main/rocm-acpp-gromacs.md](https://github.com/patrickallanfaustino/tutorials-workstation/blob/main/rocm-acpp-gromacs-ptbr.md)>. Acesso em: [dia] de [mês] de [ano].
 - Fonte auxiliar: [Install workflow with AMD GPU support (Framework 16, Ubuntu 24.04, GPU: AMD Radeon RX 7700S)](https://gromacs.bioexcel.eu/t/install-workflow-with-amd-gpu-support-framework-16-ubuntu-24-04-gpu-amd-radeon-rx-7700s/10870)
 
 ---
