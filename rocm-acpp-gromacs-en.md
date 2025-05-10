@@ -10,7 +10,7 @@
 
 > Tutorial to compile Gromacs 2025.1 with NNPOT-PyTorch support (Neural Networks), using AdaptiveCpp 24.10 as backend and ROCm 6.3.3 on Ubuntu 24.04 Kernel 6.11, to utilize AMD GPU acceleration on desktop
 
-## 💻 Tested Computer and prerequisites:
+## 💻 Tested computer and prerequisites:
 - CPU Ryzen 9 5900XT, Memória 2x16 GB DDR4, Chipset X570, GPU ASRock RX 6600 CLD 8 GB, dual boot with Windows 11 and Ubuntu 24.04 install in SSD's separated.
 
 Before starting, ensure you meet the following requirements:
@@ -19,7 +19,7 @@ Before starting, ensure you meet the following requirements:
 - Your system is equipped with an `AMD RX6xxx RDNA2` series GPU (tested with `7xxx RDNA3` architectures).
 - Documentation [ROCm 6.3.3](https://rocm.docs.amd.com/projects/install-on-linux/en/docs-6.3.3/index.html), [AdaptiveCpp 24.xx](https://github.com/AdaptiveCpp/AdaptiveCpp) and [Gromacs 2025.1](https://manual.gromacs.org/current/index.html).
 
-Você também vai precisar atualizar e instalar pacotes em sua máquina:
+You will also need to update your system and install the necessary packages:
 
 ```
 sudo apt update && sudo apt upgrade
