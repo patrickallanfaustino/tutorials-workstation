@@ -210,7 +210,7 @@ sudo apt install grace hwloc texlive
 From now on, you can follow the official documentation. [instalattion guide](https://manual.gromacs.org/current/install-guide/index.html).
 ```
 wget ftp://ftp.gromacs.org/gromacs/gromacs-2025.1.tar.gz
-tar -xvfz gromacs-2025.1.tar.gz
+tar -xvf gromacs-2025.1.tar.gz
 cd gromacs-2025.1
 sudo mkdir build && cd build
 ```
