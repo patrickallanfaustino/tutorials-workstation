@@ -149,6 +149,11 @@ sudo systemctl enable --now lactd
 >Faça o download do pacote [LACT](https://github.com/ilya-zlobintsev/LACT/releases/) de acordo com a distribuição do Linux.
 >
 
+>[!INFO]
+>
+>Para remover versões anteriores, utilize `sudo dpkg -r lactd`.
+>
+
 ---
 ## 🔨 Instalando AdaptiveCpp 24.xx
 
@@ -210,7 +215,7 @@ sudo apt install grace hwloc texlive
 A partir de agora, você poderá seguir a documentação oficial [guia de instalação](https://manual.gromacs.org/current/install-guide/index.html).
 ```
 wget ftp://ftp.gromacs.org/gromacs/gromacs-2025.1.tar.gz
-tar -xvfz gromacs-2025.1.tar.gz
+tar -xvf gromacs-2025.1.tar.gz
 cd gromacs-2025.1
 sudo mkdir build && cd build
 ```
