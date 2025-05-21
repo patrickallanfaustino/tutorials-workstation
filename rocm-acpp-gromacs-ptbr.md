@@ -227,6 +227,7 @@ sudo cmake .. -DGMX_BUILD_OWN_FFTW=ON \
 -DCMAKE_CXX_COMPILER=/opt/rocm/llvm/bin/clang++ \
 -DGMX_GPU=SYCL \
 -DGMX_SYCL=ACPP \
+-DGMX_GPU_FFT_LIBRARY=rocFFT \
 -DCMAKE_INSTALL_PREFIX=$HOME/gromacs \
 -DHIPSYCL_TARGETS='hip:gfx1032' \
 -DGMX_HWLOC=ON \
@@ -294,7 +295,6 @@ sudo apt install python3-venv libjpeg-dev python3-dev python3-pip
 python3 -m venv gromacs-nnpot
 source gromacs-nnpot/bin/activate
 pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/rocm6.3
-pip3 install torchani mace-torch
 ```
 Para testar:
 ```
