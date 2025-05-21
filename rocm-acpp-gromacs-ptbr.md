@@ -77,7 +77,7 @@ sudo apt install "linux-headers-$(uname -r)" "linux-modules-extra-$(uname -r)"
 sudo apt install python3-setuptools python3-wheel
 wget https://repo.radeon.com/amdgpu-install/6.3.3/ubuntu/noble/amdgpu-install_6.3.60303-1_all.deb
 sudo apt install ./amdgpu-install_6.3.60303-1_all.deb && sudo apt update
-sudo amdgpu-install --usecase=rocm,rocmdev,hip,hiplibsdk
+sudo amdgpu-install --usecase=rocm,rocmdev,hip,hiplibsdk,openmpsdk,mllib,mlsdk
 sudo usermod -a -G render,video $LOGNAME
 ```
 ```
