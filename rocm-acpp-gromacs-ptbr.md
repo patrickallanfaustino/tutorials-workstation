@@ -303,7 +303,7 @@ gmx -version
 >	-DGMX_GPU_FFT_LIBRARY=rocFFT
 >```
 >
->Você poderá usar `rocblas` e `rocsolver`, pode usar: `-DGMX_EXTERNAL_BLAS=ON -DGMX_BLAS_USER=/opt/rocm/lib/librocblas.so -DGMX_LAPACK_USER=/opt/rocm/lib/librocsolver.so`.
+>Você pode usar `rocblas` e `rocsolver`. Para usar: `-DGMX_EXTERNAL_BLAS=ON -DGMX_BLAS_USER=/opt/rocm/lib/librocblas.so -DGMX_LAPACK_USER=/opt/rocm/lib/librocsolver.so`.
 >
 
 ---
