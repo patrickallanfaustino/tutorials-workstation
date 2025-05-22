@@ -1,4 +1,4 @@
-# Workflow de Instalação Gromacs 2025.x com ROCm 6.3.3 e AdaptiveCpp 24.x no Ubuntu 24.04 Noble Numbat
+# Workflow de Instalação Gromacs 2025.x com ROCm 6.3 e AdaptiveCpp 25.x no Ubuntu 24.04 Noble Numbat
 
 ![GitHub repo size](https://img.shields.io/github/repo-size/patrickallanfaustino/tutorials?style=for-the-badge)
 ![GitHub language count](https://img.shields.io/github/languages/count/patrickallanfaustino/tutorials?style=for-the-badge)
@@ -8,7 +8,7 @@
 
 <img src="picture_1.png" alt="computer">
 
-> Tutorial para compilar o Gromacs 2025.1 com suporte NNPOT-PyTorch (Redes Neurais), usando AdaptiveCpp 24.10 em backend e ROCm 6.3.3 no Ubuntu 24.04 Kernel 6.11, para utilizar aceleração GPU AMD em desktop.
+> Tutorial para compilar o Gromacs 2025.2 com suporte NNPOT-PyTorch (Redes Neurais), usando AdaptiveCpp 25.10 em backend e ROCm 6.3 no Ubuntu 24.04 Kernel 6.11, para utilizar aceleração GPU AMD em desktop.
 
 ## 💻 Computador testado e pré-requisitos:
 - CPU Ryzen 9 5900XT, Memória 2x16 GB DDR4, Chipset X570, GPU ASRock RX 6600 CLD 8 GB, dual boot com Windows 11 e Ubuntu 24.04 instalados em SSD's separados.
@@ -17,7 +17,7 @@ Antes de começar, verifique se você atendeu aos seguintes requisitos:
 
 - Você tem uma máquina linux `Ubuntu 24.04` com instalação limpa e atualizado.
 - Você tem uma GPU série `AMD RX 6xxx RDNA2`. Testado com arquiteturas `7xxx RDNA3`.
-- Documentações [ROCm 6.3.3](https://rocm.docs.amd.com/projects/install-on-linux/en/docs-6.3.3/index.html), [AdaptiveCpp 24.xx](https://github.com/AdaptiveCpp/AdaptiveCpp) e [Gromacs 2025.1](https://manual.gromacs.org/current/index.html).
+- Documentações [ROCm 6.3](https://rocm.docs.amd.com/projects/install-on-linux/en/docs-6.3.3/index.html), [AdaptiveCpp 25.xx](https://github.com/AdaptiveCpp/AdaptiveCpp) e [Gromacs 2025.1](https://manual.gromacs.org/current/index.html).
 
 Você também vai precisar atualizar e instalar pacotes em sua máquina:
 
@@ -68,9 +68,9 @@ sudo apt install timeshift
 >```
 >
 ---
-## 🔎 Instalando ROCm 6.3.3
+## 🔎 Instalando ROCm 6.3
 
-Recomenda-se realizar todas as instalações na pasta `Downloads`. Vamos instalar o `rocm 6.3.3`.
+Recomenda-se realizar todas as instalações na pasta `Downloads`. Vamos instalar o `rocm 6.3`.
 
 ```
 sudo apt install "linux-headers-$(uname -r)" "linux-modules-extra-$(uname -r)"
@@ -155,9 +155,9 @@ sudo systemctl enable --now lactd
 >
 
 ---
-## 🔨 Instalando AdaptiveCpp 24.xx
+## 🔨 Instalando AdaptiveCpp 25.xx
 
-O `AdaptiveCpp 24.xx` irá trabalhar em backend com `rocm 6.3.3`. Recomenda-se o uso da pasta `Downloads`. Para instalar:
+O [AdaptiveCpp 25.xx](https://github.com/AdaptiveCpp/AdaptiveCpp) irá trabalhar em backend com `rocm 6.3`. Recomenda-se o uso da pasta `Downloads`. Para instalar:
 ```
 sudo apt install -y libboost-all-dev git cmake
 ```
@@ -169,7 +169,8 @@ sudo mkdir build && cd build
 
 Para compilar com CMake (versão >=3.28):
 ```
-sudo cmake .. -DCMAKE_INSTALL_PREFIX=/usr/local \
+sudo cmake .. \
+-DCMAKE_INSTALL_PREFIX=/usr/local \
 -DCMAKE_C_COMPILER=/opt/rocm/llvm/bin/clang \
 -DCMAKE_CXX_COMPILER=/opt/rocm/llvm/bin/clang++ \
 -DLLVM_DIR=/opt/rocm/llvm/lib/cmake/llvm/ \
@@ -184,9 +185,10 @@ sudo cmake .. -DCMAKE_INSTALL_PREFIX=/usr/local \
 sudo make install -j$(nproc)
 ```
 
-Para verificar a instalação, `acpp-info` deverá apresentar as informações da GPU:
+Para verificar a instalação, `acpp-info` e `acpp --version` deverá apresentar as informações da GPU:
 ```
 acpp-info
+acpp --version
 ```
 
 >[!NOTE]
@@ -214,28 +216,28 @@ sudo apt install grace hwloc texlive
 
 A partir de agora, você poderá seguir a documentação oficial [guia de instalação](https://manual.gromacs.org/current/install-guide/index.html).
 ```
-wget ftp://ftp.gromacs.org/gromacs/gromacs-2025.1.tar.gz
-tar -xvf gromacs-2025.1.tar.gz
-cd gromacs-2025.1
+wget ftp://ftp.gromacs.org/gromacs/gromacs-2025.2.tar.gz
+tar -xvf gromacs-2025.2.tar.gz
+cd gromacs-2025.2
 sudo mkdir build && cd build
 ```
 Para compilar com Cmake (versão >=3.28):
 ```
-sudo cmake .. -DGMX_BUILD_OWN_FFTW=ON \
+sudo cmake .. \
+-DGMX_BUILD_OWN_FFTW=ON \
 -DREGRESSIONTEST_DOWNLOAD=ON \
 -DCMAKE_C_COMPILER=/opt/rocm/llvm/bin/clang \
 -DCMAKE_CXX_COMPILER=/opt/rocm/llvm/bin/clang++ \
 -DGMX_GPU=SYCL \
 -DGMX_SYCL=ACPP \
--DGMX_GPU_FFT_LIBRARY=rocFFT \
--DCMAKE_INSTALL_PREFIX=$HOME/gromacs \
+-DCMAKE_INSTALL_PREFIX=$HOME/gromacs-acpp-torch_cpu \
 -DHIPSYCL_TARGETS='hip:gfx1032' \
 -DGMX_HWLOC=ON \
 -DGMX_USE_PLUMED=ON \
 -DGMX_NNPOT=TORCH \
--DCMAKE_PREFIX_PATH="$HOME/Downloads/libtorch"
+-DCMAKE_PREFIX_PATH="$HOME/Downloads/libtorch-cpu"
 ```
-Note que criei uma pasta chamada `gromacs` para os arquivos compilados e indiquei com `-DCMAKE_INSTALL_PREFIX`, pois isso facilita a atualização do Gromacs no futuro.
+Note que criei uma pasta chamada `gromacs-acpp-torch_cpu` para os arquivos compilados e indiquei com `-DCMAKE_INSTALL_PREFIX`, pois isso facilita a atualização do Gromacs no futuro.
 
 >[!NOTE]
 >
@@ -251,7 +253,7 @@ sudo make install -j$(nproc)
 
 Para carregar a biblioteca e invocar o Gromacs:
 ```
-source /home/patrickfaustino/gromacs/bin/GMXRC
+source /home/patrickfaustino/gromacs-acpp-torch_cpu/bin/GMXRC
 gmx -version
 ```
 
@@ -262,7 +264,45 @@ gmx -version
 
 >[!TIP]
 >
->Você poderá editar o arquivo `/home/patrickfaustino/.bashrc` e adicionar o código `source /home/patrickfaustino/gromacs/bin/GMXRC`. Assim, toda vez que abrir o terminal carregara o Gromacs.
+>Você poderá editar o arquivo `/home/patrickfaustino/.bashrc` e adicionar o código `source /home/patrickfaustino/gromacs-acpp-torch_cpu/bin/GMXRC`. Assim, toda vez que abrir o terminal carregara o Gromacs.
+>
+
+>[!TIP]
+>***Extra:*** para compilar apenas com HIP/ROCm:
+>```
+>sudo cmake .. \
+>	-DCMAKE_INSTALL_PREFIX=$HOME/gromacs-hip \
+>	-DCMAKE_C_COMPILER=/opt/rocm/bin/amdclang \
+>	-DCMAKE_CXX_COMPILER=/opt/rocm/bin/amdclang++ \
+>	-DCMAKE_HIP_COMPILER=/opt/rocm/bin/amdclang++ \
+>	-DGMX_GPU=HIP \
+>	-DGMX_HIP_TARGET_ARCH=gfx1032 \
+>	-DCMAKE_PREFIX_PATH="/opt/rocm" \
+>	-DGMX_BUILD_OWN_FFTW=ON \
+>	-DREGRESSIONTEST_DOWNLOAD=ON \
+>	-DGMX_HWLOC=ON \
+>	-DGMX_USE_PLUMED=ON \
+>	-DGMX_GPU_FFT_LIBRARY=rocFFT
+>```
+>
+>***Extra:*** para compilar com HIP/ROCm e Torch:
+>```
+>sudo cmake .. \
+>	-DCMAKE_INSTALL_PREFIX=$HOME/gromacs-hip-torch_cpu \
+>	-DCMAKE_C_COMPILER=/opt/rocm/bin/amdclang \
+>	-DCMAKE_CXX_COMPILER=/opt/rocm/bin/amdclang++ \
+>	-DCMAKE_HIP_COMPILER=/opt/rocm/bin/amdclang++ \
+>	-DGMX_GPU=HIP \
+>	-DGMX_HIP_TARGET_ARCH=gfx1032 \
+>	-DCMAKE_PREFIX_PATH="/opt/rocm;$HOME/Downloads/libtorch-cpu" \
+>	-DGMX_BUILD_OWN_FFTW=ON \
+>	-DREGRESSIONTEST_DOWNLOAD=ON \
+>	-DGMX_HWLOC=ON \
+>	-DGMX_USE_PLUMED=ON \
+>	-DGMX_GPU_FFT_LIBRARY=rocFFT
+>```
+>
+>Você poderá usar `rocblas` e `rocsolver`, pode usar: `-DGMX_EXTERNAL_BLAS=ON -DGMX_BLAS_USER=/opt/rocm/lib/librocblas.so -DGMX_LAPACK_USER=/opt/rocm/lib/librocsolver.so`.
 >
 
 ---
@@ -298,10 +338,10 @@ pip3 install torch torchvision torchaudio --index-url https://download.pytorch.o
 ```
 Para testar:
 ```
-python3 -c 'import torch' 2> /dev/null && echo 'Success' || echo 'Failure'
-python3 -c "import torch; print(torch.cuda.is_available())" 
-python3 -c "import torch; print(torch.cuda.get_device_properties(0))"
-python3 -c "import torch; x = torch.rand(5, 3); print(x)" 
+python3 -c 'import torch' 2> /dev/null && echo 'Success' || echo 'Failure' # retorna Success
+python3 -c "import torch; print(torch.cuda.is_available())"                # retorna True
+python3 -c "import torch; print(torch.cuda.get_device_properties(0))"      # retorna informações GPU
+python3 -c "import torch; x = torch.rand(5, 3); print(x)"                  # retorna matriz
 ```
 
 >[!TIP]
