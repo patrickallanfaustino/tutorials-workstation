@@ -336,6 +336,7 @@ sudo apt install python3-venv libjpeg-dev python3-dev python3-pip
 python3 -m venv gromacs-nnpot
 source gromacs-nnpot/bin/activate
 pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/rocm6.3
+pip3 install torchani mace-torch
 ```
 Para testar:
 ```
