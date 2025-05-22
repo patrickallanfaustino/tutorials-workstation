@@ -149,7 +149,8 @@ sudo systemctl enable --now lactd
 >Faça o download do pacote [LACT](https://github.com/ilya-zlobintsev/LACT/releases/) de acordo com a distribuição do Linux.
 >
 
->[!INFO]
+
+>[!NOTE]
 >
 >Para remover versões anteriores, utilize `sudo dpkg -r lactd`.
 >
