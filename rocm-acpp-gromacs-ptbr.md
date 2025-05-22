@@ -70,7 +70,7 @@ sudo apt install timeshift
 ---
 ## 🔎 Instalando ROCm 6.3
 
-Recomenda-se realizar todas as instalações na pasta `Downloads`. Vamos instalar o `rocm 6.3`.
+Recomenda-se realizar todas as instalações na pasta `Downloads`. Vamos instalar o [ROCm 6.3](https://rocm.docs.amd.com/projects/install-on-linux/en/docs-6.3.3/install/install-methods/amdgpu-installer/amdgpu-installer-ubuntu.html).
 
 ```
 sudo apt install "linux-headers-$(uname -r)" "linux-modules-extra-$(uname -r)"
@@ -138,8 +138,8 @@ A GPU deverá ser identificada nas informações. Caso não consiga, experimente
 O aplicativo [LACT](https://github.com/ilya-zlobintsev/LACT) é utilizado para controlar e realizar overclocking em GPU AMD, Intel e Nvidia em sistemas Linux.
 
 ```
-wget https://github.com/ilya-zlobintsev/LACT/releases/download/v0.7.3/lact-0.7.3-0.amd64.ubuntu-2404.deb
-sudo dpkg -i lact-0.7.3-0.amd64.ubuntu-2404.deb
+wget https://github.com/ilya-zlobintsev/LACT/releases/download/v0.7.4/lact-0.7.4-0.amd64.ubuntu-2404.deb
+sudo dpkg -i lact-0.7.4-0.amd64.ubuntu-2404.deb
 sudo systemctl enable --now lactd
 ```
 **AMD Overclocking:** ative a função no LACT.
@@ -267,7 +267,7 @@ gmx -version
 >Você poderá editar o arquivo `/home/patrickfaustino/.bashrc` e adicionar o código `source /home/patrickfaustino/gromacs-acpp-torch_cpu/bin/GMXRC`. Assim, toda vez que abrir o terminal carregara o Gromacs.
 >
 
->[!TIP]
+>[!NOTE]
 >***Extra:*** para compilar apenas com HIP/ROCm:
 >```
 >sudo cmake .. \
