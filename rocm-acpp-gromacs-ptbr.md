@@ -17,7 +17,7 @@ Antes de começar, verifique se você atendeu aos seguintes requisitos:
 
 - Você tem uma máquina linux `Ubuntu 24.04` com instalação limpa e atualizado.
 - Você tem uma GPU série `AMD RX 6xxx RDNA2`. Testado com arquiteturas `7xxx RDNA3`.
-- Documentações [ROCm 6.3](https://rocm.docs.amd.com/projects/install-on-linux/en/docs-6.3.3/index.html), [AdaptiveCpp 25.xx](https://github.com/AdaptiveCpp/AdaptiveCpp) e [Gromacs 2025.1](https://manual.gromacs.org/current/index.html).
+- Documentações [ROCm 6.3](https://rocm.docs.amd.com/projects/install-on-linux/en/docs-6.3.3/index.html), [AdaptiveCpp 25.xx](https://github.com/AdaptiveCpp/AdaptiveCpp) e [Gromacs 2025.x](https://manual.gromacs.org/current/index.html).
 
 Você também vai precisar atualizar e instalar pacotes em sua máquina:
 
@@ -236,7 +236,7 @@ sudo cmake .. \
 -DGMX_HWLOC=ON \
 -DGMX_USE_PLUMED=ON \
 -DGMX_NNPOT=TORCH \
--DCMAKE_PREFIX_PATH="$HOME/Downloads/libtorch-cpu"
+-DCMAKE_PREFIX_PATH="$HOME/Downloads/libtorch"
 ```
 Note que criei uma pasta chamada `gromacs-acpp-torch_cpu` para os arquivos compilados e indiquei com `-DCMAKE_INSTALL_PREFIX`, pois isso facilita a atualização do Gromacs no futuro.
 
@@ -295,7 +295,7 @@ gmx -version
 >	-DCMAKE_HIP_COMPILER=/opt/rocm/bin/amdclang++ \
 >	-DGMX_GPU=HIP \
 >	-DGMX_HIP_TARGET_ARCH=gfx1032 \
->	-DCMAKE_PREFIX_PATH="/opt/rocm;$HOME/Downloads/libtorch-cpu" \
+>	-DCMAKE_PREFIX_PATH="/opt/rocm;$HOME/Downloads/libtorch" \
 >	-DGMX_BUILD_OWN_FFTW=ON \
 >	-DREGRESSIONTEST_DOWNLOAD=ON \
 >	-DGMX_HWLOC=ON \
@@ -370,7 +370,7 @@ vmd
 ---
 ## 📜 Citação
 
-- FAUSTINO, P. A. S. Tutorials: Workflow de Instalação Gromacs 2025.x com ROCm 6.3.3 e AdaptiveCpp 24.x no Ubuntu 24.04 Noble Numbat, 2025. README. Disponível em: <[https://github.com/patrickallanfaustino/tutorials-workstation/blob/main/rocm-acpp-gromacs.md](https://github.com/patrickallanfaustino/tutorials-workstation/blob/main/rocm-acpp-gromacs-ptbr.md)>. Acesso em: [dia] de [mês] de [ano].
+- FAUSTINO, P. A. S. Tutorials: Workflow de Instalação Gromacs 2025.x com ROCm 6.3 e AdaptiveCpp 25.x no Ubuntu 24.04 Noble Numbat, 2025. README. Disponível em: <[https://github.com/patrickallanfaustino/tutorials-workstation/blob/main/rocm-acpp-gromacs.md](https://github.com/patrickallanfaustino/tutorials-workstation/blob/main/rocm-acpp-gromacs-ptbr.md)>. Acesso em: [dia] de [mês] de [ano].
 - Fonte auxiliar: [Install workflow with AMD GPU support (Framework 16, Ubuntu 24.04, GPU: AMD Radeon RX 7700S)](https://gromacs.bioexcel.eu/t/install-workflow-with-amd-gpu-support-framework-16-ubuntu-24-04-gpu-amd-radeon-rx-7700s/10870)
 
 ---
