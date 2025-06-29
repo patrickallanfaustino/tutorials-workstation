@@ -96,6 +96,7 @@ groups
 sudo clinfo
 sudo rocminfo
 sudo rocm-smi
+/opt/rocm/bin/hipconfig --full
 ```
 
 > [!IMPORTANT]  
