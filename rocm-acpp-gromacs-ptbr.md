@@ -316,26 +316,6 @@ gmx -version
 >
 
 ---
-## 💎 Instalação do OpenMM 8.x
-
-O [OpenMM](https://openmm.org/) é outro software baseado em Python para simulação de dinâmica molecular. Para sua instalação, vamos criar um ambiente virtual e instalar via pip.
-```
-python3 -m venv openmm
-source openmm/bin/activate
-pip3 install openmm[hip6]
-```
-
-Para verificar a instalação:
-```
-python -m openmm.testInstallation
-```
-
-
-
-
-
-
----
 ## 🐍 Instalando ANACONDA e PyTorch
 
 O [Anaconda](https://www.anaconda.com/download) é um importante pacote de bibliotecas Python voltados para o uso científico.
@@ -379,6 +359,21 @@ python3 -c "import torch; x = torch.rand(5, 3); print(x)"                  # ret
 >
 >Caso deseje desistalar utilize `pip3 uninstall <biblioteca>`, para atualizar `pip3 install --upgrade <biblioteca>` e para listar os pacotes instalados `pip3 list`.
 >
+
+---
+## 💎 Instalação do OpenMM 8.x
+
+O [OpenMM](https://openmm.org/) é outro software baseado em Python para simulação de dinâmica molecular. Para sua instalação, vamos criar um ambiente virtual e instalar via pip.
+```
+python3 -m venv openmm
+source openmm/bin/activate
+pip3 install openmm[hip6]
+```
+
+Para verificar a instalação, onde será realizado teste com a Referência, CPU, HIP e OpenCL:
+```
+python -m openmm.testInstallation
+```
 
 ---
 ## 🧬 Instalando VMD
