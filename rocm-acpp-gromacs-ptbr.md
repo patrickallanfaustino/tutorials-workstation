@@ -375,6 +375,15 @@ Para verificar a instalação, onde será realizado teste com a Referência, CPU
 ```
 python -m openmm.testInstallation
 ```
+>[!NOTE]
+>***Extra:*** para compilar com Conda:
+>```
+>conda create --name openmm-env
+>conda install -c conda-forge hip-runtime-amd hip-devel hipcc rocm-cmake rocm-device-libs ocl-icd-system
+>pip3 install openmm[hip6]
+>
+
+Para remover o ambiente conda criado `conda env remove --name openmm-env`.
 
 ---
 ## 🧬 Instalando VMD
