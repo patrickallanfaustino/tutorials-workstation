@@ -138,8 +138,8 @@ A GPU deverá ser identificada nas informações. Caso não consiga, experimente
 O aplicativo [LACT](https://github.com/ilya-zlobintsev/LACT) é utilizado para controlar e realizar overclocking em GPU AMD, Intel e Nvidia em sistemas Linux.
 
 ```
-wget https://github.com/ilya-zlobintsev/LACT/releases/download/v0.7.4/lact-0.7.4-0.amd64.ubuntu-2404.deb
-sudo dpkg -i lact-0.7.4-0.amd64.ubuntu-2404.deb
+wget https://github.com/ilya-zlobintsev/LACT/releases/download/v0.8.0/lact-0.8.0-0.amd64.ubuntu-2404.deb
+sudo dpkg -i lact-0.8.0-0.amd64.ubuntu-2404.deb
 sudo systemctl enable --now lactd
 ```
 **AMD Overclocking:** ative a função no LACT.
@@ -152,8 +152,17 @@ sudo systemctl enable --now lactd
 
 >[!NOTE]
 >
->Para remover versões anteriores, utilize `sudo dpkg -r lactd`.
+>Para remover versões anteriores, utilize `sudo dpkg -r lact`.
 >
+
+---
+## 🎏 Instalando Hardware Sensors Indicator
+
+O aplicativo [HSI](https://github.com/alexmurray/indicator-sensors) é utilizado para monitorar a temperatura de CPU, GPU, Motherboard, etc. Recomenda-se a instalação pela Central de Aplicativos [Snap](https://snapcraft.io/indicator-sensors) do Ubuntu e configurar para inicialização automatica com monitoramento da CPU (Tctl).
+
+```
+sudo snap install indicator-sensors
+```
 
 ---
 ## 🔨 Instalando AdaptiveCpp 25.xx
@@ -206,8 +215,8 @@ acpp --version
 
 **LIBTORCH!** É possivel instalar a biblioteca [libtorch](https://pytorch.org/) para utilizar Redes Neurais. Verifique a versão mais recente. Utilize a pasta `Downloads`.
 ```
-wget https://download.pytorch.org/libtorch/cpu/libtorch-cxx11-abi-shared-with-deps-2.7.0%2Bcpu.zip
-unzip libtorch-cxx11-abi-shared-with-deps-2.7.0%2Bcpu.zip
+wget https://download.pytorch.org/libtorch/cpu/libtorch-cxx11-abi-shared-with-deps-2.7.1%2Bcpu.zip
+unzip libtorch-cxx11-abi-shared-with-deps-2.7.1%2Bcpu.zip
 ```
 
 Podemos instalar algumas bibliotecas auxiliares para o Gromacs:
@@ -305,6 +314,26 @@ gmx -version
 >
 >Você pode usar `rocblas` e `rocsolver`. Para usar: `-DGMX_EXTERNAL_BLAS=ON -DGMX_BLAS_USER=/opt/rocm/lib/librocblas.so -DGMX_LAPACK_USER=/opt/rocm/lib/librocsolver.so`.
 >
+
+---
+## 💎 Instalação do OpenMM 8.x
+
+O [OpenMM](https://openmm.org/) é outro software baseado em Python para simulação de dinâmica molecular. Para sua instalação, vamos criar um ambiente virtual e instalar via pip.
+```
+python3 -m venv openmm
+source openmm/bin/activate
+pip3 install openmm[hip6]
+```
+
+Para verificar a instalação:
+```
+python -m openmm.testInstallation
+```
+
+
+
+
+
 
 ---
 ## 🐍 Instalando ANACONDA e PyTorch
