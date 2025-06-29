@@ -375,11 +375,13 @@ Para verificar a instalação, onde será realizado teste com a Referência, CPU
 ```
 python -m openmm.testInstallation
 ```
+
 >[!NOTE]
->***Extra:*** para compilar com Conda:
+>***Extra:*** para compilar no Conda com suporte Torch (CPU):
 >```
 >conda create --name openmm-env
->conda install -c conda-forge openmm
+>conda activate openmm-env
+>conda install -c conda-forge openmm-hip openmmforcefields openmm-torch openmm-ml
 >```
 >
 
