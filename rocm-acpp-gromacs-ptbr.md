@@ -379,8 +379,7 @@ python -m openmm.testInstallation
 >***Extra:*** para compilar com Conda:
 >```
 >conda create --name openmm-env
->conda install -c conda-forge hip-runtime-amd hip-devel hipcc rocm-cmake rocm-device-libs ocl-icd-system
->pip3 install openmm[hip6]
+>conda install -c conda-forge openmm
 >
 
 Para remover o ambiente conda criado `conda env remove --name openmm-env`.
