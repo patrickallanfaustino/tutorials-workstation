@@ -380,6 +380,7 @@ python -m openmm.testInstallation
 >```
 >conda create --name openmm-env
 >conda install -c conda-forge openmm
+>```
 >
 
 Para remover o ambiente conda criado `conda env remove --name openmm-env`.
