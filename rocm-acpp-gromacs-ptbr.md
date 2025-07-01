@@ -364,10 +364,10 @@ python3 -c "import torch; x = torch.rand(5, 3); print(x)"                  # ret
 ---
 ## 💎 Instalação do OpenMM 8.x
 
-O [OpenMM](https://openmm.org/) é outro software baseado em Python para simulação de dinâmica molecular. Para sua instalação, vamos criar um ambiente virtual e instalar via pip.
+O [OpenMM](https://openmm.org/) é outro software baseado em Python para simulação de dinâmica molecular. Para sua instalação, vamos criar um ambiente virtual e instalar via pip no diretório padrão `$HOME`.
 ```
 python3 -m venv openmm
-source openmm/bin/activate
+source $HOME/openmm/bin/activate
 pip3 install openmm[hip6]
 ```
 
