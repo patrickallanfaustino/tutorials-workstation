@@ -137,7 +137,6 @@ A GPU deverá ser identificada nas informações. Caso não consiga, experimente
 ## ⌚ Instalando LACT
 
 O aplicativo [LACT](https://github.com/ilya-zlobintsev/LACT) é utilizado para controlar e realizar overclocking em GPU AMD, Intel e Nvidia em sistemas Linux.
-
 ```
 wget https://github.com/ilya-zlobintsev/LACT/releases/download/v0.8.0/lact-0.8.0-0.amd64.ubuntu-2404.deb
 sudo dpkg -i lact-0.8.0-0.amd64.ubuntu-2404.deb
@@ -279,7 +278,7 @@ gmx -version
 >
 
 >[!NOTE]
->***Extra:*** para compilar apenas com HIP/ROCm:
+>***Extra:*** para compilar apenas com suporte nativo HIP/ROCm:
 >```
 >sudo cmake .. \
 >	-DCMAKE_INSTALL_PREFIX=$HOME/gromacs-hip \
@@ -296,7 +295,7 @@ gmx -version
 >	-DGMX_GPU_FFT_LIBRARY=rocFFT
 >```
 >
->***Extra:*** para compilar com HIP/ROCm e Torch:
+>***Extra:*** para compilar com HIP/ROCm e Torch (CPU):
 >```
 >sudo cmake .. \
 >	-DCMAKE_INSTALL_PREFIX=$HOME/gromacs-hip-torch_cpu \
@@ -340,7 +339,7 @@ Com os comandos acima será carregado no prompt (`source ~/.bashrc`) o conda `ba
 >Certifique de que a instalação será no path `home/patrickfaustino/anaconda3` confirmando `yes` para todas as respostas. **NÃO UTILIZE `sudo`**.
 >
 
-Agora, vamos criar um ambiente virtual e instalar o [Pytorch](https://pytorch.org/get-started/locally/). No diretório `/home/patrickfaustino`, crie um ambiente `gromacs-nnpot`:
+Agora, vamos criar um ambiente virtual e instalar o [Pytorch](https://pytorch.org/get-started/locally/). No diretório `$HOME`, crie um ambiente `gromacs-nnpot`:
 ```
 sudo apt install python3-venv libjpeg-dev python3-dev python3-pip
 python3 -m venv gromacs-nnpot
