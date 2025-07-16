@@ -138,8 +138,8 @@ The GPU should be recognized in the information. If it's not detected, try reboo
 The [LACT](https://github.com/ilya-zlobintsev/LACT) application allows you to control and overclock AMD, Intel, and Nvidia GPUs on Linux systems.
 
 ```
-wget https://github.com/ilya-zlobintsev/LACT/releases/download/v0.7.4/lact-0.7.4-0.amd64.ubuntu-2404.deb
-sudo dpkg -i lact-0.7.4-0.amd64.ubuntu-2404.deb
+wget https://github.com/ilya-zlobintsev/LACT/releases/download/v0.8.0/lact-0.8.0-0.amd64.ubuntu-2404.deb
+sudo dpkg -i lact-0.8.0-0.amd64.ubuntu-2404.deb
 sudo systemctl enable --now lactd
 ```
 **AMD Overclocking:** activate the function in LACT.
@@ -152,8 +152,16 @@ sudo systemctl enable --now lactd
 
 >[!NOTE]
 >
->To remove previous versions, use `sudo dpkg -r lactd`.
+>To remove previous versions, use `sudo dpkg -r lact`.
 >
+---
+## 🎏 Install Hardware Sensors Indicator
+
+The app [HSI](https://github.com/alexmurray/indicator-sensors) is used to monitor the temperature of CPU, GPU, Motherboard, etc. It is recommended to install it through the Ubuntu Application Center [Snap](https://snapcraft.io/indicator-sensors) and configure it for automatic startup with CPU monitoring (Tctl).
+
+```
+sudo snap install indicator-sensors
+```
 
 ---
 ## 🔨 Install AdaptiveCpp 25.xx
@@ -170,7 +178,8 @@ sudo mkdir build && cd build
 
 To compile with CMake (version >=3.28):
 ```
-sudo cmake .. -DCMAKE_INSTALL_PREFIX=/usr/local \
+sudo cmake .. \
+-DCMAKE_INSTALL_PREFIX=/usr/local \
 -DCMAKE_C_COMPILER=/opt/rocm/llvm/bin/clang \
 -DCMAKE_CXX_COMPILER=/opt/rocm/llvm/bin/clang++ \
 -DLLVM_DIR=/opt/rocm/llvm/lib/cmake/llvm/ \
@@ -204,8 +213,8 @@ acpp-info
 
 **LIBTORCH!** It is possible to install the [libtorch](https://pytorch.org/) library to use Neural Networks. Check for the latest version. Use the `Downloads` folder.
 ```
-wget https://download.pytorch.org/libtorch/cpu/libtorch-cxx11-abi-shared-with-deps-2.7.0%2Bcpu.zip
-unzip libtorch-cxx11-abi-shared-with-deps-2.7.0%2Bcpu.zip
+wget https://download.pytorch.org/libtorch/cpu/libtorch-cxx11-abi-shared-with-deps-2.7.1%2Bcpu.zip
+unzip libtorch-cxx11-abi-shared-with-deps-2.7.1%2Bcpu.zip
 ```
 
 To edit the media, simply click on the edit icon in the upper right corner.
@@ -222,7 +231,8 @@ sudo mkdir build && cd build
 ```
 To compile with CMake (version >=3.28):
 ```
-sudo cmake .. -DGMX_BUILD_OWN_FFTW=ON \
+sudo cmake .. \
+-DGMX_BUILD_OWN_FFTW=ON \
 -DREGRESSIONTEST_DOWNLOAD=ON \
 -DCMAKE_C_COMPILER=/opt/rocm/llvm/bin/clang \
 -DCMAKE_CXX_COMPILER=/opt/rocm/llvm/bin/clang++ \
@@ -236,7 +246,7 @@ sudo cmake .. -DGMX_BUILD_OWN_FFTW=ON \
 -DCMAKE_PREFIX_PATH="$HOME/Downloads/libtorch"
 ```
 
-Note that I created a folder called `gromacs` for the compiled files and specified it with `-DCMAKE_INSTALL_PREFIX`, as this facilitates future updates of Gromacs.
+Note that I created a folder called `gromacs-acpp-torch_cpu` for the compiled files and specified it with `-DCMAKE_INSTALL_PREFIX`, as this facilitates future updates of Gromacs.
 
 >[!NOTE]
 >
@@ -264,6 +274,44 @@ gmx -version
 >[!TIP]
 >
 >You can edit the file `/home/patrickfaustino/.bashrc` and add the code source `/home/patrickfaustino/gromacs-acpp-torch_cpu/bin/GMXRC`. This way, every time you open the terminal, Gromacs will be loaded.
+>
+
+>[!NOTE]
+>***Extra:*** for compile with HIP/ROCm native:
+>```
+>sudo cmake .. \
+>	-DCMAKE_INSTALL_PREFIX=$HOME/gromacs-hip \
+>	-DCMAKE_C_COMPILER=/opt/rocm/bin/amdclang \
+>	-DCMAKE_CXX_COMPILER=/opt/rocm/bin/amdclang++ \
+>	-DCMAKE_HIP_COMPILER=/opt/rocm/bin/amdclang++ \
+>	-DGMX_GPU=HIP \
+>	-DGMX_HIP_TARGET_ARCH=gfx1032 \
+>	-DCMAKE_PREFIX_PATH="/opt/rocm" \
+>	-DGMX_BUILD_OWN_FFTW=ON \
+>	-DREGRESSIONTEST_DOWNLOAD=ON \
+>	-DGMX_HWLOC=ON \
+>	-DGMX_USE_PLUMED=ON \
+>	-DGMX_GPU_FFT_LIBRARY=rocFFT
+>```
+>
+>***Extra:*** for compile with HIP/ROCm and Torch (CPU):
+>```
+>sudo cmake .. \
+>	-DCMAKE_INSTALL_PREFIX=$HOME/gromacs-hip-torch_cpu \
+>	-DCMAKE_C_COMPILER=/opt/rocm/bin/amdclang \
+>	-DCMAKE_CXX_COMPILER=/opt/rocm/bin/amdclang++ \
+>	-DCMAKE_HIP_COMPILER=/opt/rocm/bin/amdclang++ \
+>	-DGMX_GPU=HIP \
+>	-DGMX_HIP_TARGET_ARCH=gfx1032 \
+>	-DCMAKE_PREFIX_PATH="/opt/rocm;$HOME/Downloads/libtorch" \
+>	-DGMX_BUILD_OWN_FFTW=ON \
+>	-DREGRESSIONTEST_DOWNLOAD=ON \
+>	-DGMX_HWLOC=ON \
+>	-DGMX_USE_PLUMED=ON \
+>	-DGMX_GPU_FFT_LIBRARY=rocFFT
+>```
+>
+>You can use `rocblas` and `rocsolver`. For use: `-DGMX_EXTERNAL_BLAS=ON -DGMX_BLAS_USER=/opt/rocm/lib/librocblas.so -DGMX_LAPACK_USER=/opt/rocm/lib/librocsolver.so`.
 >
 
 ---
@@ -296,6 +344,7 @@ sudo apt install python3-venv libjpeg-dev python3-dev python3-pip
 python3 -m venv gromacs-nnpot
 source gromacs-nnpot/bin/activate
 pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/rocm6.3
+pip3 install torchani mace-torch
 ```
 For check:
 ```
@@ -309,6 +358,33 @@ python3 -c "import torch; x = torch.rand(5, 3); print(x)"                  # ret
 >
 >To uninstall a package, use `pip3 uninstall <package>`. To update a package, use `pip3 install --upgrade <package>`. To list installed packages, use `pip3 list`.
 >
+
+---
+## 💎 Install OpenMM 8.x
+
+The [OpenMM](https://openmm.org/) is another Python-based software for molecular dynamics simulation. To install it, we'll create a virtual environment and install it via pip in the default `$HOME` directory.
+
+```
+python3 -m venv openmm
+source $HOME/openmm/bin/activate
+pip3 install openmm[hip6]
+```
+
+To verify the installation, where testing will be performed with the Reference, CPU, HIP and OpenCL:
+```
+python -m openmm.testInstallation
+```
+
+>[!NOTE]
+>***Extra:*** for compile in Conda with support Torch (CPU):
+>```
+>conda create --name openmm-env
+>conda activate openmm-env
+>conda install -c conda-forge openmm-hip openmmforcefields openmm-torch openmm-ml
+>```
+>
+
+To remove the created conda environment `conda env remove --name openmm-env`.
 
 ---
 ## 🧬 Install VMD
