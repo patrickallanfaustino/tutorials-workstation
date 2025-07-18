@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/966397174.svg)](https://doi.org/10.5281/zenodo.16062640)
+
 # Readme 📜
 
 Bem-vindo ao meu repositório no GitHub, onde você encontrará uma coleção de tutoriais detalhados e workflows práticos desenvolvidos para auxiliar pesquisadores e estudantes na instalação, manutenção e utilização eficiente de softwares científicos especializados em simulação de dinâmica molecular de biomoléculas.
