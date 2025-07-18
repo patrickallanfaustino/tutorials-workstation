@@ -400,7 +400,7 @@ sudo make install -j$(nproc)
 vmd
 ```
 
-### 🧪🧬⚗️ *Boas simulações moleculares!*
+## 🧪🧬⚗️ *Boas simulações moleculares!*
 
 ---
 ## 📜 Citação
