@@ -8,7 +8,7 @@
 
 <img src="picture_1.png" alt="computer">
 
-> Tutorial para compilar o GROMACS 2025.2 com suporte NNPOT-PyTorch (Redes Neurais), usando AdaptiveCpp 25.02 em backend e ROCm 6.3 no Ubuntu 24.04.2 Kernel 6.8, para utilizar aceleração GPU AMD em desktop.
+> Tutorial para compilar o GROMACS 2025.2 com suporte NNPOT-PyTorch (Redes Neurais), usando AdaptiveCpp 25.02 em backend e ROCm 6.3 no Ubuntu 24.04.2 Kernel 6.8.12, para utilizar aceleração GPU AMD em desktop.
 
 ## 💻 Computador testado e pré-requisitos:
 - CPU Ryzen 9 5900XT, Memória 2x16 GB DDR4, Chipset X570, GPU ASRock RX 6600 CLD 8 GB, dual boot com Windows 11 e Ubuntu 24.04 instalados em SSD's separados.
