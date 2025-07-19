@@ -419,7 +419,7 @@ vmd
 ---
 ## 🧮 Instalando o Julia
 
-O aplicativo [Julia](https://julialang.org/) é uma nova linguagem de programação voltada para cálculos científicos, similar ao python. Para instalar:
+O [Julia](https://julialang.org/) é uma linguagem de programação voltada para cálculos científicos, similar ao Python. Para instalar:
 ```
 cd $HOME
 sudo apt install curl
