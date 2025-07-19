@@ -8,7 +8,7 @@
 
 <img src="picture_1.png" alt="computer">
 
-> Tutorial para compilar o Gromacs 2025.2 com suporte NNPOT-PyTorch (Redes Neurais), usando AdaptiveCpp 25.10 em backend e ROCm 6.3 no Ubuntu 24.04 Kernel 6.11, para utilizar aceleração GPU AMD em desktop.
+> Tutorial para compilar o GROMACS 2025.2 com suporte NNPOT-PyTorch (Redes Neurais), usando AdaptiveCpp 25.10 em backend e ROCm 6.3 no Ubuntu 24.04 Kernel 6.11, para utilizar aceleração GPU AMD em desktop.
 
 ## 💻 Computador testado e pré-requisitos:
 - CPU Ryzen 9 5900XT, Memória 2x16 GB DDR4, Chipset X570, GPU ASRock RX 6600 CLD 8 GB, dual boot com Windows 11 e Ubuntu 24.04 instalados em SSD's separados.
@@ -34,7 +34,7 @@ sudo add-apt-repository ppa:ubuntu-toolchain-r/test
 sudo apt update && sudo apt upgrade
 ```
 
-Verifique também a versão do kernel (versão >= 6.8):
+Verifique também a versão do kernel (⚠️ versão = 6.8.x):
 ```
 uname -r
 ```
@@ -212,7 +212,7 @@ acpp --version
 >Sempre fique atento aos caminhos dos diretórios, *i.e* `/path/to/user/...`, porque são os maiores causadores de erros durante as compilações.
 >
 ---
-## 💎 Instalação do Gromacs 2025.x
+## 💎 Instalação do GROMACS 2025.x
 
 **LIBTORCH!** É possivel instalar a biblioteca [libtorch](https://pytorch.org/) para utilizar Redes Neurais. Verifique a versão mais recente. Utilize a pasta `Downloads`.
 ```
@@ -269,7 +269,7 @@ sudo make check -j$(nproc)
 sudo make install -j$(nproc)
 ```
 
-Para carregar a biblioteca e invocar o Gromacs:
+Para carregar a biblioteca e invocar o GROMACS:
 ```
 source /home/patrickfaustino/gromacs-acpp-torch_cpu/bin/GMXRC
 gmx -version
@@ -277,12 +277,12 @@ gmx -version
 
 >[!WARNING]
 >
->Durante `sudo make check -j$(nproc)` ocorreram erros por TIMEOUT. Prossegui e testei uma dinâmica simples e não houve problema. Aparentemente, usuários do Gromacs 2024/2025 enfrentam esses problemas e com `-DGMX_TEST_TIMEOUT_FACTOR=2` pode dar mais tempo para o teste.
+>Durante `sudo make check -j$(nproc)` ocorreram erros por TIMEOUT. Prossegui e testei uma dinâmica simples e não houve problema. Aparentemente, usuários do GROMACS 2024/2025 enfrentam esses problemas e com `-DGMX_TEST_TIMEOUT_FACTOR=2` pode dar mais tempo para o teste.
 >
 
 >[!TIP]
 >
->Você poderá editar o arquivo `/home/patrickfaustino/.bashrc` e adicionar o código `source /home/patrickfaustino/gromacs-acpp-torch_cpu/bin/GMXRC`. Assim, toda vez que abrir o terminal carregara o Gromacs.
+>Você poderá editar o arquivo `/home/patrickfaustino/.bashrc` e adicionar o código `source /home/patrickfaustino/gromacs-acpp-torch_cpu/bin/GMXRC`. Assim, toda vez que abrir o terminal carregara o GROMACS.
 >
 
 >[!NOTE]
@@ -409,7 +409,7 @@ vmd
 ```
 
 ---
-## 📊 Instalando o Julia
+## 🧮 Instalando o Julia
 
 O aplicativo [Julia](https://julialang.org/) é uma nova linguagem de programação voltada para cálculos científicos, similar ao python. Para instalar:
 
