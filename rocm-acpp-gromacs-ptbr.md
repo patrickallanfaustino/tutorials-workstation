@@ -165,6 +165,7 @@ sudo snap install indicator-sensors
 ```
 
 ---
+
 ## 🔨 Instalando AdaptiveCpp 25.xx
 
 O [AdaptiveCpp 25.xx](https://github.com/AdaptiveCpp/AdaptiveCpp) irá trabalhar em backend com `rocm 6.3`. Recomenda-se o uso da pasta `Downloads`. Para instalar:
@@ -219,9 +220,16 @@ wget https://download.pytorch.org/libtorch/cpu/libtorch-cxx11-abi-shared-with-de
 unzip libtorch-cxx11-abi-shared-with-deps-2.7.1%2Bcpu.zip
 ```
 
-Podemos instalar algumas bibliotecas auxiliares para o Gromacs:
+Podemos instalar algumas bibliotecas auxiliares para o GROMACS:
 ```
 sudo apt install grace hwloc texlive
+```
+
+Por fim, antes de instalar podemos verificar a versão de algumas bibliotecas instaladas:
+```
+cmake --version
+g++ --version
+ldd --version
 ```
 
 A partir de agora, você poderá seguir a documentação oficial [guia de instalação](https://manual.gromacs.org/current/install-guide/index.html).
@@ -247,7 +255,7 @@ sudo cmake .. \
 -DGMX_NNPOT=TORCH \
 -DCMAKE_PREFIX_PATH="$HOME/Downloads/libtorch"
 ```
-Note que criei uma pasta chamada `gromacs-acpp-torch_cpu` para os arquivos compilados e indiquei com `-DCMAKE_INSTALL_PREFIX`, pois isso facilita a atualização do Gromacs no futuro.
+Note que criei uma pasta chamada `gromacs-acpp-torch_cpu` para os arquivos compilados e indiquei com `-DCMAKE_INSTALL_PREFIX`, pois isso facilita a atualização do GROMACS no futuro.
 
 >[!NOTE]
 >
@@ -278,7 +286,7 @@ gmx -version
 >
 
 >[!NOTE]
->***Extra:*** para compilar apenas com suporte nativo HIP/ROCm:
+>***Extra:*** para compilar apenas com suporte nativo HIP/ROCm sem Torch (CPU):
 >```
 >sudo cmake .. \
 >	-DCMAKE_INSTALL_PREFIX=$HOME/gromacs-hip \
@@ -295,7 +303,7 @@ gmx -version
 >	-DGMX_GPU_FFT_LIBRARY=rocFFT
 >```
 >
->***Extra:*** para compilar com HIP/ROCm e Torch (CPU):
+>***Extra:*** para compilar com suporte nativo HIP/ROCm e Torch (CPU):
 >```
 >sudo cmake .. \
 >	-DCMAKE_INSTALL_PREFIX=$HOME/gromacs-hip-torch_cpu \
@@ -318,11 +326,11 @@ gmx -version
 ---
 ## 🐍 Instalando ANACONDA e PyTorch
 
-O [Anaconda](https://www.anaconda.com/download) é um importante pacote de bibliotecas Python voltados para o uso científico.
+O [Anaconda](https://www.anaconda.com) é um importante pacote de bibliotecas Python voltados para o uso científico.
 
 ```
-wget https://repo.anaconda.com/archive/Anaconda3-2024.06-1-Linux-x86_64.sh
-bash Anaconda3-2024.06-1-Linux-x86_64.sh
+wget https://repo.anaconda.com/archive/Anaconda3-2025.06-0-Linux-x86_64.sh
+bash Anaconda3-2025.06-0-Linux-x86_64.sh
 source ~/.bashrc
 conda config --set auto_activate_base false
 conda info
@@ -369,8 +377,7 @@ python3 -m venv openmm
 source $HOME/openmm/bin/activate
 pip3 install openmm[hip6]
 ```
-
-Para verificar a instalação, onde será realizado teste com a Referência, CPU, HIP e OpenCL:
+Para sair do ambiente criado, basta utilizar `deactivate`. Para verificar a instalação, onde será realizado teste com a Referência, CPU, HIP e OpenCL:
 ```
 python -m openmm.testInstallation
 ```
@@ -384,7 +391,7 @@ python -m openmm.testInstallation
 >```
 >
 
-Para remover o ambiente conda criado `conda env remove --name openmm-env`.
+Para remover o ambiente conda criado `conda env remove --name openmm-env` e para listar todas os ambientes utilize `conda env list`.
 
 ---
 ## 🧬 Instalando VMD
@@ -394,13 +401,26 @@ O [VMD](https://www.ks.uiuc.edu/Development/Download/download.cgi?PackageName=VM
 ```
 wget https://www.ks.uiuc.edu/Research/vmd/vmd-1.9.3/files/final/vmd-1.9.3.bin.LINUXAMD64-CUDA8-OptiX4-OSPRay111p1.opengl.tar.gz
 tar xvzf vmd-1.9.3.bin.LINUXAMD64-CUDA8-OptiX4-OSPRay111p1.opengl.tar.gz
+cd  vmd-1.9.3
 ./configure
 cd src
 sudo make install -j$(nproc)
 vmd
 ```
 
-### 🧪🧬⚗️ *Boas simulações moleculares!*
+---
+## 📊 Instalando o Julia
+
+O aplicativo [Julia](https://julialang.org/) é uma nova linguagem de programação voltada para cálculos científicos, similar ao python. Para instalar:
+
+```
+sudo apt install curl
+curl -fsSL https://install.julialang.org | sh
+```
+
+---
+
+### 🧪⚗️ *Boas simulações moleculares!* 🦠🧬
 
 ---
 ## 📜 Citação
