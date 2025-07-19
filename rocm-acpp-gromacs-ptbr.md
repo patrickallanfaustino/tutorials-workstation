@@ -8,19 +8,18 @@
 
 <img src="picture_1.png" alt="computer">
 
-> Tutorial para compilar o GROMACS 2025.2 com suporte NNPOT-PyTorch (Redes Neurais), usando AdaptiveCpp 25.10 em backend e ROCm 6.3 no Ubuntu 24.04 Kernel 6.11, para utilizar aceleração GPU AMD em desktop.
+> Tutorial para compilar o GROMACS 2025.2 com suporte NNPOT-PyTorch (Redes Neurais), usando AdaptiveCpp 25.02 em backend e ROCm 6.3 no Ubuntu 24.04.2 Kernel 6.8, para utilizar aceleração GPU AMD em desktop.
 
 ## 💻 Computador testado e pré-requisitos:
 - CPU Ryzen 9 5900XT, Memória 2x16 GB DDR4, Chipset X570, GPU ASRock RX 6600 CLD 8 GB, dual boot com Windows 11 e Ubuntu 24.04 instalados em SSD's separados.
 
 Antes de começar, verifique se você atendeu aos seguintes requisitos:
 
-- Você tem uma máquina linux `Ubuntu 24.04` com instalação limpa e atualizado.
+- Você tem uma máquina linux `Ubuntu 24.04.x` com instalação limpa e atualizado.
 - Você tem uma GPU série `AMD RX 6xxx RDNA2`. Testado com arquiteturas `7xxx RDNA3`.
-- Documentações [ROCm 6.3](https://rocm.docs.amd.com/projects/install-on-linux/en/docs-6.3.3/index.html), [AdaptiveCpp 25.xx](https://github.com/AdaptiveCpp/AdaptiveCpp) e [Gromacs 2025.x](https://manual.gromacs.org/current/index.html).
+- Documentações [ROCm 6.3](https://rocm.docs.amd.com/projects/install-on-linux/en/docs-6.3.3/index.html), [AdaptiveCpp 25.xx](https://github.com/AdaptiveCpp/AdaptiveCpp) e [GROMACS 2025.x](https://manual.gromacs.org/current/index.html).
 
-Você também vai precisar atualizar e instalar pacotes em sua máquina:
-
+Você vai precisar atualizar e instalar pacotes em sua máquina:
 ```
 sudo apt update && sudo apt upgrade
 sudo apt autoremove && sudo apt autoclean
@@ -28,7 +27,6 @@ sudo apt install build-essential
 ```
 
 Para adicionar ferramentas necessárias ou atualizar com versões mais recentes:
-
 ```
 sudo add-apt-repository ppa:ubuntu-toolchain-r/test
 sudo apt update && sudo apt upgrade
@@ -44,7 +42,6 @@ Verifique seu diretorio padrão `$HOME`, pois será o caminho utilizado para a m
 ## 🔧 Instalando Timeshif
 
 O [Timeshift](https://www.edivaldobrito.com.br/como-instalar-o-timeshift-no-ubuntu-linux-e-derivados/) é um software para criar backups. Recomendamos que seja criados backups para cada etapa completa. Para instalar o `Timeshift`, siga estas etapas:
-
 ```
 sudo add-apt-repository ppa:teejee2008/timeshift
 sudo apt update
@@ -67,12 +64,13 @@ sudo apt install timeshift
 >sudo apt install mainline
 >```
 >
+
 ---
 ## 🔎 Instalando ROCm 6.3
 
 Recomenda-se realizar todas as instalações na pasta `Downloads`. Vamos instalar o [ROCm 6.3](https://rocm.docs.amd.com/projects/install-on-linux/en/docs-6.3.3/install/install-methods/amdgpu-installer/amdgpu-installer-ubuntu.html).
-
 ```
+cd Downloads
 sudo apt install "linux-headers-$(uname -r)" "linux-modules-extra-$(uname -r)"
 sudo apt install python3-setuptools python3-wheel
 wget https://repo.radeon.com/amdgpu-install/6.3.3/ubuntu/noble/amdgpu-install_6.3.60303-1_all.deb
@@ -90,7 +88,6 @@ reboot
 ```
 
 Para verificar a instalação, utilize:
-
 ```
 groups
 sudo clinfo
@@ -112,7 +109,7 @@ A GPU deverá ser identificada nas informações. Caso não consiga, experimente
 
 >[!TIP]
 >
->Utilize o comando abaixo para listar todos os `cases` disponíveis no `amdgpu-install` para instalação:
+>Utilize o comando abaixo para listar todos `cases` disponíveis no `amdgpu-install` para instalação:
 >
 >```
 >sudo amdgpu-install --list-usecase
@@ -133,22 +130,23 @@ A GPU deverá ser identificada nas informações. Caso não consiga, experimente
 >sudo reboot
 >```
 >
+
 ---
 ## ⌚ Instalando LACT
 
-O aplicativo [LACT](https://github.com/ilya-zlobintsev/LACT) é utilizado para controlar e realizar overclocking em GPU AMD, Intel e Nvidia em sistemas Linux.
+O aplicativo [LACT](https://github.com/ilya-zlobintsev/LACT) é utilizado para controlar e realizar overclocking em GPU AMD, Intel e Nvidia em sistemas GNU/Linux.
 ```
+cd Downloads
 wget https://github.com/ilya-zlobintsev/LACT/releases/download/v0.8.0/lact-0.8.0-0.amd64.ubuntu-2404.deb
 sudo dpkg -i lact-0.8.0-0.amd64.ubuntu-2404.deb
 sudo systemctl enable --now lactd
 ```
-**AMD Overclocking:** ative a função no LACT.
+**AMD Overclocking:** ative a função no LACT e faça um `reboot`.
 
 >[!WARNING]
 >
 >Faça o download do pacote [LACT](https://github.com/ilya-zlobintsev/LACT/releases/) de acordo com a distribuição do Linux.
 >
-
 
 >[!NOTE]
 >
@@ -159,7 +157,6 @@ sudo systemctl enable --now lactd
 ## 🎏 Instalando Hardware Sensors Indicator
 
 O aplicativo [HSI](https://github.com/alexmurray/indicator-sensors) é utilizado para monitorar a temperatura de CPU, GPU, Motherboard, etc. Recomenda-se a instalação pela Central de Aplicativos [Snap](https://snapcraft.io/indicator-sensors) do Ubuntu e configurar para inicialização automatica com monitoramento da CPU (Tctl).
-
 ```
 sudo snap install indicator-sensors
 ```
@@ -173,6 +170,7 @@ O [AdaptiveCpp 25.xx](https://github.com/AdaptiveCpp/AdaptiveCpp) irá trabalhar
 sudo apt install -y libboost-all-dev git cmake
 ```
 ```
+cd Downloads
 git clone https://github.com/AdaptiveCpp/AdaptiveCpp
 cd AdaptiveCpp
 sudo mkdir build && cd build
@@ -211,11 +209,13 @@ acpp --version
 >
 >Sempre fique atento aos caminhos dos diretórios, *i.e* `/path/to/user/...`, porque são os maiores causadores de erros durante as compilações.
 >
+
 ---
 ## 💎 Instalação do GROMACS 2025.x
 
 **LIBTORCH!** É possivel instalar a biblioteca [libtorch](https://pytorch.org/) para utilizar Redes Neurais. Verifique a versão mais recente. Utilize a pasta `Downloads`.
 ```
+cd Downloads
 wget https://download.pytorch.org/libtorch/cpu/libtorch-cxx11-abi-shared-with-deps-2.7.1%2Bcpu.zip
 unzip libtorch-cxx11-abi-shared-with-deps-2.7.1%2Bcpu.zip
 ```
@@ -239,6 +239,7 @@ tar -xvf gromacs-2025.2.tar.gz
 cd gromacs-2025.2
 sudo mkdir build && cd build
 ```
+
 Para compilar com Cmake (versão >=3.28):
 ```
 sudo cmake .. \
@@ -255,11 +256,12 @@ sudo cmake .. \
 -DGMX_NNPOT=TORCH \
 -DCMAKE_PREFIX_PATH="$HOME/Downloads/libtorch"
 ```
+
 Note que criei uma pasta chamada `gromacs-acpp-torch_cpu` para os arquivos compilados e indiquei com `-DCMAKE_INSTALL_PREFIX`, pois isso facilita a atualização do GROMACS no futuro.
 
 >[!NOTE]
 >
->**Meu Caso**: Atenção ao `-DHIPSYCL_TARGETS='hip:gfxABC'`, substitua com seus valores.
+>**Meu Caso**: Atenção ao `-DHIPSYCL_TARGETS='hip:gfxABC'`, substitua com seus valores para a GPU.
 >
 
 Agora é o momento de compilar, checar e instalar:
@@ -286,7 +288,7 @@ gmx -version
 >
 
 >[!NOTE]
->***Extra:*** para compilar apenas com suporte nativo HIP/ROCm sem Torch (CPU):
+>***Extra:*** para compilar com suporte nativo HIP/ROCm sem Torch (CPU):
 >```
 >sudo cmake .. \
 >	-DCMAKE_INSTALL_PREFIX=$HOME/gromacs-hip \
@@ -327,14 +329,15 @@ gmx -version
 ## 🐍 Instalando ANACONDA e PyTorch
 
 O [Anaconda](https://www.anaconda.com) é um importante pacote de bibliotecas Python voltados para o uso científico.
-
 ```
+cd Downloads
 wget https://repo.anaconda.com/archive/Anaconda3-2025.06-0-Linux-x86_64.sh
 bash Anaconda3-2025.06-0-Linux-x86_64.sh
 source ~/.bashrc
 conda config --set auto_activate_base false
 conda info
 ```
+
 Com os comandos acima será carregado no prompt (`source ~/.bashrc`) o conda `base`. Para desativar o carregamento automatico, utilizar `conda config --set auto_activate_base false`.
 
 >[!TIP]
@@ -349,12 +352,14 @@ Com os comandos acima será carregado no prompt (`source ~/.bashrc`) o conda `ba
 
 Agora, vamos criar um ambiente virtual e instalar o [Pytorch](https://pytorch.org/get-started/locally/). No diretório `$HOME`, crie um ambiente `gromacs-nnpot`:
 ```
+cd $HOME
 sudo apt install python3-venv libjpeg-dev python3-dev python3-pip
 python3 -m venv gromacs-nnpot
 source gromacs-nnpot/bin/activate
 pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/rocm6.3
 pip3 install torchani mace-torch
 ```
+
 Para testar:
 ```
 python3 -c 'import torch' 2> /dev/null && echo 'Success' || echo 'Failure' # retorna Success
@@ -369,14 +374,17 @@ python3 -c "import torch; x = torch.rand(5, 3); print(x)"                  # ret
 >
 
 ---
+
 ## 💎 Instalação do OpenMM 8.x
 
 O [OpenMM](https://openmm.org/) é outro software baseado em Python para simulação de dinâmica molecular. Para sua instalação, vamos criar um ambiente virtual e instalar via pip no diretório padrão `$HOME`.
 ```
+cd $HOME
 python3 -m venv openmm
 source $HOME/openmm/bin/activate
 pip3 install openmm[hip6]
 ```
+
 Para sair do ambiente criado, basta utilizar `deactivate`. Para verificar a instalação, onde será realizado teste com a Referência, CPU, HIP e OpenCL:
 ```
 python -m openmm.testInstallation
@@ -397,8 +405,8 @@ Para remover o ambiente conda criado `conda env remove --name openmm-env` e para
 ## 🧬 Instalando VMD
 
 O [VMD](https://www.ks.uiuc.edu/Development/Download/download.cgi?PackageName=VMD) permite visualizar moléculas e realizar análises. Para instalação, recomendamos a pasta `Downloads`:
-
 ```
+cd Downloads
 wget https://www.ks.uiuc.edu/Research/vmd/vmd-1.9.3/files/final/vmd-1.9.3.bin.LINUXAMD64-CUDA8-OptiX4-OSPRay111p1.opengl.tar.gz
 tar xvzf vmd-1.9.3.bin.LINUXAMD64-CUDA8-OptiX4-OSPRay111p1.opengl.tar.gz
 cd  vmd-1.9.3
@@ -412,8 +420,8 @@ vmd
 ## 🧮 Instalando o Julia
 
 O aplicativo [Julia](https://julialang.org/) é uma nova linguagem de programação voltada para cálculos científicos, similar ao python. Para instalar:
-
 ```
+cd $HOME
 sudo apt install curl
 curl -fsSL https://install.julialang.org | sh
 ```
