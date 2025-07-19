@@ -32,7 +32,7 @@ sudo add-apt-repository ppa:ubuntu-toolchain-r/test
 sudo apt update && sudo apt upgrade
 ```
 
-Verifique também a versão do kernel (⚠️ versão = 6.8.x):
+Verifique também a versão do kernel (⚠️ versão = 6.8 ~ 6.11):
 ```
 uname -r
 ```
