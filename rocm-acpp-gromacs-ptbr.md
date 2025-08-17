@@ -1,4 +1,4 @@
-# Workflow de Instalação Gromacs 2025.x com ROCm 6.3 e AdaptiveCpp 25.x no Ubuntu 24.04 Noble Numbat
+# Workflow de Instalação Gromacs 2025.x com ROCm 6.x e AdaptiveCpp 25.x no Ubuntu 24.04 Noble Numbat
 
 ![GitHub repo size](https://img.shields.io/github/repo-size/patrickallanfaustino/tutorials?style=for-the-badge)
 ![GitHub language count](https://img.shields.io/github/languages/count/patrickallanfaustino/tutorials?style=for-the-badge)
@@ -8,7 +8,7 @@
 
 <img src="picture_1.png" alt="computer">
 
-> Tutorial para compilar o GROMACS 2025.2 com suporte NNPOT-PyTorch (Redes Neurais), usando AdaptiveCpp 25.02 em backend e ROCm 6.3 no Ubuntu 24.04.2 Kernel 6.8.12, para utilizar aceleração GPU AMD em desktop.
+> Tutorial para compilar o GROMACS 2025.2 com suporte NNPOT-PyTorch (Redes Neurais), usando AdaptiveCpp 25.02 em backend e ROCm 6.4 no Ubuntu 24.04.3 Kernel 6.8.12, para utilizar aceleração GPU AMD em desktop.
 
 ## 💻 Computador testado e pré-requisitos:
 - CPU Ryzen 9 5900XT, Memória 2x16 GB DDR4, Chipset X570, GPU ASRock RX 6600 CLD 8 GB, dual boot com Windows 11 e Ubuntu 24.04 instalados em SSD's separados.
@@ -17,7 +17,7 @@ Antes de começar, verifique se você atendeu aos seguintes requisitos:
 
 - Você tem uma máquina linux `Ubuntu 24.04.x` com instalação limpa e atualizado.
 - Você tem uma GPU série `AMD RX 6xxx RDNA2`. Testado com arquiteturas `7xxx RDNA3`.
-- Documentações [ROCm 6.3](https://rocm.docs.amd.com/projects/install-on-linux/en/docs-6.3.3/index.html), [AdaptiveCpp 25.xx](https://github.com/AdaptiveCpp/AdaptiveCpp) e [GROMACS 2025.x](https://manual.gromacs.org/current/index.html).
+- Documentações [ROCm 6.4](https://rocm.docs.amd.com/projects/install-on-linux/en/docs-6.4.3/index.html), [AdaptiveCpp 25.xx](https://github.com/AdaptiveCpp/AdaptiveCpp) e [GROMACS 2025.x](https://manual.gromacs.org/current/index.html).
 
 Você vai precisar atualizar e instalar pacotes em sua máquina:
 ```
@@ -32,7 +32,7 @@ sudo add-apt-repository ppa:ubuntu-toolchain-r/test
 sudo apt update && sudo apt upgrade
 ```
 
-Verifique também a versão do kernel (⚠️ versão = 6.8 ~ 6.11):
+Verifique também a versão do kernel (⚠️ versão = 6.8 Ok! 6.14 Ok!):
 ```
 uname -r
 ```
