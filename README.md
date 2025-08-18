@@ -7,7 +7,7 @@ Bem-vindo ao meu repositório no GitHub, onde você encontrará uma coleção de
 ## Workflow para Instalações de Softwares 🔥
 
 - [Workflow de Instalação Gromacs 2025.x com ROCm 6.x e AdaptiveCpp 25.x no Ubuntu 24.04 Noble Numbat (PT-BR)](https://github.com/patrickallanfaustino/tutorials-workstation/blob/main/rocm-acpp-gromacs-ptbr.md)
-- [Workflow Install Gromacs 2025.x with ROCm 6.3 and AdaptiveCpp 24.x in Ubuntu 24.04 Noble Numbat (EN)](https://github.com/patrickallanfaustino/tutorials-workstation/blob/main/rocm-acpp-gromacs-en.md)
+- [Workflow Install Gromacs 2025.x with ROCm 6.x and AdaptiveCpp 25.x in Ubuntu 24.04 Noble Numbat (EN)](https://github.com/patrickallanfaustino/tutorials-workstation/blob/main/rocm-acpp-gromacs-en.md)
 
 ## Workflow de Dinâmicas Moleculares 🧬
 
@@ -15,4 +15,4 @@ Bem-vindo ao meu repositório no GitHub, onde você encontrará uma coleção de
 
 ## Artigos, Teses e Dissertações 📖
 
-- [Estudos de dinâmica molecular da lipase em sistemas aquosos bifásicos baseados em líquidos iônicos.]() Unesp/Faculdade de Ciências Farmacêuticas, câmpus de Araraquara/SP
+- [Estudos de dinâmica molecular da lipase em sistemas aquosos bifásicos baseados em líquidos iônicos.]()
