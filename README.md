@@ -15,4 +15,4 @@ Bem-vindo ao meu repositório no GitHub, onde você encontrará uma coleção de
 
 ## Artigos, Teses e Dissertações 📖
 
-- [Estudos de dinâmica molecular da lipase em sistemas aquosos bifásicos baseados em líquidos iônicos]()
+- [Estudos de dinâmica molecular da lipase em sistemas aquosos bifásicos baseados em líquidos iônicos.]() Unesp/Faculdade de Ciências Farmacêuticas, câmpus de Araraquara/SP
