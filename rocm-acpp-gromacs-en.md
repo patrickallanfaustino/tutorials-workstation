@@ -1,4 +1,4 @@
-# Workflow Install Gromacs 2025.x with ROCm 6.3 and AdaptiveCpp 25.x in Ubuntu 24.04 Noble Numbat
+# Workflow Install Gromacs 2025.x with ROCm 6.x and AdaptiveCpp 25.x in Ubuntu 24.04 Noble Numbat
 
 ![GitHub repo size](https://img.shields.io/github/repo-size/patrickallanfaustino/tutorials?style=for-the-badge)
 ![GitHub language count](https://img.shields.io/github/languages/count/patrickallanfaustino/tutorials?style=for-the-badge)
@@ -8,7 +8,7 @@
 
 <img src="picture_1.png" alt="computer">
 
-> Tutorial to compile Gromacs 2025.2 with NNPOT-PyTorch support (Neural Networks), using AdaptiveCpp 25.10 as backend and ROCm 6.3 on Ubuntu 24.04 Kernel 6.11, to utilize AMD GPU acceleration on desktop
+> Tutorial to compile Gromacs 2025.2 with NNPOT-PyTorch support (Neural Networks), using AdaptiveCpp 25.02 as backend and ROCm 6.x on Ubuntu 24.04 Kernel 6.8.12, to utilize AMD GPU acceleration on desktop
 
 ## 💻 Tested computer and prerequisites:
 - CPU Ryzen 9 5900XT, Memória 2x16 GB DDR4, Chipset X570, GPU ASRock RX 6600 CLD 8 GB, dual boot with Windows 11 and Ubuntu 24.04 install in SSD's separated.
@@ -17,7 +17,7 @@ Before starting, ensure you meet the following requirements:
 
 - You have a clean and updated installation of `Ubuntu 24.04` on your Linux machine.
 - Your system is equipped with an `AMD RX6xxx RDNA2` series GPU (tested with `7xxx RDNA3` architectures).
-- Documentation [ROCm 6.3](https://rocm.docs.amd.com/projects/install-on-linux/en/docs-6.3.3/index.html), [AdaptiveCpp 25.xx](https://github.com/AdaptiveCpp/AdaptiveCpp) and [Gromacs 2025.x](https://manual.gromacs.org/current/index.html).
+- Documentation [ROCm 6.4](https://rocm.docs.amd.com/projects/install-on-linux/en/docs-6.4.3/index.html), [AdaptiveCpp 25.xx](https://github.com/AdaptiveCpp/AdaptiveCpp) and [Gromacs 2025.x](https://manual.gromacs.org/current/index.html).
 
 You will also need to update your system and install the necessary packages:
 
@@ -34,7 +34,7 @@ sudo add-apt-repository ppa:ubuntu-toolchain-r/test
 sudo apt update && sudo apt upgrade
 ```
 
-Also, check the kernel version (version >= 6.8):
+Also, check the kernel version (version >= 6.8 Ok! 6.14 Ok!):
 ```
 uname -r
 ```
@@ -68,15 +68,16 @@ sudo apt install timeshift
 >```
 >
 ---
-## 🔎 Install ROCm 6.3
+## 🔎 Install ROCm 6.x
 
-It is recommended to perform all installations in the `Downloads` folder. We will install [ROCm 6.3](https://rocm.docs.amd.com/projects/install-on-linux/en/docs-6.3.3/install/install-methods/amdgpu-installer/amdgpu-installer-ubuntu.html).
+It is recommended to perform all installations in the `Downloads` folder. We will install [ROCm 6.4](https://rocm.docs.amd.com/projects/install-on-linux/en/docs-6.4.3/install/install-methods/amdgpu-installer/amdgpu-installer-ubuntu.html).
 
 ```
 sudo apt install "linux-headers-$(uname -r)" "linux-modules-extra-$(uname -r)"
 sudo apt install python3-setuptools python3-wheel
-wget https://repo.radeon.com/amdgpu-install/6.3.3/ubuntu/noble/amdgpu-install_6.3.60303-1_all.deb
-sudo apt install ./amdgpu-install_6.3.60303-1_all.deb && sudo apt update
+wget https://repo.radeon.com/amdgpu-install/6.4.3/ubuntu/noble/amdgpu-install_6.4.60403-1_all.deb
+sudo apt install ./amdgpu-install_6.4.60403-1_all.deb
+sudo apt update
 sudo amdgpu-install --usecase=rocm,rocmdev,hip,hiplibsdk,openmpsdk,mllib,mlsdk
 sudo usermod -a -G render,video $LOGNAME
 ```
@@ -138,8 +139,8 @@ The GPU should be recognized in the information. If it's not detected, try reboo
 The [LACT](https://github.com/ilya-zlobintsev/LACT) application allows you to control and overclock AMD, Intel, and Nvidia GPUs on Linux systems.
 
 ```
-wget https://github.com/ilya-zlobintsev/LACT/releases/download/v0.8.0/lact-0.8.0-0.amd64.ubuntu-2404.deb
-sudo dpkg -i lact-0.8.0-0.amd64.ubuntu-2404.deb
+wget https://github.com/ilya-zlobintsev/LACT/releases/download/v0.8.1/lact-0.8.1-0.amd64.ubuntu-2404.deb
+sudo dpkg -i lact-0.8.1-0.amd64.ubuntu-2404.deb
 sudo systemctl enable --now lactd
 ```
 **AMD Overclocking:** activate the function in LACT.
@@ -164,9 +165,9 @@ sudo snap install indicator-sensors
 ```
 
 ---
-## 🔨 Install AdaptiveCpp 25.xx
+## 🔨 Install AdaptiveCpp 25.x
 
-[AdaptiveCpp 25.xx](https://github.com/AdaptiveCpp/AdaptiveCpp) will work as a backend with `ROCm 6.3`. It is recommended to use the `Downloads` folder. To install:
+[AdaptiveCpp 25.x](https://github.com/AdaptiveCpp/AdaptiveCpp) will work as a backend with `rocm`. It is recommended to use the `Downloads` folder. To install:
 ```
 sudo apt install -y libboost-all-dev git cmake
 ```
@@ -213,8 +214,8 @@ acpp-info
 
 **LIBTORCH!** It is possible to install the [libtorch](https://pytorch.org/) library to use Neural Networks. Check for the latest version. Use the `Downloads` folder.
 ```
-wget https://download.pytorch.org/libtorch/cpu/libtorch-cxx11-abi-shared-with-deps-2.7.1%2Bcpu.zip
-unzip libtorch-cxx11-abi-shared-with-deps-2.7.1%2Bcpu.zip
+wget https://download.pytorch.org/libtorch/cpu/libtorch-shared-with-deps-2.8.0%2Bcpu.zip
+unzip libtorch-shared-with-deps-2.8.0+cpu.zip
 ```
 
 To edit the media, simply click on the edit icon in the upper right corner.
@@ -311,8 +312,6 @@ gmx -version
 >	-DGMX_GPU_FFT_LIBRARY=rocFFT
 >```
 >
->You can use `rocblas` and `rocsolver`. For use: `-DGMX_EXTERNAL_BLAS=ON -DGMX_BLAS_USER=/opt/rocm/lib/librocblas.so -DGMX_LAPACK_USER=/opt/rocm/lib/librocsolver.so`.
->
 
 ---
 ## 🐍 Install ANACONDA and PyTorch
@@ -320,8 +319,8 @@ gmx -version
 The [Anaconda](https://www.anaconda.com/download) is an important package of Python libraries for scientific use. For installation:
 
 ```
-wget https://repo.anaconda.com/archive/Anaconda3-2024.06-1-Linux-x86_64.sh
-bash Anaconda3-2024.06-1-Linux-x86_64.sh
+wget https://repo.anaconda.com/archive/Anaconda3-2025.06-0-Linux-x86_64.sh
+bash Anaconda3-2025.06-0-Linux-x86_64.sh
 source ~/.bashrc
 conda config --set auto_activate_base false
 conda info
@@ -343,7 +342,7 @@ Now, let's create a virtual environment and install [Pytorch](https://pytorch.or
 sudo apt install python3-venv libjpeg-dev python3-dev python3-pip
 python3 -m venv gromacs-nnpot
 source gromacs-nnpot/bin/activate
-pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/rocm6.3
+pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/rocm6.4
 pip3 install torchani mace-torch
 ```
 For check:
@@ -411,6 +410,7 @@ vmd
 ---
 ## 📜 Citation
 
-- FAUSTINO, Patrick Allan dos Santos. **Tutorials: Workflow de Instalação Gromacs 2025.x com ROCm 6.3 e AdaptiveCpp 25.x no Ubuntu 24.04 Noble Numbat**. [*S. l.*]: Github, 18 jul. 2025. DOI 10.5281/zenodo.16062830. Disponível em: [https://github.com/patrickallanfaustino/tutorials-workstation/blob/main/rocm-acpp-gromacs-en.md](https://github.com/patrickallanfaustino/tutorials-workstation/blob/main/rocm-acpp-gromacs-en.md). Acesso em: 18 jul. 2025.
+- FAUSTINO, Patrick Allan dos Santos. **Tutorials: Workflow Install Gromacs 2025.x with ROCm 6.x and AdaptiveCpp 25.x in Ubuntu 24.04 Noble Numbat**. [*S. l.*]: Github, 18 jul. 2025. DOI 10.5281/zenodo.16062830. Disponível em: [https://github.com/patrickallanfaustino/tutorials-workstation/blob/main/rocm-acpp-gromacs-en.md](https://github.com/patrickallanfaustino/tutorials-workstation/blob/main/rocm-acpp-gromacs-en.md). Acesso em: 18 jul. 2025.
 - 
 - Auxiliary source: [Install workflow with AMD GPU support (Framework 16, Ubuntu 24.04, GPU: AMD Radeon RX 7700S)](https://gromacs.bioexcel.eu/t/install-workflow-with-amd-gpu-support-framework-16-ubuntu-24-04-gpu-amd-radeon-rx-7700s/10870)
+
