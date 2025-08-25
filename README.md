@@ -16,3 +16,4 @@ Bem-vindo ao meu repositório no GitHub, onde você encontrará uma coleção de
 ## Artigos, Teses e Dissertações 📖
 
 - [Estudos de dinâmica molecular da lipase em sistemas aquosos bifásicos baseados em líquidos iônicos.]()
+- [Seminário - Simulação de Biomoléculas: dinâmica molecular básica](https://github.com/patrickallanfaustino/tutorials-md/blob/main/seminario_dm.pdf)
