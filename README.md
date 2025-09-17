@@ -12,8 +12,9 @@ Bem-vindo ao meu repositório no GitHub, onde você encontrará uma coleção de
 ## Workflow de Dinâmicas Moleculares 🧬
 
 - [Dinâmica Molecular da Insulina Humana (PDB: 3I40) em água](https://github.com/patrickallanfaustino/tutorials-md/blob/main/md-easy.md)
+- [Análises de Resultados](https://github.com/patrickallanfaustino/tutorials-md/blob/main/md-analysis.md)
 
 ## Artigos, Teses e Dissertações 📖
 
-- [Estudos de dinâmica molecular da lipase em sistemas aquosos bifásicos baseados em líquidos iônicos.]()
-- [Seminário - Simulação de Biomoléculas: dinâmica molecular básica](https://github.com/patrickallanfaustino/tutorials-md/blob/main/seminario_dm.pdf)
+- [Dissertação - Dinâmica molecular da lipase em sistemas aquosos bifásicos baseados em líquidos iônicos.]()
+- [Seminário - Simulação de Biomoléculas: dinâmica molecular básica](seminario_dm.pdf)
