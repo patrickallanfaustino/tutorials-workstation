@@ -433,6 +433,26 @@ curl -fsSL https://install.julialang.org | sh
 Para atualizar, utilize no terminal `juliaup update`.
 
 ---
+## 🧰 Instalando ambientes: AmberTools/ACPYPE, LigParGen e PyMBAR
+
+[AmberTools](https://ambermd.org/AmberTools.php) é uma coleção de programas gratuitos e de código aberto usados ​​para configurar, executar e analisar simulações moleculares.. Para instalar:
+
+```
+cd $HOME
+conda create --name acpype
+conda activate acpype
+conda install --channel conda-forge ambertools openbabel
+```
+
+Em conjunto com o AmberTools, o [ACPYPE](https://github.com/alanwilter/acpype) é um pacote em python para gerar topologias de moléculas. Para instalar e utilizar:
+
+```
+pip install acpype
+./run_acpype.py -h
+acpype -i eth.mol2 # exemplo de uso para uma molecula de etanol, eth.mol2.
+```
+
+---
 
 ### 🧪⚗️ *Boas simulações moleculares!* 🦠🧬
 
