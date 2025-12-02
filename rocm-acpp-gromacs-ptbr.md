@@ -8,7 +8,7 @@
 
 <img src="picture_1.png" alt="computer">
 
-> Tutorial para compilar o GROMACS 2025.2 com suporte NNPOT-PyTorch (Redes Neurais), usando AdaptiveCpp 25.02 em backend e ROCm 6.4 no Ubuntu 24.04.3 Kernel 6.8.12, para utilizar aceleração GPU AMD em desktop.
+> Tutorial para compilar o GROMACS 2025.4 com suporte NNPOT-PyTorch (Redes Neurais), usando AdaptiveCpp 25.10 em backend e ROCm 6.4 no Ubuntu 24.04.3 Kernel 6.14, para utilizar aceleração GPU AMD em desktop.
 
 ## 💻 Computador testado e pré-requisitos:
 - CPU Ryzen 9 5900XT, Memória 2x16 GB DDR4, Chipset X570, GPU ASRock RX 6600 CLD 8 GB, dual boot com Windows 11 e Ubuntu 24.04 instalados em SSD's separados.
@@ -16,7 +16,7 @@
 Antes de começar, verifique se você atendeu aos seguintes requisitos:
 
 - Você tem uma máquina linux `Ubuntu 24.04.x` com instalação limpa e atualizado.
-- Você tem uma GPU série `AMD RX 6xxx RDNA2`. Testado com arquiteturas `7xxx RDNA3`.
+- Você tem uma GPU série `AMD RDNA2`. Testado com arquiteturas `RDNA3`.
 - Documentações [ROCm 6.4](https://rocm.docs.amd.com/projects/install-on-linux/en/docs-6.4.3/index.html), [AdaptiveCpp 25.xx](https://github.com/AdaptiveCpp/AdaptiveCpp) e [GROMACS 2025.x](https://manual.gromacs.org/current/index.html).
 
 Você vai precisar atualizar e instalar pacotes em sua máquina:
@@ -142,8 +142,8 @@ A GPU deverá ser identificada nas informações. Caso não consiga, experimente
 O aplicativo [LACT](https://github.com/ilya-zlobintsev/LACT) é utilizado para controlar e realizar overclocking em GPU AMD, Intel e Nvidia em sistemas GNU/Linux.
 ```
 cd Downloads
-wget https://github.com/ilya-zlobintsev/LACT/releases/download/v0.8.1/lact-0.8.1-0.amd64.ubuntu-2404.deb
-sudo dpkg -i lact-0.8.1-0.amd64.ubuntu-2404.deb
+wget https://github.com/ilya-zlobintsev/LACT/releases/download/v0.8.3/lact-0.8.3-0.amd64.ubuntu-2404.deb
+sudo dpkg -i lact-0.8.3-0.amd64.ubuntu-2404.deb
 sudo systemctl enable --now lactd
 ```
 **AMD Overclocking:** ative a função no LACT e faça um `reboot`.
@@ -221,8 +221,8 @@ acpp --version
 **LIBTORCH!** É possivel instalar a biblioteca [libtorch](https://pytorch.org/) para utilizar Redes Neurais. Verifique a versão mais recente. Utilize a pasta `Downloads`.
 ```
 cd Downloads
-wget https://download.pytorch.org/libtorch/cpu/libtorch-shared-with-deps-2.8.0%2Bcpu.zip
-unzip libtorch-shared-with-deps-2.8.0+cpu.zip
+wget https://download.pytorch.org/libtorch/cpu/libtorch-shared-with-deps-2.9.1%2Bcpu.zip
+unzip libtorch-shared-with-deps-2.9.1+cpu.zip
 ```
 
 Podemos instalar algumas bibliotecas auxiliares para o GROMACS:
@@ -239,9 +239,9 @@ ldd --version
 
 A partir de agora, você poderá seguir a documentação oficial [guia de instalação](https://manual.gromacs.org/current/install-guide/index.html).
 ```
-wget ftp://ftp.gromacs.org/gromacs/gromacs-2025.2.tar.gz
-tar -xvf gromacs-2025.2.tar.gz
-cd gromacs-2025.2
+wget ftp://ftp.gromacs.org/gromacs/gromacs-2025.4.tar.gz
+tar -xvf gromacs-2025.4.tar.gz
+cd gromacs-2025.4
 sudo mkdir build && cd build
 ```
 
@@ -334,8 +334,8 @@ gmx -version
 O [Anaconda](https://www.anaconda.com) é um importante pacote de bibliotecas Python voltados para o uso científico.
 ```
 cd Downloads
-wget https://repo.anaconda.com/archive/Anaconda3-2025.06-0-Linux-x86_64.sh
-bash Anaconda3-2025.06-0-Linux-x86_64.sh
+wget https://repo.anaconda.com/archive/Anaconda3-2025.06-1-Linux-x86_64.sh
+bash Anaconda3-2025.06-1-Linux-x86_64.sh
 source ~/.bashrc
 conda config --set auto_activate_base false
 conda info
@@ -423,11 +423,14 @@ vmd
 ## 🧮 Instalando o Julia
 
 O [Julia](https://julialang.org/) é uma linguagem de programação voltada para cálculos científicos, similar ao Python. Para instalar:
+
 ```
 cd $HOME
 sudo apt install curl
 curl -fsSL https://install.julialang.org | sh
 ```
+
+Para atualizar, utilize no terminal `juliaup update`.
 
 ---
 
