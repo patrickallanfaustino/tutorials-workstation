@@ -409,7 +409,7 @@ Para remover o ambiente conda criado `conda env remove --name openmm-env` e para
 
 O [VMD](https://www.ks.uiuc.edu/Development/Download/download.cgi?PackageName=VMD) permite visualizar moléculas e realizar análises. Para instalação, recomendamos a pasta `Downloads`:
 ```
-cd Downloads
+cd $HOME
 wget https://www.ks.uiuc.edu/Research/vmd/vmd-1.9.3/files/final/vmd-1.9.3.bin.LINUXAMD64-CUDA8-OptiX4-OSPRay111p1.opengl.tar.gz
 tar xvzf vmd-1.9.3.bin.LINUXAMD64-CUDA8-OptiX4-OSPRay111p1.opengl.tar.gz
 cd  vmd-1.9.3
@@ -433,12 +433,12 @@ curl -fsSL https://install.julialang.org | sh
 Para atualizar, utilize no terminal `juliaup update`.
 
 ---
-## 🧰 Instalando ambientes: AmberTools/ACPYPE, LigParGen e PyMBAR
+## 🧰 Instalando ambientes: AmberTools/ACPYPE, LigParGen e Alchemlyb/PyMBAR
 
 [AmberTools](https://ambermd.org/AmberTools.php) é uma coleção de programas gratuitos e de código aberto usados ​​para configurar, executar e analisar simulações moleculares.. Para instalar:
 
 ```
-cd $HOME
+cd $HOME/Downloads
 conda create --name acpype
 conda activate acpype
 conda install --channel conda-forge ambertools openbabel
@@ -449,7 +449,50 @@ Em conjunto com o AmberTools, o [ACPYPE](https://github.com/alanwilter/acpype) �
 ```
 pip install acpype
 ./run_acpype.py -h
-acpype -i eth.mol2 # exemplo de uso para uma molecula de etanol, eth.mol2.
+acpype -i eth.mol2               # exemplo de uso para uma molecula de etanol, eth.mol2.
+```
+
+[LigPargen](https://github.com/Isra3l/ligpargen/tree/main) é uma biblioteca desenvolvida para gerar topologias de moléculas para o campo de força OPLS. Faça o download do software [BOSS](https://traken.chem.yale.edu/software.html), descompacte em um diretório de trabalho.
+
+```
+sudo apt install csh
+export BOSSdir=PATH_TO_BOSS_DIRECTORY            # pode ser incluido no arquivo ~/.bashrc
+```
+
+Para criar o ambiente e instalar:
+
+```
+conda create --name py37 python=3.7
+conda activate py37
+conda install -c rdkit rdkit
+conda install --channel conda-forge openbabel
+```
+```
+cd $HOME/Downloads
+git clone https://github.com/Isra3l/ligpargen.git
+pip install -e ligpargen
+cd ligpargen
+python -m unittest test_ligpargen/test_ligpargen.py
+ligpargen -h
+```
+
+Para gerar topologia de moléculas, utilize:
+
+```
+ligpargen -s 'CCO' -n ethanol -p molecule -r ETH -c 0 -o 3 -cgen CM1A-LBCC -verbose -check
+
+ou
+
+ligpargen -i ethanol.pdb -n ethanol -p molecule -r ETH -c 0 -o 3 -cgen CM1A-LBCC -verbose -check
+```
+
+[Alchemlyb](https://alchemlyb.readthedocs.io/en/latest/) é uma biblioteca voltado para análises de energia livres altamente eficiente, utilizando aprendizagem de máquina nas análises. Para instalar:
+
+```
+cd $HOME/Downloads
+python3 -m venv mbar
+source mbar/bin/activate
+pip install alchemlyb jax pymbar pandas pybar[jax]
 ```
 
 ---
