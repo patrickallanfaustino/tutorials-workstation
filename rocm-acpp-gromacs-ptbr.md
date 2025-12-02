@@ -433,7 +433,7 @@ curl -fsSL https://install.julialang.org | sh
 Para atualizar, utilize no terminal `juliaup update`.
 
 ---
-## 🧰 Instalando ambientes: AmberTools/ACPYPE, LigParGen e Alchemlyb/PyMBAR
+## 🧰 Instalando ambientes: AmberTools/ACPYPE, CGenFF, LigParGen e Alchemlyb/PyMBAR
 
 [AmberTools](https://ambermd.org/AmberTools.php) é uma coleção de programas gratuitos e de código aberto usados ​​para configurar, executar e analisar simulações moleculares.. Para instalar:
 
@@ -450,6 +450,15 @@ Em conjunto com o AmberTools, o [ACPYPE](https://github.com/alanwilter/acpype) �
 pip install acpype
 ./run_acpype.py -h
 acpype -i eth.mol2               # exemplo de uso para uma molecula de etanol, eth.mol2.
+```
+
+[CGenFF](https://cgenff.com/) é um servidor web para gerar topologias de moléculas para o campo de força CHARMM36. É possivel obter as topologias e coordenadas diretamente no formato para Gromacs ou obter o arquivo `.str` para posterior conversão em ambiente. É necessário obter a molécula de interesse no formato `.mol2`.
+
+```
+conda create --name cgenff python=3.7
+conda activate cgenff
+conda install networkx=2.3
+python cgenff_charmm2gmx_py3_nx2.py ETH ethanol.mol2 ethanol.str charmm36-jul2022.ff     # o campo de força deverá estar no mesmo diretório de trabalho.
 ```
 
 [LigPargen](https://github.com/Isra3l/ligpargen/tree/main) é uma biblioteca desenvolvida para gerar topologias de moléculas para o campo de força OPLS. Faça o download do software [BOSS](https://traken.chem.yale.edu/software.html), descompacte em um diretório de trabalho.
