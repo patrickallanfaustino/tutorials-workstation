@@ -433,12 +433,34 @@ curl -fsSL https://install.julialang.org | sh
 Para atualizar, utilize no terminal `juliaup update`.
 
 ---
-## 🧰 Instalando ambientes: AmberTools/ACPYPE, CGenFF, LigParGen e Alchemlyb/PyMBAR
+## 🧰 Instalando ambientes: OpenBabel, AmberTools/ACPYPE, CGenFF, LigParGen e Alchemlyb/PyMBAR.
+
+[OpenBabel](https://openbabel.org/docs/index.html) é um pacote usado para manipular dados de modelagem molecular, química, etc. Para instalar:
+
+```
+sudo snap install openbabel
+obabel --version
+obabel -H
+pip install -U openbabel
+```
+
+Para uso:
+```
+obabel -ismi ethanol.smi -opdb -O ethanol.pdb --gen3d --minimize
+
+ou
+
+obabel -:'CCO' -opdb -O ethanol.pdb --gen3d --minimize
+```
+
+>[!NOTE]
+>***Extra:*** para mais informações sobre todas as funções disponiveis, consulte `obabel -H`.
+>
 
 [AmberTools](https://ambermd.org/AmberTools.php) é uma coleção de programas gratuitos e de código aberto usados ​​para configurar, executar e analisar simulações moleculares.. Para instalar:
 
 ```
-cd $HOME/Downloads
+cd $HOME
 conda create --name acpype
 conda activate acpype
 conda install --channel conda-forge ambertools openbabel
@@ -449,7 +471,8 @@ Em conjunto com o AmberTools, o [ACPYPE](https://github.com/alanwilter/acpype) �
 ```
 pip install acpype
 ./run_acpype.py -h
-acpype -i eth.mol2               # exemplo de uso para uma molecula de etanol, eth.mol2.
+
+acpype -i ethanol.mol2               # exemplo de uso para uma molecula de etanol.
 ```
 
 [CGenFF](https://cgenff.com/) é um servidor web para gerar topologias de moléculas para o campo de força CHARMM36. É possivel obter as topologias e coordenadas diretamente no formato para Gromacs ou obter o arquivo `.str` para posterior conversão em ambiente. É necessário obter a molécula de interesse no formato `.mol2`.
@@ -458,6 +481,7 @@ acpype -i eth.mol2               # exemplo de uso para uma molecula de etanol, e
 conda create --name cgenff python=3.7
 conda activate cgenff
 conda install networkx=2.3
+
 python cgenff_charmm2gmx_py3_nx2.py ETH ethanol.mol2 ethanol.str charmm36-jul2022.ff     # o campo de força deverá estar no mesmo diretório de trabalho.
 ```
 
@@ -477,7 +501,7 @@ conda install -c rdkit rdkit
 conda install --channel conda-forge openbabel
 ```
 ```
-cd $HOME/Downloads
+cd $HOME
 git clone https://github.com/Isra3l/ligpargen.git
 pip install -e ligpargen
 cd ligpargen
@@ -498,7 +522,7 @@ ligpargen -i ethanol.pdb -n ethanol -p molecule -r ETH -c 0 -o 3 -cgen CM1A-LBCC
 [Alchemlyb](https://github.com/alchemistry/alchemlyb) é uma biblioteca voltado para análises de energia livres altamente eficiente, utilizando aprendizagem de máquina nas análises. Para instalar:
 
 ```
-cd $HOME/Downloads
+cd $HOME
 python3 -m venv mbar
 source mbar/bin/activate
 pip install alchemlyb jax pymbar pandas pybar[jax]
