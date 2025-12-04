@@ -438,23 +438,21 @@ Para atualizar, utilize no terminal `juliaup update`.
 [OpenBabel](https://openbabel.org/docs/index.html) é um pacote usado para manipular dados de modelagem molecular, química, etc. Para instalar:
 
 ```
-sudo snap install openbabel
+sudo apt install openbabel
 obabel --version
-obabel -H
-pip install -U openbabel
 ```
 
 Para uso:
 ```
-obabel -ismi ethanol.smi -opdb -O ethanol.pdb --gen3d --minimize
+obabel -ismi ethanol.smi -opdb -O ethanol.pdb --title ETHANOL --gen3d --minimize --sd --ff GAFF --log
 
 ou
 
-obabel -:'CCO' -opdb -O ethanol.pdb --gen3d --minimize
+obabel -:'CCO' -ogro -O ethanol.gro --title ETHANOL --gen3d --minimize --sd --ff GAFF --log
 ```
 
 >[!NOTE]
->***Extra:*** para mais informações sobre todas as funções disponiveis, consulte `obabel -H`.
+>***Extra:*** para mais informações sobre todas as funções disponiveis, consulte `obabel -Hall`.
 >
 
 [AmberTools](https://ambermd.org/AmberTools.php) é uma coleção de programas gratuitos e de código aberto usados ​​para configurar, executar e analisar simulações moleculares.. Para instalar:
