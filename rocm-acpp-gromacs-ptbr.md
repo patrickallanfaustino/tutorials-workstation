@@ -478,7 +478,7 @@ acpype -i ethanol.mol2               # exemplo de uso para uma molecula de etano
 ```
 conda create --name cgenff python=3.7
 conda activate cgenff
-conda install networkx=2.3
+conda install networkx=2.3 numpy
 
 python cgenff_charmm2gmx_py3_nx2.py ETH ethanol.mol2 ethanol.str charmm36-jul2022.ff     # o campo de força deverá estar no mesmo diretório de trabalho.
 ```
