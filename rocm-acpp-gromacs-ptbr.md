@@ -3,8 +3,6 @@
 ![GitHub repo size](https://img.shields.io/github/repo-size/patrickallanfaustino/tutorials?style=for-the-badge)
 ![GitHub language count](https://img.shields.io/github/languages/count/patrickallanfaustino/tutorials?style=for-the-badge)
 ![GitHub forks](https://img.shields.io/github/forks/patrickallanfaustino/tutorials?style=for-the-badge)
-![GitHub Release](https://img.shields.io/github/v/release/patrickallanfaustino/tutorials?style=for-the-badge)
-![GitHub Tag](https://img.shields.io/github/v/tag/patrickallanfaustino/tutorials?style=for-the-badge)
 
 <img src="picture_1.png" alt="computer">
 
@@ -74,7 +72,7 @@ sudo apt install timeshift
 
 Recomenda-se realizar todas as instalações na pasta `Downloads`. Vamos instalar o [ROCm 6.4](https://rocm.docs.amd.com/projects/install-on-linux/en/docs-6.4.3/install/install-methods/amdgpu-installer/amdgpu-installer-ubuntu.html).
 ```
-cd Downloads
+cd $HOME/Downloads
 sudo apt install "linux-headers-$(uname -r)" "linux-modules-extra-$(uname -r)"
 sudo apt install python3-setuptools python3-wheel
 wget https://repo.radeon.com/amdgpu-install/6.4.3/ubuntu/noble/amdgpu-install_6.4.60403-1_all.deb
@@ -110,7 +108,7 @@ Pode ser necessário a instalação da biblioteca `rocm-llvm-dev`:
 sudo apt install rocm-llvm-dev
 ```
 
-A GPU deverá ser identificada nas informações. Caso não consiga, experimente `reboot` e verifique novamente. A instalação ficará em `PATH=/opt/rocm`.
+A GPU deverá ser identificada nas informações. Caso não consiga, experimente `reboot` e verifique novamente. A instalação ficará em `/opt/rocm`.
 
 >[!TIP]
 >
@@ -141,7 +139,7 @@ A GPU deverá ser identificada nas informações. Caso não consiga, experimente
 
 O aplicativo [LACT](https://github.com/ilya-zlobintsev/LACT) é utilizado para controlar e realizar overclocking em GPU AMD, Intel e Nvidia em sistemas GNU/Linux.
 ```
-cd Downloads
+cd $HOME/Downloads
 wget https://github.com/ilya-zlobintsev/LACT/releases/download/v0.8.3/lact-0.8.3-0.amd64.ubuntu-2404.deb
 sudo dpkg -i lact-0.8.3-0.amd64.ubuntu-2404.deb
 sudo systemctl enable --now lactd
@@ -172,10 +170,10 @@ sudo snap install indicator-sensors
 
 O [AdaptiveCpp 25.x](https://github.com/AdaptiveCpp/AdaptiveCpp) irá trabalhar em backend com `rocm`. Recomenda-se o uso da pasta `Downloads`. Para instalar:
 ```
-sudo apt install -y libboost-all-dev git cmake
+sudo apt install -y libboost-all-dev git cmake cmake-curses-gui
 ```
 ```
-cd Downloads
+cd $HOME/Downloads
 git clone https://github.com/AdaptiveCpp/AdaptiveCpp
 cd AdaptiveCpp
 sudo mkdir build && cd build
@@ -220,14 +218,14 @@ acpp --version
 
 **LIBTORCH!** É possivel instalar a biblioteca [libtorch](https://pytorch.org/) para utilizar Redes Neurais. Verifique a versão mais recente. Utilize a pasta `Downloads`.
 ```
-cd Downloads
+cd $HOME/Downloads
 wget https://download.pytorch.org/libtorch/cpu/libtorch-shared-with-deps-2.9.1%2Bcpu.zip
 unzip libtorch-shared-with-deps-2.9.1+cpu.zip
 ```
 
 Podemos instalar algumas bibliotecas auxiliares para o GROMACS:
 ```
-sudo apt install grace hwloc texlive
+sudo apt install grace hwloc texlive libhdf5-dev hdf5-tools
 ```
 
 Por fim, antes de instalar podemos verificar a versão de algumas bibliotecas instaladas:
@@ -257,6 +255,7 @@ sudo cmake .. \
 -DCMAKE_INSTALL_PREFIX=$HOME/gromacs-acpp-torch_cpu \
 -DHIPSYCL_TARGETS='hip:gfx1032' \
 -DGMX_HWLOC=ON \
+-DIMD=ON \
 -DGMX_USE_PLUMED=ON \
 -DGMX_NNPOT=TORCH \
 -DCMAKE_PREFIX_PATH="$HOME/Downloads/libtorch"
@@ -278,7 +277,7 @@ sudo make install -j$(nproc)
 
 Para carregar a biblioteca e invocar o GROMACS:
 ```
-source /home/patrickfaustino/gromacs-acpp-torch_cpu/bin/GMXRC
+source $HOME/gromacs-acpp-torch_cpu/bin/GMXRC
 gmx -version
 ```
 
@@ -289,11 +288,11 @@ gmx -version
 
 >[!TIP]
 >
->Você poderá editar o arquivo `/home/patrickfaustino/.bashrc` e adicionar o código `source /home/patrickfaustino/gromacs-acpp-torch_cpu/bin/GMXRC`. Assim, toda vez que abrir o terminal carregara o GROMACS.
+>Você poderá editar o arquivo `$HOME/.bashrc` e adicionar o código `source $HOME/gromacs-acpp-torch_cpu/bin/GMXRC`. Assim, toda vez que abrir o terminal carregara o GROMACS.
 >
 
 >[!NOTE]
->***Extra:*** para compilar com suporte nativo HIP/ROCm sem Torch (CPU):
+>***Extra:*** para compilar com suporte nativo HIP/ROCm sem Torch:
 >```
 >sudo cmake .. \
 >	-DCMAKE_INSTALL_PREFIX=$HOME/gromacs-hip \
@@ -306,6 +305,7 @@ gmx -version
 >	-DGMX_BUILD_OWN_FFTW=ON \
 >	-DREGRESSIONTEST_DOWNLOAD=ON \
 >	-DGMX_HWLOC=ON \
+> -DIMD=ON \
 >	-DGMX_USE_PLUMED=ON \
 >	-DGMX_GPU_FFT_LIBRARY=rocFFT
 >```
@@ -323,6 +323,7 @@ gmx -version
 >	-DGMX_BUILD_OWN_FFTW=ON \
 >	-DREGRESSIONTEST_DOWNLOAD=ON \
 >	-DGMX_HWLOC=ON \
+> -DIMD=ON \
 >	-DGMX_USE_PLUMED=ON \
 >	-DGMX_GPU_FFT_LIBRARY=rocFFT
 >```
@@ -333,7 +334,7 @@ gmx -version
 
 O [Anaconda](https://www.anaconda.com) é um importante pacote de bibliotecas Python voltados para o uso científico.
 ```
-cd Downloads
+cd $HOME/Downloads
 wget https://repo.anaconda.com/archive/Anaconda3-2025.06-1-Linux-x86_64.sh
 bash Anaconda3-2025.06-1-Linux-x86_64.sh
 source ~/.bashrc
@@ -350,7 +351,7 @@ Com os comandos acima será carregado no prompt (`source ~/.bashrc`) o conda `ba
 
 >[!WARNING]
 >
->Certifique de que a instalação será no path `home/patrickfaustino/anaconda3` confirmando `yes` para todas as respostas. **NÃO UTILIZE `sudo`**.
+>Certifique de que a instalação será no diretório `$HOME/anaconda3` confirmando `yes` para todas as respostas. **NÃO UTILIZE `sudo`**.
 >
 
 Agora, vamos criar um ambiente virtual e instalar o [Pytorch](https://pytorch.org/get-started/locally/). No diretório `$HOME`, crie um ambiente `gromacs-nnpot`:
@@ -394,20 +395,20 @@ python -m openmm.testInstallation
 ```
 
 >[!NOTE]
->***Extra:*** para compilar no Conda com suporte Torch (CPU):
+>***Extra:*** para compilar no Conda com suporte Torch:
 >```
->conda create --name openmm-env
->conda activate openmm-env
+>conda create --name openmm-conda
+>conda activate openmm-conda
 >conda install -c conda-forge openmm-hip openmmforcefields openmm-torch openmm-ml
 >```
 >
 
-Para remover o ambiente conda criado `conda env remove --name openmm-env` e para listar todas os ambientes utilize `conda env list`.
+Para remover o ambiente conda criado `conda env remove --name openmm-conda` e para listar todas os ambientes utilize `conda env list`.
 
 ---
-## 🧬 Instalando VMD
+## 🧬 Instalando VMD e Pymol
 
-O [VMD](https://www.ks.uiuc.edu/Development/Download/download.cgi?PackageName=VMD) permite visualizar moléculas e realizar análises. Para instalação, recomendamos a pasta `Downloads`:
+O [VMD](https://www.ks.uiuc.edu/Development/Download/download.cgi?PackageName=VMD) permite visualizar moléculas e realizar análises. Para instalação:
 ```
 cd $HOME
 wget https://www.ks.uiuc.edu/Research/vmd/vmd-1.9.3/files/final/vmd-1.9.3.bin.LINUXAMD64-CUDA8-OptiX4-OSPRay111p1.opengl.tar.gz
@@ -419,7 +420,12 @@ sudo make install -j$(nproc)
 vmd
 ```
 
----
+O [Pymol](https://www.pymol.org/) é outro software muito utilizado para visualização de moléculas:
+```
+sudo snap install pymol-oss
+```
+
+--
 ## 🧮 Instalando o Julia
 
 O [Julia](https://julialang.org/) é uma linguagem de programação voltada para cálculos científicos, similar ao Python. Para instalar:
@@ -433,7 +439,7 @@ curl -fsSL https://install.julialang.org | sh
 Para atualizar, utilize no terminal `juliaup update`.
 
 ---
-## 🧰 Instalando ambientes: OpenBabel, AmberTools/ACPYPE, CGenFF, LigParGen e Alchemlyb/PyMBAR.
+## 🧰 Instalando ambientes: OpenBabel, AmberTools/ACPYPE, CGenFF, LigParGen, Alchemlyb/PyMBAR e Packmol.
 
 [OpenBabel](https://openbabel.org/docs/index.html) é um pacote usado para manipular dados de modelagem molecular, química, etc. Para instalar:
 
@@ -470,7 +476,7 @@ Em conjunto com o AmberTools, o [ACPYPE](https://github.com/alanwilter/acpype) �
 pip install acpype
 ./run_acpype.py -h
 
-acpype -i ethanol.mol2               # exemplo de uso para uma molecula de etanol.
+acpype -i ethanol.mol2               # exemplo de uso para uma molécula de etanol.
 ```
 
 [CGenFF](https://cgenff.com/) é um servidor web para gerar topologias de moléculas para o campo de força CHARMM36. É possivel obter as topologias e coordenadas diretamente no formato para Gromacs ou obter o arquivo `.str` para posterior conversão em ambiente. É necessário obter a molécula de interesse no formato `.mol2`.
@@ -524,6 +530,14 @@ cd $HOME
 python3 -m venv mbar
 source mbar/bin/activate
 pip install alchemlyb jax pymbar pandas pybar[jax]
+```
+
+[Packmol](https://m3g.github.io/packmol/) é uma biblioteca criada para construir configurações iniciais de sistemas complexos para simulação. Para instalar:
+```
+cd $HOME
+python3 -m venv packmol
+source packmol/bin/activate
+pip install packmol
 ```
 
 ---
