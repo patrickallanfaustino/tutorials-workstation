@@ -306,6 +306,7 @@ gmx -version
 >	-DREGRESSIONTEST_DOWNLOAD=ON \
 >	-DGMX_HWLOC=ON \
 > -DIMD=ON \
+> -DIMD=ON \
 >	-DGMX_USE_PLUMED=ON \
 >	-DGMX_GPU_FFT_LIBRARY=rocFFT
 >```
@@ -323,6 +324,7 @@ gmx -version
 >	-DGMX_BUILD_OWN_FFTW=ON \
 >	-DREGRESSIONTEST_DOWNLOAD=ON \
 >	-DGMX_HWLOC=ON \
+> -DIMD=ON \
 > -DIMD=ON \
 >	-DGMX_USE_PLUMED=ON \
 >	-DGMX_GPU_FFT_LIBRARY=rocFFT
@@ -425,7 +427,7 @@ O [Pymol](https://www.pymol.org/) é outro software muito utilizado para visuali
 sudo snap install pymol-oss
 ```
 
---
+---
 ## 🧮 Instalando o Julia
 
 O [Julia](https://julialang.org/) é uma linguagem de programação voltada para cálculos científicos, similar ao Python. Para instalar:
