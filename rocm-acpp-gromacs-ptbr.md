@@ -359,8 +359,8 @@ Agora, vamos criar um ambiente virtual e instalar o [Pytorch](https://pytorch.or
 cd $HOME
 sudo apt install python3-venv libjpeg-dev python3-dev python3-pip
 python3 -m venv gromacs-nnpot
-source gromacs-nnpot/bin/activate
-pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/rocm6.4
+source $HOME/gromacs-nnpot/bin/activate
+pip install torch==2.8.0 torchvision==0.23.0 torchaudio==2.8.0 --index-url https://download.pytorch.org/whl/rocm6.4
 pip3 install torchani mace-torch
 ```
 
@@ -375,6 +375,11 @@ python3 -c "import torch; x = torch.rand(5, 3); print(x)"                  # ret
 >[!TIP]
 >
 >Caso deseje desistalar utilize `pip3 uninstall <biblioteca>`, para atualizar `pip3 install --upgrade <biblioteca>` e para listar os pacotes instalados `pip3 list`.
+>
+
+>[!WARNING]
+>
+>Dependendo da GPU utilizada, pode ser necessário utilizar `export HSA_OVERRIDE_GFX_VERSION=10.3.0`.
 >
 
 ---
@@ -528,7 +533,7 @@ ligpargen -i ethanol.pdb -n ethanol -p molecule -r ETH -c 0 -o 3 -cgen CM1A-LBCC
 ```
 cd $HOME
 python3 -m venv mbar
-source mbar/bin/activate
+source $HOME/mbar/bin/activate
 pip install alchemlyb jax pymbar pandas pybar[jax]
 ```
 
@@ -536,7 +541,7 @@ pip install alchemlyb jax pymbar pandas pybar[jax]
 ```
 cd $HOME
 python3 -m venv packmol
-source packmol/bin/activate
+source $HOME/packmol/bin/activate
 pip install packmol
 ```
 
