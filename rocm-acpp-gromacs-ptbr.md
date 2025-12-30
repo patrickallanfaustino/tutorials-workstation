@@ -219,8 +219,8 @@ acpp --version
 **LIBTORCH!** É possivel instalar a biblioteca [libtorch](https://pytorch.org/) para utilizar Redes Neurais. Verifique a versão mais recente. Utilize a pasta `Downloads`.
 ```
 cd $HOME/Downloads
-wget https://download.pytorch.org/libtorch/cpu/libtorch-shared-with-deps-2.9.1%2Bcpu.zip
-unzip libtorch-shared-with-deps-2.9.1+cpu.zip
+wget https://download.pytorch.org/libtorch/cpu/libtorch-shared-with-deps-2.8.0%2Bcpu.zip
+unzip libtorch-shared-with-deps-2.8.0+cpu.zip
 ```
 
 Podemos instalar algumas bibliotecas auxiliares para o GROMACS:
@@ -255,7 +255,6 @@ sudo cmake .. \
 -DCMAKE_INSTALL_PREFIX=$HOME/gromacs-acpp-torch_cpu \
 -DHIPSYCL_TARGETS='hip:gfx1032' \
 -DGMX_HWLOC=ON \
--DIMD=ON \
 -DGMX_USE_PLUMED=ON \
 -DGMX_NNPOT=TORCH \
 -DCMAKE_PREFIX_PATH="$HOME/Downloads/libtorch"
@@ -305,7 +304,6 @@ gmx -version
 >	-DGMX_BUILD_OWN_FFTW=ON \
 >	-DREGRESSIONTEST_DOWNLOAD=ON \
 >	-DGMX_HWLOC=ON \
->	-DIMD=ON \
 >	-DGMX_USE_PLUMED=ON \
 >	-DGMX_GPU_FFT_LIBRARY=rocFFT
 >```
@@ -320,12 +318,11 @@ gmx -version
 >	-DGMX_GPU=HIP \
 >	-DGMX_HIP_TARGET_ARCH=gfx1032 \
 >	-DCMAKE_PREFIX_PATH="/opt/rocm;$HOME/Downloads/libtorch" \
+>	-DGMX_NNPOT=TORCH \
 >	-DGMX_BUILD_OWN_FFTW=ON \
 >	-DREGRESSIONTEST_DOWNLOAD=ON \
 >	-DGMX_HWLOC=ON \
->	-DIMD=ON \
 >	-DGMX_USE_PLUMED=ON \
->	-DGMX_GPU_FFT_LIBRARY=rocFFT
 >```
 >
 
@@ -375,11 +372,6 @@ python3 -c "import torch; x = torch.rand(5, 3); print(x)"                  # ret
 >[!TIP]
 >
 >Caso deseje desistalar utilize `pip3 uninstall <biblioteca>`, para atualizar `pip3 install --upgrade <biblioteca>` e para listar os pacotes instalados `pip3 list`.
->
-
->[!WARNING]
->
->Dependendo da GPU utilizada, pode ser necessário utilizar `export HSA_OVERRIDE_GFX_VERSION=10.3.0`.
 >
 
 ---
