@@ -437,7 +437,7 @@ curl -fsSL https://install.julialang.org | sh
 Para atualizar, utilize no terminal `juliaup update`.
 
 ---
-## 🧰 Instalando ambientes: OpenBabel, AmberTools/ACPYPE, CGenFF, LigParGen, Alchemlyb/PyMBAR e Packmol.
+## 🧰 Instalando ferramentas para topologias: OpenBabel, AmberTools/ACPYPE, CGenFF, LigParGen e Packmol.
 
 [OpenBabel](https://openbabel.org/docs/index.html) é um pacote usado para manipular dados de modelagem molecular, química, etc. Para instalar:
 
@@ -497,8 +497,8 @@ export BOSSdir=PATH_TO_BOSS_DIRECTORY            # pode ser incluido no arquivo 
 Para criar o ambiente e instalar:
 
 ```
-conda create --name py37 python=3.7
-conda activate py37
+conda create --name ligpargen python=3.7
+conda activate ligpargen
 conda install -c rdkit rdkit
 conda install --channel conda-forge openbabel
 ```
@@ -521,6 +521,16 @@ ou
 ligpargen -i ethanol.pdb -n ethanol -p molecule -r ETH -c 0 -o 3 -cgen CM1A-LBCC -verbose -check
 ```
 
+[Packmol](https://m3g.github.io/packmol/) é uma biblioteca criada para construir configurações iniciais de sistemas complexos para simulação. Para instalar:
+```
+cd $HOME
+python3 -m venv packmol
+source $HOME/packmol/bin/activate
+pip install packmol
+```
+---
+## 🧰 Instalando ferramentas para análises: Alchemlyb/PyMBAR, MDAnalysis, MDTraj, PyEMMA, g_mmpbsa e GMX_MMPBSA.
+
 [Alchemlyb](https://github.com/alchemistry/alchemlyb) é uma biblioteca voltado para análises de energia livres altamente eficiente, utilizando aprendizagem de máquina nas análises. Para instalar:
 
 ```
@@ -528,14 +538,6 @@ cd $HOME
 python3 -m venv mbar
 source $HOME/mbar/bin/activate
 pip install alchemlyb jax pymbar pandas pybar[jax]
-```
-
-[Packmol](https://m3g.github.io/packmol/) é uma biblioteca criada para construir configurações iniciais de sistemas complexos para simulação. Para instalar:
-```
-cd $HOME
-python3 -m venv packmol
-source $HOME/packmol/bin/activate
-pip install packmol
 ```
 
 ---
