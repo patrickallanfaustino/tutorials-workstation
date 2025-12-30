@@ -367,6 +367,7 @@ python3 -c 'import torch' 2> /dev/null && echo 'Success' || echo 'Failure' # ret
 python3 -c "import torch; print(torch.cuda.is_available())"                # retorna True
 python3 -c "import torch; print(torch.cuda.get_device_properties(0))"      # retorna informações GPU
 python3 -c "import torch; x = torch.rand(5, 3); print(x)"                  # retorna matriz
+python3 -c "import torch; print(torch.__version__)"                        # retorna a versão do Torch
 ```
 
 >[!TIP]
