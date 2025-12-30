@@ -532,8 +532,10 @@ python3 -m venv packmol
 source $HOME/packmol/bin/activate
 pip install packmol
 ```
+
 ---
-## 🧰 Instalando ferramentas para análises: Alchemlyb/PyMBAR, MDAnalysis, MDTraj, PyEMMA, g_mmpbsa e GMX_MMPBSA.
+
+## 🧰 Instalando ferramentas para análises: Alchemlyb/PyMBAR, MDAnalysis, MDTraj, PyEMMA e GMX_MMPBSA.
 
 >[!NOTE]
 >A adoção de ambientes isolados visa assegurar a manutenção e mitigar incompatibilidades entre bibliotecas.
@@ -546,6 +548,40 @@ cd $HOME
 python3 -m venv mbar
 source $HOME/mbar/bin/activate
 pip install alchemlyb jax pymbar pandas pybar[jax]
+```
+
+[MDAnalysis](https://www.mdanalysis.org/) é "agnóstica" quanto ao formato de arquivo (lê GROMACS, Amber, CHARMM, NAMD, etc. sem precisar converter). É orientada a objetos, permitindo seleções de átomos muito complexas e poderosas. É excelente para escrever ferramentas de análise personalizadas, embora possa ser ligeiramente mais lenta que o MDTraj em cálculos massivos.
+
+```
+conda create --name mdanalysis
+conda activate mdanalysis
+conda install -c conda-forge mdanalysis
+```
+
+[MDTraj](https://www.mdtraj.org/1.9.8.dev0/index.html) projetada para ser extremamente rápida e eficiente em memória, utiliza arrays do NumPy nativamente. É ideal para processar grandes volumes de dados (Big Data) e para converter formatos de trajetória. É frequentemente a escolha preferida para alimentar pipelines de Machine Learning devido à sua integração fácil com o ecossistema Scikit-learn/NumPy.
+
+```
+conda create --name mdtraj
+conda activate mdtraj
+conda install -c conda-forge mdtraj
+```
+
+[PyEMMA](http://emma-project.org/latest/) usada para analisar a cinética e a termodinâmica de sistemas moleculares. Ela pega dados de simulação (frequentemente processados via MDTraj) e ajuda a identificar estados metaestáveis, barreiras de energia e taxas de transição. É muito usada para entender folding de proteínas ou mudanças conformacionais complexas através de redução de dimensionalidade (TICA).
+
+```
+conda create --name pyemma
+conda activate pyemma
+conda install -c conda-forge pyemma
+```
+
+[gmx_MMPBSA](https://valdes-tresanco-ms.github.io/gmx_MMPBSA/dev/) utiliza os métodos MM/PBSA (Molecular Mechanics Poisson-Boltzmann Surface Area) e MM/GBSA para calculos de energias livres.
+
+O arquivo utilizado `env.yml` pode ser obtido na documentação oficial, [aqui](https://valdes-tresanco-ms.github.io/gmx_MMPBSA/dev/installation/).
+
+```
+sudo apt install openmpi-bin libopenmpi-dev openssh-client
+conda env create --file env.yml
+conda activate gmxMMPBSA
 ```
 
 ---
