@@ -439,6 +439,10 @@ Para atualizar, utilize no terminal `juliaup update`.
 ---
 ## 🧰 Instalando ferramentas para topologias: OpenBabel, AmberTools/ACPYPE, CGenFF, LigParGen e Packmol.
 
+>[!NOTE]
+>A adoção de ambientes isolados visa assegurar a manutenção e mitigar incompatibilidades entre bibliotecas.
+>
+
 [OpenBabel](https://openbabel.org/docs/index.html) é um pacote usado para manipular dados de modelagem molecular, química, etc. Para instalar:
 
 ```
@@ -530,6 +534,10 @@ pip install packmol
 ```
 ---
 ## 🧰 Instalando ferramentas para análises: Alchemlyb/PyMBAR, MDAnalysis, MDTraj, PyEMMA, g_mmpbsa e GMX_MMPBSA.
+
+>[!NOTE]
+>A adoção de ambientes isolados visa assegurar a manutenção e mitigar incompatibilidades entre bibliotecas.
+>
 
 [Alchemlyb](https://github.com/alchemistry/alchemlyb) é uma biblioteca voltado para análises de energia livres altamente eficiente, utilizando aprendizagem de máquina nas análises. Para instalar:
 
