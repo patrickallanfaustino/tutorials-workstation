@@ -199,7 +199,7 @@ sudo snap install indicator-sensors
 
 O [AdaptiveCpp 25.x](https://github.com/AdaptiveCpp/AdaptiveCpp) irá trabalhar em backend com `rocm`. Recomenda-se o uso da pasta `Downloads`. Para instalar:
 ```
-sudo apt install -y libboost-all-dev git cmake cmake-curses-gui
+sudo apt install libboost-all-dev git cmake cmake-curses-gui
 ```
 ```
 cd $HOME/Downloads
