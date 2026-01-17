@@ -1,21 +1,21 @@
-# Workflow de Instalação Gromacs 2025.x com ROCm 6.x e AdaptiveCpp 25.x no Ubuntu 24.04 Noble Numbat
+# Workflow de Instalação Gromacs 2025.x com CUDA 13.x no Ubuntu 24.04 Noble Numbat
 
 ![GitHub repo size](https://img.shields.io/github/repo-size/patrickallanfaustino/tutorials?style=for-the-badge)
 ![GitHub language count](https://img.shields.io/github/languages/count/patrickallanfaustino/tutorials?style=for-the-badge)
 ![GitHub forks](https://img.shields.io/github/forks/patrickallanfaustino/tutorials?style=for-the-badge)
 
-<img src="picture_1.png" alt="computer">
+<img src="picture_2.png" alt="computer">
 
-> Tutorial para compilar o GROMACS 2025.4 com suporte NNPOT-PyTorch (Redes Neurais), usando AdaptiveCpp 25.10 em backend e ROCm 6.4 no Ubuntu 24.04.3 Kernel 6.14, para utilizar aceleração GPU AMD em desktop.
+> Tutorial para compilar o GROMACS 2025.4 com suporte NNPOT-PyTorch (Redes Neurais) em GPU, utilizando CUDA 13.1 no Ubuntu 24.04.3 Kernel 6.8, para utilizar aceleração GPU AMD em desktop.
 
 ## 💻 Computador testado e pré-requisitos:
-- CPU Ryzen 9 5900XT, Memória 2x16 GB DDR4, Chipset X570, GPU ASRock RX 6600 CLD 8 GB, dual boot com Windows 11 e Ubuntu 24.04 instalados em SSD's separados.
+- CPU Ryzen 9 5900XT, Memória 2x16 GB DDR4, Chipset X570, GPU RTX 4070 Ti MSI Gaming Trio X, dual boot com Windows 11 e Ubuntu 24.04 instalados no mesmo SSD.
 
 Antes de começar, verifique se você atendeu aos seguintes requisitos:
 
 - Você tem uma máquina linux `Ubuntu 24.04.x` com instalação limpa e atualizado.
-- Você tem uma GPU série `AMD RDNA2`. Testado com arquiteturas `RDNA3`.
-- Documentações [ROCm 6.4](https://rocm.docs.amd.com/projects/install-on-linux/en/docs-6.4.3/index.html), [AdaptiveCpp 25.xx](https://github.com/AdaptiveCpp/AdaptiveCpp) e [GROMACS 2025.x](https://manual.gromacs.org/current/index.html).
+- Você tem uma GPU série `Ada Lovelace`.
+- Documentações [CUDA 13](https://docs.nvidia.com/cuda/), [AdaptiveCpp 25.xx](https://github.com/AdaptiveCpp/AdaptiveCpp) e [GROMACS 2025.x](https://manual.gromacs.org/current/index.html).
 
 Você vai precisar atualizar e instalar pacotes em sua máquina:
 ```
@@ -30,7 +30,7 @@ sudo add-apt-repository ppa:ubuntu-toolchain-r/test
 sudo apt update && sudo apt upgrade
 ```
 
-Verifique também a versão do kernel (⚠️ versão = 6.8 Ok! 6.14 Ok!):
+Verifique também a versão do kernel (⚠️ versão = 6.8 Ok!):
 ```
 uname -r
 ```
@@ -97,9 +97,35 @@ sudo apt install timeshift
 >
 
 ---
-## 🔎 Instalando ROCm 6.x
+## 🔎 Instalando CUDA 13.x
 
-Recomenda-se realizar todas as instalações na pasta `Downloads`. Vamos instalar o [ROCm 6.4](https://rocm.docs.amd.com/projects/install-on-linux/en/docs-6.4.3/install/install-methods/amdgpu-installer/amdgpu-installer-ubuntu.html).
+Verifique a compatibilidade da GPU antes. Para CUDA 12 ou superior, requer arquitetura Maxwell ou superior.
+```
+lspci | grep -i nvidia
+```
+
+Remova todos os driver relacionados que tiver instalado:
+```
+sudo apt remove --purge "*cuda*" "*cublas*" "*cufft*" "*cufile*" "*curand*" "*cusolver*" "*cusparse*" "*gds-tools*" "*npp*" "*nvjpeg*" "nsight*" "*nvvm*" "*nvidia*"
+
+sudo apt autoremove --purge
+```
+
+Instale os pre-requisitos para CUDA:
+```
+sudo apt update
+
+sudo apt install ca-certificates software-properties-common dkms curl wget
+```
+
+
+
+
+
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+Recomenda-se realizar todas as instalações na pasta `Downloads`.
 ```
 cd $HOME/Downloads
 sudo apt install "linux-headers-$(uname -r)" "linux-modules-extra-$(uname -r)"
