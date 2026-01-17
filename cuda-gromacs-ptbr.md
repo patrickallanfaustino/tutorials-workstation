@@ -145,6 +145,7 @@ Para configurar o compilador NVCC, edite o `~/.bashrc` e adicione:
 ```
 export PATH=/usr/local/cuda/bin${PATH:+:${PATH}}
 export LD_LIBRARY_PATH=/usr/local/cuda/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+
 source ~/.bashrc
 ```
 
@@ -155,7 +156,6 @@ nvcc --version
 ```
 
 >[!TIP]
-
 >Para remover, utilize:
 >
 >```
