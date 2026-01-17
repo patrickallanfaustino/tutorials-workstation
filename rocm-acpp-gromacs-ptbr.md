@@ -284,6 +284,7 @@ sudo cmake .. \
 -DCMAKE_INSTALL_PREFIX=$HOME/gromacs-acpp-torch_cpu \
 -DHIPSYCL_TARGETS='hip:gfx1032' \
 -DGMX_HWLOC=ON \
+-DGMX_USE_HDF5=ON \
 -DGMX_USE_PLUMED=ON \
 -DGMX_NNPOT=TORCH \
 -DCMAKE_PREFIX_PATH="$HOME/Downloads/libtorch"
@@ -334,7 +335,8 @@ gmx -version
 >	-DREGRESSIONTEST_DOWNLOAD=ON \
 >	-DGMX_HWLOC=ON \
 >	-DGMX_USE_PLUMED=ON \
->	-DGMX_GPU_FFT_LIBRARY=rocFFT
+>	-DGMX_GPU_FFT_LIBRARY=rocFFT \
+>	-DGMX_USE_HDF5=ON
 >```
 >
 >***Extra:*** para compilar com suporte nativo HIP/ROCm e Torch (CPU):
@@ -352,6 +354,7 @@ gmx -version
 >	-DREGRESSIONTEST_DOWNLOAD=ON \
 >	-DGMX_HWLOC=ON \
 >	-DGMX_USE_PLUMED=ON \
+>	-DGMX_USE_HDF5=ON
 >```
 >
 
