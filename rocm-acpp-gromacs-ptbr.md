@@ -225,7 +225,7 @@ unzip libtorch-shared-with-deps-2.8.0+cpu.zip
 
 Podemos instalar algumas bibliotecas auxiliares para o GROMACS:
 ```
-sudo apt install grace hwloc texlive libhdf5-dev hdf5-tools
+sudo apt install grace hwloc texlive libhdf5-dev hdf5-tools libfftw3-dev
 ```
 
 Por fim, antes de instalar podemos verificar a versão de algumas bibliotecas instaladas:
@@ -332,8 +332,8 @@ gmx -version
 O [Anaconda](https://www.anaconda.com) é um importante pacote de bibliotecas Python voltados para o uso científico.
 ```
 cd $HOME/Downloads
-wget https://repo.anaconda.com/archive/Anaconda3-2025.06-1-Linux-x86_64.sh
-bash Anaconda3-2025.06-1-Linux-x86_64.sh
+wget https://repo.anaconda.com/archive/Anaconda3-2025.12-2-Linux-x86_64.sh
+bash Anaconda3-2025.12-2-Linux-x86_64.sh
 source ~/.bashrc
 conda config --set auto_activate_base false
 conda info
