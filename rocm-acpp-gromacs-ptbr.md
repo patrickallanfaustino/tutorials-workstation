@@ -39,6 +39,11 @@ Verifique seu diretorio padrão `$HOME`, pois será o caminho utilizado para a m
 >[!TIP]
 > Inicialmente foi instalado no Kernel 6.8.12. Posteriormente o Kernel foi atualizado para 6.14 de acordo com as instruções em [https://ubuntu.com/kernel/lifecycle](https://ubuntu.com/kernel/lifecycle).
 >
+>Para instalar o Kernel 6.8 GA (recomendado):
+> ```
+> sudo apt install linux-image-generic
+> ```
+> 
 
 ---
 ## 🔧 Instalando Timeshif
