@@ -45,6 +45,30 @@ Verifique seu diretorio padrão `$HOME`, pois será o caminho utilizado para a m
 > ```
 > 
 
+Algumas configurações podem ajudar em sistemas dual boot:
+```
+# Instalar codecs, fontes e outros softwares
+sudo apt install ubuntu-restricted-extras
+
+# Conflitos de horários entre Windows e Ubuntu
+timedatectl set-local-rtc 1 --adjust-system-clock
+
+# Performance
+echo 'vm.swappiness=10' | sudo tee -a /etc/sysctl.conf
+
+# Gerenciamento de memória
+sudo apt install zram-config
+
+# Acesso ao disco NTFS do Windows
+sudo apt install ntfs-3g
+
+# Reparo de boot GRUB. Selecione Recommended repair.
+sudo add-apt-repository ppa:yannubuntu/boot-repair
+sudo apt update
+sudo apt install boot-repair
+boot-repair
+```
+
 ---
 ## 🔧 Instalando Timeshif
 
