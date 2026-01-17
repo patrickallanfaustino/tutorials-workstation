@@ -15,7 +15,7 @@ Antes de começar, verifique se você atendeu aos seguintes requisitos:
 
 - Você tem uma máquina linux `Ubuntu 24.04.x` com instalação limpa e atualizado.
 - Você tem uma GPU série `Ada Lovelace`.
-- Documentações [CUDA 13](https://docs.nvidia.com/cuda/), [AdaptiveCpp 25.xx](https://github.com/AdaptiveCpp/AdaptiveCpp) e [GROMACS 2025.x](https://manual.gromacs.org/current/index.html).
+- Documentações [CUDA 13](https://docs.nvidia.com/cuda/) e [GROMACS 2025.x](https://manual.gromacs.org/current/index.html).
 
 Você vai precisar atualizar e instalar pacotes em sua máquina:
 ```
@@ -114,74 +114,57 @@ sudo apt autoremove --purge
 Instale os pre-requisitos para CUDA:
 ```
 sudo apt update
-
+sudo apt install "linux-headers-$(uname -r)" "linux-modules-extra-$(uname -r)"
 sudo apt install ca-certificates software-properties-common dkms curl wget
 ```
 
-
-
-
-
-
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
-Recomenda-se realizar todas as instalações na pasta `Downloads`.
+Adicionar o repositório oficial NVIDIA CUDA:
 ```
-cd $HOME/Downloads
-sudo apt install "linux-headers-$(uname -r)" "linux-modules-extra-$(uname -r)"
-sudo apt install python3-setuptools python3-wheel
-wget https://repo.radeon.com/amdgpu-install/6.4.3/ubuntu/noble/amdgpu-install_6.4.60403-1_all.deb
-sudo apt install ./amdgpu-install_6.4.60403-1_all.deb
+wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64/cuda-keyring_1.1-1_all.deb
+sudo dpkg -i cuda-keyring_1.1-1_all.deb
+
+wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64/cuda-ubuntu2404.pin
+sudo mv cuda-ubuntu2404.pin /etc/apt/preferences.d/cuda-repository-pin-600
+
 sudo apt update
-sudo amdgpu-install --usecase=rocm,rocmdev,hip,hiplibsdk,openmpsdk,mllib,mlsdk
-sudo usermod -a -G render,video $LOGNAME
 ```
+
+Para avaliar as versões de drivers e CUDA disponíveis:
 ```
-echo ‘ADD_EXTRA_GROUPS=1’ | sudo tee -a /etc/adduser.conf
-echo ‘EXTRA_GROUPS=video’ | sudo tee -a /etc/adduser.conf
-echo ‘EXTRA_GROUPS=render’ | sudo tee -a /etc/adduser.conf
+apt search cuda-toolkit | grep -E "^cuda-toolkit"
+apt search nvidia-driver | grep -E "^nvidia-driver-[0-9]+"
 ```
+
+Instalação:
 ```
-reboot
+sudo apt install cuda-toolkit nvidia-driver-580
+sudo reboot
+```
+
+Para configurar o compilador NVCC, edite o `~/.bashrc` e adicione:
+```
+export PATH=/usr/local/cuda/bin${PATH:+:${PATH}}
+export LD_LIBRARY_PATH=/usr/local/cuda/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+source ~/.bashrc
 ```
 
 Para verificar a instalação, utilize:
 ```
-groups
-sudo clinfo
-sudo rocminfo
-sudo rocm-smi
-/opt/rocm/bin/hipconfig --full
+nvidia-smi
+nvcc --version
 ```
-
-> [!IMPORTANT]  
->Quando printar `rocminfo`, verificar o nome da placa que será apresentado como `gfx1032` (para RX 6600).
-> 
-
-Pode ser necessário a instalação da biblioteca `rocm-llvm-dev`:
-```
-sudo apt install rocm-llvm-dev
-```
-
-A GPU deverá ser identificada nas informações. Caso não consiga, experimente `reboot` e verifique novamente. A instalação ficará em `/opt/rocm`.
 
 >[!TIP]
->
->Utilize o comando abaixo para listar todos `cases` disponíveis no `amdgpu-install` para instalação:
->
->```
->sudo amdgpu-install --list-usecase
->```
->
->Para remover `amdgpu-install`, utilize:
+
+>Para remover, utilize:
 >
 >```
->sudo amdgpu-install --uninstall --rocmrelease=all
->sudo apt purge amdgpu-install && sudo apt autoremove && sudo apt autoclean
+>sudo apt remove --purge "*cuda*" "*nvidia*" cuda-keyring
+>sudo apt purge && sudo apt autoremove && sudo apt autoclean
 >```
 >```
->sudo rm /etc/apt/sources.list.d/amdgpu.list
->sudo rm /etc/apt/sources.list.d/rocm.list
+>sudo rm -f /etc/apt/preferences.d/cuda-repository-pin-600
+>sudo rm -f /etc/apt/sources.list.d/cuda*.list
 >sudo rm -rf /var/cache/apt/*
 >sudo apt clean all
 >sudo apt update
