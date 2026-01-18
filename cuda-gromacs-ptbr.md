@@ -299,8 +299,7 @@ cd $HOME
 sudo apt install python3-venv libjpeg-dev python3-dev python3-pip
 python3 -m venv gromacs-nnpot
 source $HOME/gromacs-nnpot/bin/activate
-pip install torch==2.8.0 torchvision==0.23.0 torchaudio==2.8.0 --index-url https://download.pytorch.org/whl/rocm6.4
-pip3 install torchani mace-torch
+pip3 install torch torchvision --index-url https://download.pytorch.org/whl/cu130
 ```
 
 Para testar:
@@ -326,7 +325,7 @@ O [OpenMM](https://openmm.org/) é outro software baseado em Python para simula�
 cd $HOME
 python3 -m venv openmm
 source $HOME/openmm/bin/activate
-pip3 install openmm[hip6]
+pip3 install openmm[cuda12]
 ```
 
 Para sair do ambiente criado, basta utilizar `deactivate`. Para verificar a instalação, onde será realizado teste com a Referência, CPU, HIP e OpenCL:
@@ -339,7 +338,7 @@ python -m openmm.testInstallation
 >```
 >conda create --name openmm-conda
 >conda activate openmm-conda
->conda install -c conda-forge openmm-hip openmmforcefields openmm-torch openmm-ml
+>conda install -c conda-forge openmm cuda-version=13 openmmforcefields openmm-torch openmm-ml
 >```
 >
 
@@ -533,6 +532,6 @@ conda activate gmxMMPBSA
 ---
 ## 📜 Citação
 
-- FAUSTINO, Patrick Allan dos Santos. *Readme: Tutorials*. 2025. DOI 10.5281/zenodo.16062830. Disponível em: [https://github.com/patrickallanfaustino/tutorials-workstation/blob/main/rocm-acpp-gromacs-ptbr.md](https://github.com/patrickallanfaustino/tutorials-workstation/blob/main/rocm-acpp-gromacs-ptbr.md). Acesso em: 18 jul. 2025.
+- FAUSTINO, Patrick Allan dos Santos. *Readme: Tutorials*. 2026. DOI 10.5281/zenodo.16062830. Disponível em: [https://github.com/patrickallanfaustino/tutorials-workstation/blob/main/cuda-gromacs-ptbr.md](https://github.com/patrickallanfaustino/tutorials-workstation/blob/main/cuda-gromacs-ptbr.md). Acesso em: 18 jul. 2025.
 
-- Fonte auxiliar: [Install workflow with AMD GPU support (Framework 16, Ubuntu 24.04, GPU: AMD Radeon RX 7700S)](https://gromacs.bioexcel.eu/t/install-workflow-with-amd-gpu-support-framework-16-ubuntu-24-04-gpu-amd-radeon-rx-7700s/10870)
+- Fonte auxiliar: [How to Install CUDA on Ubuntu](https://linuxcapable.com/how-to-install-cuda-on-ubuntu-linux/)
