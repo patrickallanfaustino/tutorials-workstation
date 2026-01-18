@@ -202,14 +202,13 @@ sudo snap install indicator-sensors
 ```
 
 ---
-
 ## 💎 Instalação do GROMACS 2025.x
 
 **LIBTORCH!** É possivel instalar a biblioteca [libtorch](https://pytorch.org/) para utilizar Redes Neurais. Verifique a versão mais recente. Utilize a pasta `Downloads`.
 ```
 cd $HOME/Downloads
-wget https://download.pytorch.org/libtorch/cpu/libtorch-shared-with-deps-2.8.0%2Bcpu.zip
-unzip libtorch-shared-with-deps-2.8.0+cpu.zip
+wget https://download.pytorch.org/libtorch/cu130/libtorch-shared-with-deps-2.9.1%2Bcu130.zip
+unzip libtorch-shared-with-deps-2.9.1+cu130.zip
 ```
 
 Podemos instalar algumas bibliotecas auxiliares para o GROMACS:
@@ -226,6 +225,7 @@ ldd --version
 
 A partir de agora, você poderá seguir a documentação oficial [guia de instalação](https://manual.gromacs.org/current/install-guide/index.html).
 ```
+cd $HOME/Downloads
 wget ftp://ftp.gromacs.org/gromacs/gromacs-2025.4.tar.gz
 tar -xvf gromacs-2025.4.tar.gz
 cd gromacs-2025.4
@@ -237,25 +237,18 @@ Para compilar com Cmake (versão >=3.28):
 sudo cmake .. \
 -DGMX_BUILD_OWN_FFTW=ON \
 -DREGRESSIONTEST_DOWNLOAD=ON \
--DCMAKE_C_COMPILER=/opt/rocm/llvm/bin/clang \
--DCMAKE_CXX_COMPILER=/opt/rocm/llvm/bin/clang++ \
--DGMX_GPU=SYCL \
--DGMX_SYCL=ACPP \
--DCMAKE_INSTALL_PREFIX=$HOME/gromacs-acpp-torch_cpu \
--DHIPSYCL_TARGETS='hip:gfx1032' \
+-DGMX_GPU=CUDA \
+-DCUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda \
+-DCMAKE_CUDA_ARCHITECTURES=native \
+-DCMAKE_INSTALL_PREFIX=$HOME/gromacs-cuda-torch \
 -DGMX_HWLOC=ON \
 -DGMX_USE_HDF5=ON \
 -DGMX_USE_PLUMED=ON \
 -DGMX_NNPOT=TORCH \
--DCMAKE_PREFIX_PATH="$HOME/Downloads/libtorch"
+-DCMAKE_PREFIX_PATH="$HOME/Downloads/libtorch;/usr/local/cuda"
 ```
 
-Note que criei uma pasta chamada `gromacs-acpp-torch_cpu` para os arquivos compilados e indiquei com `-DCMAKE_INSTALL_PREFIX`, pois isso facilita a atualização do GROMACS no futuro.
-
->[!NOTE]
->
->**Meu Caso**: Atenção ao `-DHIPSYCL_TARGETS='hip:gfxABC'`, substitua com seus valores para a GPU.
->
+Note que criei uma pasta chamada `gromacs-cuda-torch` para os arquivos compilados e indiquei com `-DCMAKE_INSTALL_PREFIX`, pois isso facilita a atualização do GROMACS no futuro.
 
 Agora é o momento de compilar, checar e instalar:
 ```
@@ -266,56 +259,13 @@ sudo make install -j$(nproc)
 
 Para carregar a biblioteca e invocar o GROMACS:
 ```
-source $HOME/gromacs-acpp-torch_cpu/bin/GMXRC
+source $HOME/gromacs-cuda-torch/bin/GMXRC
 gmx -version
 ```
 
->[!WARNING]
->
->Durante `sudo make check -j$(nproc)` ocorreram erros por TIMEOUT. Prossegui e testei uma dinâmica simples e não houve problema. Aparentemente, usuários do GROMACS 2024/2025 enfrentam esses problemas e com `-DGMX_TEST_TIMEOUT_FACTOR=2` pode dar mais tempo para o teste.
->
-
 >[!TIP]
 >
->Você poderá editar o arquivo `$HOME/.bashrc` e adicionar o código `source $HOME/gromacs-acpp-torch_cpu/bin/GMXRC`. Assim, toda vez que abrir o terminal carregara o GROMACS.
->
-
->[!NOTE]
->***Extra:*** para compilar com suporte nativo HIP/ROCm sem Torch:
->```
->sudo cmake .. \
->	-DCMAKE_INSTALL_PREFIX=$HOME/gromacs-hip \
->	-DCMAKE_C_COMPILER=/opt/rocm/bin/amdclang \
->	-DCMAKE_CXX_COMPILER=/opt/rocm/bin/amdclang++ \
->	-DCMAKE_HIP_COMPILER=/opt/rocm/bin/amdclang++ \
->	-DGMX_GPU=HIP \
->	-DGMX_HIP_TARGET_ARCH=gfx1032 \
->	-DCMAKE_PREFIX_PATH="/opt/rocm" \
->	-DGMX_BUILD_OWN_FFTW=ON \
->	-DREGRESSIONTEST_DOWNLOAD=ON \
->	-DGMX_HWLOC=ON \
->	-DGMX_USE_PLUMED=ON \
->	-DGMX_GPU_FFT_LIBRARY=rocFFT \
->	-DGMX_USE_HDF5=ON
->```
->
->***Extra:*** para compilar com suporte nativo HIP/ROCm e Torch (CPU):
->```
->sudo cmake .. \
->	-DCMAKE_INSTALL_PREFIX=$HOME/gromacs-hip-torch_cpu \
->	-DCMAKE_C_COMPILER=/opt/rocm/bin/amdclang \
->	-DCMAKE_CXX_COMPILER=/opt/rocm/bin/amdclang++ \
->	-DCMAKE_HIP_COMPILER=/opt/rocm/bin/amdclang++ \
->	-DGMX_GPU=HIP \
->	-DGMX_HIP_TARGET_ARCH=gfx1032 \
->	-DCMAKE_PREFIX_PATH="/opt/rocm;$HOME/Downloads/libtorch" \
->	-DGMX_NNPOT=TORCH \
->	-DGMX_BUILD_OWN_FFTW=ON \
->	-DREGRESSIONTEST_DOWNLOAD=ON \
->	-DGMX_HWLOC=ON \
->	-DGMX_USE_PLUMED=ON \
->	-DGMX_USE_HDF5=ON
->```
+>Você poderá editar o arquivo `$HOME/.bashrc` e adicionar o código `source $HOME/gromacs-cuda-torch/bin/GMXRC`. Assim, toda vez que abrir o terminal carregara o GROMACS.
 >
 
 ---
