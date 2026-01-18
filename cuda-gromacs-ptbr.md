@@ -21,7 +21,7 @@ Você vai precisar atualizar e instalar pacotes em sua máquina:
 ```
 sudo apt update && sudo apt upgrade
 sudo apt autoremove && sudo apt autoclean
-sudo apt install build-essential
+sudo apt install build-essential libboost-all-dev git cmake cmake-curses-gui
 ```
 
 Para adicionar ferramentas necessárias ou atualizar com versões mais recentes:
@@ -182,7 +182,6 @@ wget https://github.com/ilya-zlobintsev/LACT/releases/download/v0.8.3/lact-0.8.3
 sudo dpkg -i lact-0.8.3-0.amd64.ubuntu-2404.deb
 sudo systemctl enable --now lactd
 ```
-**AMD Overclocking:** ative a função no LACT e faça um `reboot`.
 
 >[!WARNING]
 >
@@ -204,54 +203,6 @@ sudo snap install indicator-sensors
 
 ---
 
-## 🔨 Instalando AdaptiveCpp 25.x
-
-O [AdaptiveCpp 25.x](https://github.com/AdaptiveCpp/AdaptiveCpp) irá trabalhar em backend com `rocm`. Recomenda-se o uso da pasta `Downloads`. Para instalar:
-```
-sudo apt install -y libboost-all-dev git cmake cmake-curses-gui
-```
-```
-cd $HOME/Downloads
-git clone https://github.com/AdaptiveCpp/AdaptiveCpp
-cd AdaptiveCpp
-sudo mkdir build && cd build
-```
-
-Para compilar com CMake (versão >=3.28):
-```
-sudo cmake .. \
--DCMAKE_INSTALL_PREFIX=/usr/local \
--DCMAKE_C_COMPILER=/opt/rocm/llvm/bin/clang \
--DCMAKE_CXX_COMPILER=/opt/rocm/llvm/bin/clang++ \
--DLLVM_DIR=/opt/rocm/llvm/lib/cmake/llvm/ \
--DWITH_ROCM_BACKEND=ON \
--DWITH_SSCP_COMPILER=OFF \
--DWITH_OPENCL_BACKEND=OFF \
--DWITH_LEVEL_ZERO_BACKEND=OFF \
--DWITH_CUDA_BACKEND=OFF \
--DDEFAULT_TARGETS='hip:gfx1032'
-```
-```
-sudo make install -j$(nproc)
-```
-
-Para verificar a instalação, `acpp-info` e `acpp --version` deverá apresentar as informações da GPU:
-```
-acpp-info
-acpp --version
-```
-
->[!NOTE]
->
->**Meu Caso**: Utilizando `j$(nproc)`, define a quantidade de CPUs utilizadas na compilação. Pode ser omitido `-j$(nproc)`.
->
-
->[!WARNING]
->
->Sempre fique atento aos caminhos dos diretórios, *i.e* `/path/to/user/...`, porque são os maiores causadores de erros durante as compilações.
->
-
----
 ## 💎 Instalação do GROMACS 2025.x
 
 **LIBTORCH!** É possivel instalar a biblioteca [libtorch](https://pytorch.org/) para utilizar Redes Neurais. Verifique a versão mais recente. Utilize a pasta `Downloads`.
