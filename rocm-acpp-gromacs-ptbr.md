@@ -266,6 +266,7 @@ ldd --version
 
 A partir de agora, você poderá seguir a documentação oficial [guia de instalação](https://manual.gromacs.org/current/install-guide/index.html).
 ```
+cd $HOME/Downloads
 wget ftp://ftp.gromacs.org/gromacs/gromacs-2025.4.tar.gz
 tar -xvf gromacs-2025.4.tar.gz
 cd gromacs-2025.4
