@@ -202,7 +202,7 @@ sudo snap install indicator-sensors
 ```
 
 ---
-## 💎 Instalação do GROMACS 2025.x
+## 💎 Instalação do GROMACS 2026.x
 
 **LIBTORCH!** É possivel instalar a biblioteca [libtorch](https://pytorch.org/) para utilizar Redes Neurais. Verifique a versão mais recente. Utilize a pasta `Downloads`.
 ```
