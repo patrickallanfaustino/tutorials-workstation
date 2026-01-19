@@ -236,7 +236,6 @@ Para compilar com Cmake (versão >=3.28):
 ```
 sudo cmake .. \
 -DGMX_BUILD_OWN_FFTW=ON \
--DGMX_FFT_LIBRARY=fftw3 \
 -DREGRESSIONTEST_DOWNLOAD=ON \
 -DGMX_GPU=CUDA \
 -DCUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda \
