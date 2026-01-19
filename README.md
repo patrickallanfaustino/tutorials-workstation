@@ -12,7 +12,6 @@ Bem-vindo ao meu repositório no GitHub, onde você encontrará uma coleção de
 ## Workflow de Dinâmicas Moleculares 🧬
 
 - [Dinâmica Molecular de Biomolécula (PDB: 1S0Q) em água](https://github.com/patrickallanfaustino/tutorials-md/blob/main/md-easy.md)
-- [Dinâmica Molecular de Biomolécula (PDB: 1S0Q) em água - avançado](https://github.com/patrickallanfaustino/tutorials-md/blob/main/md-hard.md)
 - [Criar imagens e videos de dinâmicas moleculares](https://github.com/patrickallanfaustino/tutorials-md/blob/main/md-visual.md)
 - [Análises de resultados de dinâmicas moleculares](https://github.com/patrickallanfaustino/tutorials-md/blob/main/md-analysis.md)
 
