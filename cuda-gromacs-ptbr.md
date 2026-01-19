@@ -6,7 +6,7 @@
 
 <img src="picture_2.png" alt="computer">
 
-> Tutorial para compilar o GROMACS 2025.4 com suporte NNPOT-PyTorch (Redes Neurais) em GPU, utilizando CUDA 13.1 no Ubuntu 24.04.3 Kernel 6.8, para utilizar aceleração GPU AMD em desktop.
+> Tutorial para compilar o GROMACS 2026.0 com suporte NNPOT-PyTorch (Redes Neurais) em GPU, utilizando CUDA 13.1 no Ubuntu 24.04.3 Kernel 6.8, para utilizar aceleração GPU em desktop.
 
 ## 💻 Computador testado e pré-requisitos:
 - CPU Ryzen 9 5900XT, Memória 2x16 GB DDR4, Chipset X570, GPU RTX 4070 Ti MSI Gaming Trio X, dual boot com Windows 11 e Ubuntu 24.04 instalados no mesmo SSD.
@@ -15,7 +15,7 @@ Antes de começar, verifique se você atendeu aos seguintes requisitos:
 
 - Você tem uma máquina linux `Ubuntu 24.04.x` com instalação limpa e atualizado.
 - Você tem uma GPU série `Ada Lovelace`.
-- Documentações [CUDA 13](https://docs.nvidia.com/cuda/) e [GROMACS 2025.x](https://manual.gromacs.org/current/index.html).
+- Documentações [CUDA 13](https://docs.nvidia.com/cuda/) e [GROMACS 2026.x](https://manual.gromacs.org/current/index.html).
 
 Você vai precisar atualizar e instalar pacotes em sua máquina:
 ```
@@ -226,9 +226,9 @@ ldd --version
 A partir de agora, você poderá seguir a documentação oficial [guia de instalação](https://manual.gromacs.org/current/install-guide/index.html).
 ```
 cd $HOME/Downloads
-wget ftp://ftp.gromacs.org/gromacs/gromacs-2025.4.tar.gz
-tar -xvf gromacs-2025.4.tar.gz
-cd gromacs-2025.4
+wget ftp://ftp.gromacs.org/gromacs/gromacs-2026.0.tar.gz
+tar -xvf gromacs-2026.0.tar.gz
+cd gromacs-2026.0
 sudo mkdir build && cd build
 ```
 
@@ -236,6 +236,7 @@ Para compilar com Cmake (versão >=3.28):
 ```
 sudo cmake .. \
 -DGMX_BUILD_OWN_FFTW=ON \
+-DGMX_FFT_LIBRARY=fftw3 \
 -DREGRESSIONTEST_DOWNLOAD=ON \
 -DGMX_GPU=CUDA \
 -DCUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda \
@@ -244,6 +245,7 @@ sudo cmake .. \
 -DGMX_HWLOC=ON \
 -DGMX_USE_HDF5=ON \
 -DGMX_USE_PLUMED=ON \
+-DGMX_USE_COLVARS=internal \
 -DGMX_NNPOT=TORCH \
 -DCMAKE_PREFIX_PATH="$HOME/Downloads/libtorch;/usr/local/cuda"
 ```
