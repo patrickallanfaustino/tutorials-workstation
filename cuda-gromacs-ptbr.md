@@ -143,8 +143,9 @@ sudo reboot
 
 Para configurar o compilador NVCC, edite o `~/.bashrc` e adicione:
 ```
-export PATH=/usr/local/cuda/bin${PATH:+:${PATH}}
-export LD_LIBRARY_PATH=/usr/local/cuda/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+export CUDA_HOME=/usr/local/cuda-13.1
+export LD_LIBRARY_PATH=$CUDA_HOME/lib64:$LD_LIBRARY_PATH
+export PATH=$CUDA_HOME/bin:$PATH
 
 source ~/.bashrc
 ```
@@ -213,7 +214,7 @@ unzip libtorch-shared-with-deps-2.9.1+cu130.zip
 
 Podemos instalar algumas bibliotecas auxiliares para o GROMACS:
 ```
-sudo apt install grace hwloc texlive libhdf5-dev hdf5-tools libfftw3-dev libopenblas-dev imagemagick libpng-dev libjpeg-dev libtiff-dev libxml2-dev
+sudo apt install grace hwloc texlive libhdf5-dev hdf5-tools libfftw3-dev libopenblas-dev imagemagick libpng-dev libjpeg-dev libtiff-dev libxml2-dev libtinyxml2-dev libzstd-dev zlib1g-dev libtirpc-dev
 ```
 
 Por fim, antes de instalar podemos verificar a versão de algumas bibliotecas instaladas:
