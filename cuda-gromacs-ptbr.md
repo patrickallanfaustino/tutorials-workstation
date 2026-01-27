@@ -213,7 +213,7 @@ unzip libtorch-shared-with-deps-2.9.1+cu130.zip
 
 Podemos instalar algumas bibliotecas auxiliares para o GROMACS:
 ```
-sudo apt install grace hwloc texlive libhdf5-dev hdf5-tools libfftw3-dev libopenblas-dev imagemagick libpng-dev libjpeg-dev libtiff-dev
+sudo apt install grace hwloc texlive libhdf5-dev hdf5-tools libfftw3-dev libopenblas-dev imagemagick libpng-dev libjpeg-dev libtiff-dev libxml2-dev
 ```
 
 Por fim, antes de instalar podemos verificar a versão de algumas bibliotecas instaladas:
