@@ -330,7 +330,7 @@ O [OpenMM](https://openmm.org/) é outro software baseado em Python para simula�
 cd $HOME
 python3 -m venv openmm
 source $HOME/openmm/bin/activate
-pip3 install openmm[cuda12]
+pip3 install openmm[cuda13]
 ```
 
 Para sair do ambiente criado, basta utilizar `deactivate`. Para verificar a instalação, onde será realizado teste com a Referência, CPU, HIP e OpenCL:
