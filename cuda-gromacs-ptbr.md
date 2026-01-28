@@ -180,8 +180,8 @@ nvcc --version
 O aplicativo [LACT](https://github.com/ilya-zlobintsev/LACT) é utilizado para controlar e realizar overclocking em GPU AMD, Intel e Nvidia em sistemas GNU/Linux.
 ```
 cd $HOME/Downloads
-wget https://github.com/ilya-zlobintsev/LACT/releases/download/v0.8.3/lact-0.8.3-0.amd64.ubuntu-2404.deb
-sudo dpkg -i lact-0.8.3-0.amd64.ubuntu-2404.deb
+wget https://github.com/ilya-zlobintsev/LACT/releases/download/v0.8.4/lact-0.8.4-0.amd64.ubuntu-2404.deb
+sudo dpkg -i lact-0.8.4-0.amd64.ubuntu-2404.deb
 sudo systemctl enable --now lactd
 ```
 
@@ -356,9 +356,9 @@ Para remover o ambiente conda criado `conda env remove --name openmm-conda` e pa
 O [VMD](https://www.ks.uiuc.edu/Development/Download/download.cgi?PackageName=VMD) permite visualizar moléculas e realizar análises. Para instalação:
 ```
 cd $HOME
-wget https://www.ks.uiuc.edu/Research/vmd/alpha/vmd-1.9.4a55.bin.LINUXAMD64-CUDA102-OptiX650-OSPRay185-RTXRTRT.opengl.tar.gz
-tar xvzf vmd-1.9.4a55.bin.LINUXAMD64-CUDA102-OptiX650-OSPRay185-RTXRTRT.opengl.tar.gz
-cd  vmd-1.9.4a55
+wget https://www.ks.uiuc.edu/Research/vmd/alpha/vmd-2.0.0a9.bin.LINUXAMD64.tar.gz
+tar xvzf vmd-2.0.0a9.bin.LINUXAMD64.tar.gz
+cd  vmd-2.0.0a9
 ./configure
 cd src
 sudo make install -j$(nproc)
