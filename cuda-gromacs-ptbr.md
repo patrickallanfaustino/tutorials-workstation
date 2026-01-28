@@ -534,7 +534,7 @@ python -m pip install gmx_MMPBSA
 
 gmx_MMPBSA --version
 ```
-Para configurar o Autocompletation, edite no `.bashrc` e adicione:
+Para configurar o Autocompletion, edite no `.bashrc` e adicione:
 ```
 export GMX_COMP_PATH=$HOME/anaconda3/envs/gmxMMPBSA/lib/python3.11/site-packages/GMXMMPBSA/GMXMMPBSA.sh
 
