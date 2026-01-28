@@ -214,7 +214,7 @@ unzip libtorch-shared-with-deps-2.9.1+cu130.zip
 
 Podemos instalar algumas bibliotecas auxiliares para o GROMACS:
 ```
-sudo apt install grace hwloc texlive libhdf5-dev hdf5-tools libfftw3-dev libopenblas-dev imagemagick libpng-dev libjpeg-dev libtiff-dev libxml2-dev libtinyxml2-dev libzstd-dev zlib1g-dev libtirpc-dev
+sudo apt install grace hwloc texlive libhdf5-dev hdf5-tools libfftw3-dev libopenblas-dev imagemagick libpng-dev libjpeg-dev libtiff-dev libxml2-dev libtinyxml2-dev libzstd-dev zlib1g-dev
 ```
 
 Por fim, antes de instalar podemos verificar a versão de algumas bibliotecas instaladas:
@@ -250,7 +250,6 @@ sudo cmake .. \
 -DGMX_NNPOT=TORCH \
 -DGMX_EXTERNAL_TINYXML2=ON \
 -DGMX_EXTERNAL_ZLIB=ON \
--DGMX_SYSTEM_XDR=ON \
 -DCMAKE_PREFIX_PATH="$HOME/Downloads/libtorch;/usr/local/cuda"
 ```
 
