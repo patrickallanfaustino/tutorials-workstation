@@ -531,19 +531,22 @@ conda install -c conda-forge "mpi4py=4.0.1" "ambertools<=23.6"
 conda install -c conda-forge numpy matplotlib scipy pandas seaborn
 python -m pip install "pyqt6==6.7.1" "parmed"
 python -m pip install gmx_MMPBSA
+
 gmx_MMPBSA --version
 ```
 Para configurar o Autocompletation, edite no `.bashrc` e adicione:
 ```
 export GMX_COMP_PATH=$HOME/anaconda3/envs/gmxMMPBSA/lib/python3.11/site-packages/GMXMMPBSA/GMXMMPBSA.sh
+
 chmod +x $GMX_COMP_PATH
+
 if [ -f "$GMX_COMP_PATH" ]; then
     source "$GMX_COMP_PATH"
 fi
 ```
 Para testar:
 ```
-gmx_MMPBSA_test -f $HOME/Documentos -n 10
+gmx_MMPBSA_test -f $HOME/Documentos -n 16
 ```
 
 ---
