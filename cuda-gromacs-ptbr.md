@@ -21,7 +21,7 @@ Você vai precisar atualizar e instalar pacotes em sua máquina:
 ```
 sudo apt update && sudo apt upgrade
 sudo apt autoremove && sudo apt autoclean
-sudo apt install build-essential libboost-all-dev git cmake cmake-curses-gui
+sudo apt install build-essential libboost-all-dev git cmake cmake-curses-gui ttf-mscorefonts-installer
 ```
 
 Para adicionar ferramentas necessárias ou atualizar com versões mais recentes:
