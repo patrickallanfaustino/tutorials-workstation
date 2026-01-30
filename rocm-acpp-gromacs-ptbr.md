@@ -243,7 +243,7 @@ acpp --version
 >
 
 ---
-## 💎 Instalação do GROMACS 2025.x
+## 💎 Instalação do GROMACS 2026.x
 
 **LIBTORCH!** É possivel instalar a biblioteca [libtorch](https://pytorch.org/) para utilizar Redes Neurais. Verifique a versão mais recente. Utilize a pasta `Downloads`.
 ```
@@ -254,7 +254,7 @@ unzip libtorch-shared-with-deps-2.8.0+cpu.zip
 
 Podemos instalar algumas bibliotecas auxiliares para o GROMACS:
 ```
-sudo apt install grace hwloc texlive libhdf5-dev hdf5-tools libfftw3-dev
+sudo apt install grace hwloc texlive libhdf5-dev hdf5-tools libfftw3-dev libopenblas-dev imagemagick libpng-dev libjpeg-dev libtiff-dev libxml2-dev libtinyxml2-dev libzstd-dev zlib1g-dev
 ```
 
 Por fim, antes de instalar podemos verificar a versão de algumas bibliotecas instaladas:
