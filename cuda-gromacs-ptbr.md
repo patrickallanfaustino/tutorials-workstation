@@ -37,7 +37,6 @@ uname -r
 Verifique seu diretorio padrão `$HOME`, pois será o caminho utilizado para a maioria das instalações e configurações. Explore!
 
 >[!TIP]
-> Inicialmente foi instalado no Kernel 6.8.12. Posteriormente o Kernel foi atualizado para 6.14 de acordo com as instruções em [https://ubuntu.com/kernel/lifecycle](https://ubuntu.com/kernel/lifecycle).
 >
 >Para instalar o Kernel 6.8 GA (recomendado):
 > ```
@@ -138,7 +137,7 @@ apt search nvidia-driver | grep -E "^nvidia-driver-[0-9]+"
 
 Instalação:
 ```
-sudo apt install cuda-toolkit nvidia-driver-580
+sudo apt install cuda-toolkit nvidia-driver-590
 sudo reboot
 ```
 
