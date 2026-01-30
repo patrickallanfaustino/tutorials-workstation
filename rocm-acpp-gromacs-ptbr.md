@@ -30,7 +30,7 @@ sudo add-apt-repository ppa:ubuntu-toolchain-r/test
 sudo apt update && sudo apt upgrade
 ```
 
-Verifique também a versão do kernel (⚠️ versão = 6.8 Ok! 6.14 Ok!):
+Verifique também a versão do kernel (⚠️ versão = 6.8 Ok!):
 ```
 uname -r
 ```
@@ -198,9 +198,7 @@ sudo snap install indicator-sensors
 ## 🔨 Instalando AdaptiveCpp 25.x
 
 O [AdaptiveCpp 25.x](https://github.com/AdaptiveCpp/AdaptiveCpp) irá trabalhar em backend com `rocm`. Recomenda-se o uso da pasta `Downloads`. Para instalar:
-```
-sudo apt install libboost-all-dev git cmake cmake-curses-gui
-```
+
 ```
 cd $HOME/Downloads
 git clone https://github.com/AdaptiveCpp/AdaptiveCpp
@@ -248,10 +246,8 @@ acpp --version
 **LIBTORCH!** É possivel instalar a biblioteca [libtorch](https://pytorch.org/) para utilizar Redes Neurais. Verifique a versão mais recente. Utilize a pasta `Downloads`.
 ```
 cd $HOME/Downloads
-wget https://download.pytorch.org/libtorch/cpu/libtorch-shared-with-deps-2.9.0%2Bcpu.zip    #para cpu
-wget https://download.pytorch.org/libtorch/rocm6.4/libtorch-shared-with-deps-2.9.0%2Brocm6.4.zip   #para rocm
-
-unzip libtorch-shared-with-deps-2.9.0+rocm6.4.zip
+wget https://download.pytorch.org/libtorch/cpu/libtorch-shared-with-deps-2.9.0%2Bcpu.zip
+unzip libtorch-shared-with-deps-2.9.0+cpu.zip
 ```
 
 Podemos instalar algumas bibliotecas auxiliares para o GROMACS:
@@ -312,18 +308,13 @@ sudo make install -j$(nproc)
 
 Para carregar a biblioteca e invocar o GROMACS:
 ```
-source $HOME/gromacs-acpp-torch/bin/GMXRC
+source $HOME/gromacs-hip-torch/bin/GMXRC
 gmx -version
 ```
 
->[!WARNING]
->
->Durante `sudo make check -j$(nproc)` ocorreram erros por TIMEOUT. Prossegui e testei uma dinâmica simples e não houve problema. Aparentemente, usuários do GROMACS 2024/2025 enfrentam esses problemas e com `-DGMX_TEST_TIMEOUT_FACTOR=2` pode dar mais tempo para o teste.
->
-
 >[!TIP]
 >
->Você poderá editar o arquivo `$HOME/.bashrc` e adicionar o código `source $HOME/gromacs-acpp-torch/bin/GMXRC`. Assim, toda vez que abrir o terminal carregara o GROMACS.
+>Você poderá editar o arquivo `$HOME/.bashrc` e adicionar o código `source $HOME/gromacs-hip-torch/bin/GMXRC`. Assim, toda vez que abrir o terminal carregara o GROMACS.
 >
 
 >[!NOTE]
@@ -337,7 +328,7 @@ gmx -version
 >-DCMAKE_CXX_COMPILER=/opt/rocm/llvm/bin/clang++ \
 >-DGMX_GPU=SYCL \
 >-DGMX_SYCL=ACPP \
->-DCMAKE_INSTALL_PREFIX=$HOME/gromacs-acpp-torch_cpu \
+>-DCMAKE_INSTALL_PREFIX=$HOME/gromacs-acpp-torch \
 >-DHIPSYCL_TARGETS='hip:gfx1032' \
 >-DGMX_HWLOC=ON \
 >-DGMX_USE_HDF5=ON \
@@ -433,9 +424,9 @@ Para remover o ambiente conda criado `conda env remove --name openmm-conda` e pa
 O [VMD](https://www.ks.uiuc.edu/Development/Download/download.cgi?PackageName=VMD) permite visualizar moléculas e realizar análises. Para instalação:
 ```
 cd $HOME
-wget https://www.ks.uiuc.edu/Research/vmd/vmd-1.9.3/files/final/vmd-1.9.3.bin.LINUXAMD64-CUDA8-OptiX4-OSPRay111p1.opengl.tar.gz
-tar xvzf vmd-1.9.3.bin.LINUXAMD64-CUDA8-OptiX4-OSPRay111p1.opengl.tar.gz
-cd  vmd-1.9.3
+wget https://www.ks.uiuc.edu/Research/vmd/alpha/vmd-2.0.0a9.bin.LINUXAMD64.tar.gz
+tar xvzf vmd-2.0.0a9.bin.LINUXAMD64.tar.gz
+cd  vmd-2.0.0a9
 ./configure
 cd src
 sudo make install -j$(nproc)
@@ -461,152 +452,8 @@ curl -fsSL https://install.julialang.org | sh
 Para atualizar, utilize no terminal `juliaup update`.
 
 ---
-## 🧰 Instalando ferramentas para topologias: OpenBabel, AmberTools/ACPYPE, CGenFF, LigParGen e Packmol.
 
->[!NOTE]
->A adoção de ambientes isolados visa assegurar a manutenção e mitigar incompatibilidades entre bibliotecas.
->
-
-[OpenBabel](https://openbabel.org/docs/index.html) é um pacote usado para manipular dados de modelagem molecular, química, etc. Para instalar:
-
-```
-sudo apt install openbabel
-obabel --version
-```
-
-Para uso:
-```
-obabel -ismi ethanol.smi -opdb -O ethanol.pdb --title ETHANOL --gen3d --minimize --sd --ff GAFF --log
-
-ou
-
-obabel -:'CCO' -ogro -O ethanol.gro --title ETHANOL --gen3d --minimize --sd --ff GAFF --log
-```
-
->[!NOTE]
->***Extra:*** para mais informações sobre todas as funções disponiveis, consulte `obabel -Hall`.
->
-
-[AmberTools](https://ambermd.org/AmberTools.php) é uma coleção de programas gratuitos e de código aberto usados ​​para configurar, executar e analisar simulações moleculares.. Para instalar:
-
-```
-cd $HOME
-conda create --name acpype
-conda activate acpype
-conda install --channel conda-forge ambertools openbabel
-```
-
-Em conjunto com o AmberTools, o [ACPYPE](https://github.com/alanwilter/acpype) é um pacote em python para gerar topologias de moléculas. Para instalar e utilizar:
-
-```
-pip install acpype
-acpype --version
-
-acpype -i ethanol.mol2               # exemplo de uso para uma molécula de etanol.
-```
-
-[CGenFF](https://cgenff.com/) é um servidor web para gerar topologias de moléculas para o campo de força CHARMM36. É possivel obter as topologias e coordenadas diretamente no formato para Gromacs ou obter o arquivo `.str` para posterior conversão em ambiente. É necessário obter a molécula de interesse no formato `.mol2`.
-
-```
-conda create --name cgenff python=3.7
-conda activate cgenff
-conda install networkx=2.3 numpy
-
-python cgenff_charmm2gmx_py3_nx2.py ETH ethanol.mol2 ethanol.str charmm36-jul2022.ff     # o campo de força deverá estar no mesmo diretório de trabalho.
-```
-
-[LigPargen](https://github.com/Isra3l/ligpargen/tree/main) é uma biblioteca desenvolvida para gerar topologias de moléculas para o campo de força OPLS. Faça o download do software [BOSS](https://traken.chem.yale.edu/software.html), descompacte em um diretório de trabalho.
-
-```
-sudo apt install csh
-export BOSSdir=PATH_TO_BOSS_DIRECTORY            # pode ser incluido no arquivo ~/.bashrc
-```
-
-Para criar o ambiente e instalar:
-
-```
-conda create --name ligpargen python=3.7
-conda activate ligpargen
-conda install -c rdkit rdkit
-conda install --channel conda-forge openbabel
-```
-```
-cd $HOME
-git clone https://github.com/Isra3l/ligpargen.git
-pip install -e ligpargen
-cd ligpargen
-python -m unittest test_ligpargen/test_ligpargen.py
-ligpargen -h
-```
-
-Para gerar topologia de moléculas, utilize:
-
-```
-ligpargen -s 'CCO' -n ethanol -p molecule -r ETH -c 0 -o 3 -cgen CM1A-LBCC -verbose -check
-
-ou
-
-ligpargen -i ethanol.pdb -n ethanol -p molecule -r ETH -c 0 -o 3 -cgen CM1A-LBCC -verbose -check
-```
-
-[Packmol](https://m3g.github.io/packmol/) é uma biblioteca criada para construir configurações iniciais de sistemas complexos para simulação. Para instalar:
-```
-cd $HOME
-python3 -m venv packmol
-source $HOME/packmol/bin/activate
-pip install packmol
-```
-
----
-
-## 🧰 Instalando ferramentas para análises: Alchemlyb/PyMBAR, MDAnalysis, MDTraj, PyEMMA e GMX_MMPBSA.
-
->[!NOTE]
->A adoção de ambientes isolados visa assegurar a manutenção e mitigar incompatibilidades entre bibliotecas.
->
-
-[Alchemlyb](https://github.com/alchemistry/alchemlyb) é uma biblioteca voltado para análises de energia livres altamente eficiente, utilizando aprendizagem de máquina nas análises. Para instalar:
-
-```
-cd $HOME
-python3 -m venv mbar
-source $HOME/mbar/bin/activate
-pip install alchemlyb jax pymbar pandas pybar[jax]
-```
-
-[MDAnalysis](https://www.mdanalysis.org/) é "agnóstica" quanto ao formato de arquivo (lê GROMACS, Amber, CHARMM, NAMD, etc. sem precisar converter). É orientada a objetos, permitindo seleções de átomos muito complexas e poderosas. É excelente para escrever ferramentas de análise personalizadas, embora possa ser ligeiramente mais lenta que o MDTraj em cálculos massivos.
-
-```
-conda create --name mdanalysis
-conda activate mdanalysis
-conda install -c conda-forge mdanalysis
-```
-
-[MDTraj](https://www.mdtraj.org/1.9.8.dev0/index.html) projetada para ser extremamente rápida e eficiente em memória, utiliza arrays do NumPy nativamente. É ideal para processar grandes volumes de dados (Big Data) e para converter formatos de trajetória. É frequentemente a escolha preferida para alimentar pipelines de Machine Learning devido à sua integração fácil com o ecossistema Scikit-learn/NumPy.
-
-```
-conda create --name mdtraj
-conda activate mdtraj
-conda install -c conda-forge mdtraj
-```
-
-[PyEMMA](http://emma-project.org/latest/) usada para analisar a cinética e a termodinâmica de sistemas moleculares. Ela pega dados de simulação (frequentemente processados via MDTraj) e ajuda a identificar estados metaestáveis, barreiras de energia e taxas de transição. É muito usada para entender folding de proteínas ou mudanças conformacionais complexas através de redução de dimensionalidade (TICA).
-
-```
-conda create --name pyemma
-conda activate pyemma
-conda install -c conda-forge pyemma
-```
-
-[gmx_MMPBSA](https://valdes-tresanco-ms.github.io/gmx_MMPBSA/dev/) utiliza os métodos MM/PBSA (Molecular Mechanics Poisson-Boltzmann Surface Area) e MM/GBSA para calculos de energias livres.
-
-O arquivo utilizado `env.yml` pode ser obtido na documentação oficial, [aqui](https://valdes-tresanco-ms.github.io/gmx_MMPBSA/dev/installation/).
-
-```
-sudo apt install openmpi-bin libopenmpi-dev openssh-client
-conda env create --file env.yml
-conda activate gmxMMPBSA
-```
+*PARA DEMAIS FERRAMENTAS, CONSULTE O WORKFLOW PARA NVIDIA CUDA**
 
 ---
 
