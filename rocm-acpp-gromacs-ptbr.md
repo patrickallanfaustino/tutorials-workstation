@@ -21,7 +21,7 @@ Você vai precisar atualizar e instalar pacotes em sua máquina:
 ```
 sudo apt update && sudo apt upgrade
 sudo apt autoremove && sudo apt autoclean
-sudo apt install build-essential
+sudo apt install build-essential libboost-all-dev git cmake cmake-curses-gui ttf-mscorefonts-installer
 ```
 
 Para adicionar ferramentas necessárias ou atualizar com versões mais recentes:
@@ -169,8 +169,8 @@ A GPU deverá ser identificada nas informações. Caso não consiga, experimente
 O aplicativo [LACT](https://github.com/ilya-zlobintsev/LACT) é utilizado para controlar e realizar overclocking em GPU AMD, Intel e Nvidia em sistemas GNU/Linux.
 ```
 cd $HOME/Downloads
-wget https://github.com/ilya-zlobintsev/LACT/releases/download/v0.8.3/lact-0.8.3-0.amd64.ubuntu-2404.deb
-sudo dpkg -i lact-0.8.3-0.amd64.ubuntu-2404.deb
+wget https://github.com/ilya-zlobintsev/LACT/releases/download/v0.8.4/lact-0.8.4-0.amd64.ubuntu-2404.deb
+sudo dpkg -i lact-0.8.4-0.amd64.ubuntu-2404.deb
 sudo systemctl enable --now lactd
 ```
 **AMD Overclocking:** ative a função no LACT e faça um `reboot`.
