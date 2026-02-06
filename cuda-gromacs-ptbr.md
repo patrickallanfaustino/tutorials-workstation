@@ -38,9 +38,14 @@ Verifique seu diretorio padrão `$HOME`, pois será o caminho utilizado para a m
 
 >[!TIP]
 >
->Para instalar o Kernel 6.8 GA (recomendado):
+> Para instalar o Kernel 6.8 GA (recomendado):
 > ```
 > sudo apt install linux-image-generic
+> ```
+>
+>Para remover kernel antigos incompatíveis:
+> ```
+> dpkg --list | egrep -i --color 'linux-image|linux-headers'
 > ```
 > 
 
