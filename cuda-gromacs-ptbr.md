@@ -105,8 +105,9 @@ lspci | grep -i nvidia
 
 Remova todos os driver relacionados que tiver instalado:
 ```
-sudo apt remove --purge "*cuda*" "*cublas*" "*cufft*" "*cufile*" "*curand*" "*cusolver*" "*cusparse*" "*gds-tools*" "*npp*" "*nvjpeg*" "nsight*" "*nvvm*" "*nvidia*"
-
+sudo apt remove --autoremove --purge "*cuda*" "*cublas*" "*cufft*" "*cufile*" "*curand*" "*cusolver*" "*cusparse*" "*gds-tools*" "*npp*" "*nvjpeg*" "nsight*" "*nvvm*" "*nvidia*"
+```
+```
 sudo apt autoremove --purge
 ```
 
@@ -114,7 +115,7 @@ Instale os pre-requisitos para CUDA:
 ```
 sudo apt update
 sudo apt install "linux-headers-$(uname -r)" "linux-modules-extra-$(uname -r)"
-sudo apt install ca-certificates software-properties-common dkms curl wget
+sudo apt install g++ freeglut3-dev build-essential ca-certificates software-properties-common dkms curl wget libx11-dev libxmu-dev libxi-dev libglu1-mesa-dev libfreeimage-dev libglfw3-dev
 ```
 
 Adicionar o repositório oficial NVIDIA CUDA:
@@ -137,7 +138,8 @@ apt search nvidia-driver | grep -E "^nvidia-driver-[0-9]+"
 
 Instalação:
 ```
-sudo apt install cuda-toolkit nvidia-driver-590
+sudo apt install cuda-toolkit cuda-drivers   # ou nvidia-driver-590
+sudo apt install nvidia-gds
 sudo reboot
 ```
 
