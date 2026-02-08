@@ -15,7 +15,7 @@ Antes de começar, verifique se você atendeu aos seguintes requisitos:
 
 - Você tem uma máquina linux `Ubuntu 24.04.x` com instalação limpa e atualizado.
 - Você tem uma GPU série `Ada Lovelace`.
-- Documentações [CUDA 13](https://docs.nvidia.com/cuda/) e [GROMACS 2026.x](https://manual.gromacs.org/current/index.html).
+- Documentações [CUDA 13](https://docs.nvidia.com/cuda/index.html) e [GROMACS 2026.x](https://manual.gromacs.org/current/index.html).
 
 Você vai precisar atualizar e instalar pacotes em sua máquina:
 ```
@@ -30,7 +30,7 @@ sudo add-apt-repository ppa:ubuntu-toolchain-r/test
 sudo apt update && sudo apt upgrade
 ```
 
-Verifique também a versão do kernel (⚠️ versão = 6.8 Ok!):
+Verifique também a versão do kernel (⚠️ versão = 6.8):
 ```
 uname -r
 ```
