@@ -15,7 +15,7 @@ Antes de começar, verifique se você atendeu aos seguintes requisitos:
 
 - Você tem uma máquina linux `Ubuntu 24.04.x` com instalação limpa e atualizado.
 - Você tem uma GPU série `Ada Lovelace`.
-- Documentações [CUDA 13](https://docs.nvidia.com/cuda/index.html), Drivers [NVidia](https://docs.nvidia.com/datacenter/tesla/driver-installation-guide/introduction.html) e [GROMACS 2026.x](https://manual.gromacs.org/current/index.html).
+- Documentações [CUDA 13](https://docs.nvidia.com/cuda/index.html), [Drivers NVidia](https://docs.nvidia.com/datacenter/tesla/driver-installation-guide/introduction.html) e [GROMACS 2026.x](https://manual.gromacs.org/current/index.html).
 
 Você vai precisar atualizar e instalar pacotes em sua máquina:
 ```
@@ -128,10 +128,15 @@ Adicionar o repositório oficial NVIDIA CUDA:
 cd $HOME/Downloads
 wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64/cuda-keyring_1.1-1_all.deb
 sudo dpkg -i cuda-keyring_1.1-1_all.deb
-
-wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64/cuda-ubuntu2404.pin
-sudo mv cuda-ubuntu2404.pin /etc/apt/preferences.d/cuda-repository-pin-600
-
+```
+```
+wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64/cuda-archive-keyring.gpg
+sudo mv cuda-archive-keyring.gpg /usr/share/keyrings/cuda-archive-keyring.gpg
+```
+```
+echo "deb [signed-by=/usr/share/keyrings/cuda-archive-keyring.gpg] https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64/ /" | tee /etc/apt/sources.list.d/cuda-ubuntu2404-amd64.list
+```
+```
 sudo apt update
 ```
 
@@ -145,7 +150,6 @@ Instalação:
 ```
 sudo apt install cuda-toolkit cuda-drivers   # ou nvidia-driver-590
 sudo apt install nvidia-gds
-sudo reboot
 ```
 
 Para configurar o compilador NVCC, edite o `~/.bashrc` e adicione:
@@ -153,8 +157,10 @@ Para configurar o compilador NVCC, edite o `~/.bashrc` e adicione:
 export CUDA_HOME=/usr/local/cuda-13.1
 export LD_LIBRARY_PATH=$CUDA_HOME/lib64:$LD_LIBRARY_PATH
 export PATH=$CUDA_HOME/bin:$PATH
-
+```
+```
 source ~/.bashrc
+reboot
 ```
 
 Para verificar a instalação, utilize:
