@@ -318,6 +318,7 @@ cd $HOME
 sudo apt install python3-venv libjpeg-dev python3-dev python3-pip
 python3 -m venv gromacs-nnpot
 source $HOME/gromacs-nnpot/bin/activate
+python3 -m pip install --upgrade setuptools pip wheel
 pip3 install torch torchvision --index-url https://download.pytorch.org/whl/cu130
 ```
 
