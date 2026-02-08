@@ -160,6 +160,7 @@ export PATH=$CUDA_HOME/bin:$PATH
 ```
 ```
 source ~/.bashrc
+sudo dkms autoinstall
 reboot
 ```
 
