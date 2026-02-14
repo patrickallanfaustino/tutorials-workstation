@@ -34,6 +34,16 @@ Verifique também a versão do kernel (⚠️ versão = 6.8):
 ```
 uname -r
 ```
+
+Outras verificações de versão de bibliotecas podem ser realizadas:
+```
+cat /etc/os-release
+cmake --version
+g++ --version
+ldd --version
+```
+
+
 Verifique seu diretorio padrão `$HOME`, pois será o caminho utilizado para a maioria das instalações e configurações. Explore!
 
 >[!TIP]
@@ -228,14 +238,21 @@ unzip libtorch-shared-with-deps-2.9.1+cu130.zip
 
 Podemos instalar algumas bibliotecas auxiliares para o GROMACS:
 ```
-sudo apt install grace hwloc texlive libhdf5-dev hdf5-tools libfftw3-dev libopenblas-dev imagemagick libpng-dev libjpeg-dev libtiff-dev libxml2-dev libtinyxml2-dev libzstd-dev zlib1g-dev
-```
-
-Por fim, antes de instalar podemos verificar a versão de algumas bibliotecas instaladas:
-```
-cmake --version
-g++ --version
-ldd --version
+sudo apt install grace \
+hwloc \
+texlive \
+libhdf5-dev \
+hdf5-tools \
+libfftw3-dev \
+libopenblas-dev \
+imagemagick \
+libpng-dev \
+libjpeg-dev \
+libtiff-dev \
+libxml2-dev \
+libtinyxml2-dev \
+libzstd-dev \
+zlib1g-dev
 ```
 
 A partir de agora, você poderá seguir a documentação oficial [guia de instalação](https://manual.gromacs.org/current/install-guide/index.html).
