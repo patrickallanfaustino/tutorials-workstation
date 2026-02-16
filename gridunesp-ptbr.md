@@ -1,109 +1,180 @@
-# Workflow de Instalação Gromacs 2026.x com CUDA 13.x no Ubuntu 24.04 Noble Numbat
+# Workflow para Dinâmica Molecular no gridUNESP
 
 ![GitHub repo size](https://img.shields.io/github/repo-size/patrickallanfaustino/tutorials?style=for-the-badge)
 ![GitHub language count](https://img.shields.io/github/languages/count/patrickallanfaustino/tutorials?style=for-the-badge)
 ![GitHub forks](https://img.shields.io/github/forks/patrickallanfaustino/tutorials?style=for-the-badge)
 
-<img src="picture_2.png" alt="computer">
+<img src="picture_gridunesp2.png" alt="gridunesp">
 
-> Tutorial para compilar o GROMACS 2026.0 com suporte NNPOT-PyTorch (Redes Neurais) em GPU, utilizando CUDA 13.1 no Ubuntu 24.04.4 Kernel 6.8.
+> Tutorial para criar contêiner com suporte ao uso de GPU CUDA no gridUNESP.
 
-## 💻 Computador testado e pré-requisitos:
-- CPU Ryzen 9 5900XT, Memória 2x16 GB DDR4, Chipset X570, GPU MSI RTX 4070 Ti Gaming Trio X, em dual boot com Windows 11.
-
-Antes de começar, verifique se você atendeu aos seguintes requisitos:
-
-- Você tem uma máquina linux `Ubuntu 24.04` com instalação limpa e atualizado.
-- Você tem uma GPU série `Ada Lovelace`.
-- Documentações [CUDA 13](https://docs.nvidia.com/cuda/index.html), [Drivers NVidia](https://docs.nvidia.com/datacenter/tesla/driver-installation-guide/introduction.html) e [GROMACS 2026.x](https://manual.gromacs.org/current/index.html).
-
-Você vai precisar atualizar e instalar pacotes em sua máquina:
-```
-sudo apt update && sudo apt upgrade
-sudo apt autoremove && sudo apt autoclean
-sudo apt install build-essential libboost-all-dev git cmake cmake-curses-gui ttf-mscorefonts-installer
-```
-
-Para adicionar ferramentas necessárias ou atualizar com versões mais recentes:
-```
-sudo add-apt-repository ppa:ubuntu-toolchain-r/test
-sudo apt update && sudo apt upgrade
-```
-
-Verifique também a versão do kernel (⚠️ versão = 6.8):
-```
-uname -r
-cat /etc/os-release
-cmake --version
-g++ --version
-ldd --version
-```
-
-Verifique seu diretorio padrão `$HOME`, pois será o caminho utilizado para a maioria das instalações e configurações. Explore!
-
->[!TIP]
->
-> Para instalar o Kernel 6.8 GA (recomendado):
-> ```
-> sudo apt install linux-image-generic
-> ```
->
-> Para remover kernel antigos incompatíveis:
-> ```
-> dpkg --list | egrep -i --color 'linux-image|linux-headers'
-> ```
-> 
-
-Algumas configurações podem ajudar em sistemas dual boot:
-```
-# Instalar codecs, fontes e outros softwares
-sudo apt install ubuntu-restricted-extras
-
-# Conflitos de horários entre Windows e Ubuntu
-timedatectl set-local-rtc 1 --adjust-system-clock
-
-# Performance
-echo 'vm.swappiness=10' | sudo tee -a /etc/sysctl.conf
-
-# Gerenciamento de memória
-sudo apt install zram-config
-
-# Acesso ao disco NTFS do Windows
-sudo apt install ntfs-3g
-
-# Reparo de boot GRUB. Selecione Recommended repair.
-sudo add-apt-repository ppa:yannubuntu/boot-repair
-sudo apt update
-sudo apt install boot-repair
-boot-repair
-```
+⚠️ Antes de começar, leia a documentação do [gridUNESP](https://www.ncc.unesp.br/gridunesp/docs/v2/index.html) e documentações complementares [CUDA 13](https://docs.nvidia.com/cuda/index.html) e [GROMACS 2026.x](https://manual.gromacs.org/current/index.html).
 
 ---
-## 🔧 Instalando Timeshif
+## 🔧 Criando o contêiner com Apptainer
 
-O [Timeshift](https://www.edivaldobrito.com.br/como-instalar-o-timeshift-no-ubuntu-linux-e-derivados/) é um software para criar backups. Recomendamos que seja criados backups para cada etapa completa. Para instalar o `Timeshift`, siga estas etapas:
+A tecnica de contêineres com apptainer, docker e outros softwares busca criar imagens e ambientes de sistemas com bibliotecas instaladas o qual o processamento é feito dentro do contêiner que se comunica com o host principal. Recentemente, o gridUNESP implementou a contêinirização em seus servidores.
+
+Para criar um contêiner, precisamos de dois arquivos: [gromacs-gpu.def](gridunesp/gromacs-gpu.def) e [build.sh](gridunesp/build.sh).
+
+No [gromacs-gpu.def](gridunesp/gromacs-gpu.def), será feito o download da imagem do ubuntu 24.04 com bibliotecas CUDA pré instaladas do DockerHub, será instalado bibliotecas dependências do gromacs 2026.0 incluindo o PyTorch 2.10 para CUDA, compilado o gromacs e por ultimo configurado os paths do sistema.
+
 ```
-sudo add-apt-repository ppa:teejee2008/timeshift
-sudo apt update
-sudo apt install timeshift
+Bootstrap: docker
+From: nvidia/cuda:12.9.1-devel-ubuntu24.04
+
+%post
+    # --- 1. Preparação do Sistema ---
+    export DEBIAN_FRONTEND=noninteractive
+    
+    # Define variáveis de ambiente para a fase de compilação
+    export CUDA_HOME=/usr/local/cuda
+    export PATH=$CUDA_HOME/bin:$PATH
+    export LD_LIBRARY_PATH=$CUDA_HOME/lib64:$LD_LIBRARY_PATH
+    
+    apt update
+    
+    # Trava todos os pacotes que começam com 'cuda', 'libnvidia', ou 'libcudnn'
+    apt-mark hold $(apt-cache pkgnames | grep -E "^cuda|^libnvidia|^libcudnn")
+    
+    apt upgrade -y
+    
+    # Verificação do sistema
+    nvcc --version
+    cat /etc/os-release
+    uname -r
+    
+    # Instalação de dependências de compilação e Python
+    apt install -y \
+        libboost-all-dev \
+        openmpi-bin \
+        openmpi-common \
+        libopenmpi-dev \
+        libgomp1 \
+        wget \
+        unzip \
+        cmake \
+        gcc \
+        g++ \
+        freeglut3-dev \
+        curl \
+        build-essential \
+        libfftw3-dev \
+        libxml2-dev \
+        git \
+        hwloc \
+        libopenblas-dev \
+        libgl1 \
+        libglib2.0-0 \
+        texlive\
+        libhdf5-dev \
+        hdf5-tools \
+        libtinyxml2-dev \
+        libzstd-dev \
+        zlib1g-dev \
+        tzdata \
+        python3 \
+        python3-pip \
+        python3-venv \
+        python3-dev \
+        
+    # Configuração de Timezone
+    ln -fs /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
+    dpkg-reconfigure -f noninteractive tzdata
+
+    # --- 2. Compilação do GROMACS 2026.0 ---
+    GROMACS_VERSION=2026.0
+    
+    cd /opt
+    wget https://download.pytorch.org/libtorch/cu128/libtorch-shared-with-deps-2.10.0%2Bcu128.zip
+    unzip libtorch-shared-with-deps-2.10.0+cu128.zip
+    rm libtorch-shared-with-deps-2.10.0+cu128.zip
+    mv libtorch /usr/local/libtorch
+
+    wget https://ftp.gromacs.org/gromacs/gromacs-${GROMACS_VERSION}.tar.gz
+    tar xfz gromacs-${GROMACS_VERSION}.tar.gz
+    cd gromacs-${GROMACS_VERSION}
+    
+    mkdir build
+    cd build
+    
+    cmake .. \
+        -DGMX_BUILD_OWN_FFTW=ON \
+        -DREGRESSIONTEST_DOWNLOAD=ON \
+        -DGMX_GPU=CUDA \
+        -DCUDAToolkit_ROOT=/usr/local/cuda \
+	    -DCUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda \
+	    -DGMX_HWLOC=ON \
+	    -DGMX_USE_PLUMED=ON \
+	    -DGMX_USE_COLVARS=INTERNAL \
+        -DGMX_USE_HDF5=ON \
+        -DGMX_NNPOT=TORCH \
+        -DGMX_EXTERNAL_TINYXML2=ON \
+        -DGMX_EXTERNAL_ZLIB=ON \
+        -DCMAKE_PREFIX_PATH="/usr/local/libtorch;/usr/local/cuda" \
+        -DCMAKE_INSTALL_PREFIX=/usr/local/gromacs
+
+    make -j$(nproc)
+    make install -j$(nproc)
+    
+%runscript
+    echo "Container GROMACS 2026.0 (GridUNESP Edition) Iniciado..."
+    echo "Autor: Patrick Allan dos Santos Faustino"
+    exec "$@"
+
+%environment
+    # --- Python (Ubuntu 24.04 usa v3.12) ---
+    export PYTHONPATH=/usr/local/lib/python3.12/dist-packages:$PYTHONPATH
+
+    # --- Variáveis do GROMACS (Definições) ---
+    export GMXBIN=/usr/local/gromacs/bin
+    export GMXLDLIB=/usr/local/gromacs/lib
+    export GMXMAN=/usr/local/gromacs/share/man
+    export GMXDATA=/usr/local/gromacs/share/gromacs
+    
+    # --- Atualização dos Caminhos (Tudo em uma linha só) ---
+    # Ordem de prioridade: GROMACS -> CUDA -> Sistema
+    export PATH=$GMXBIN:$PATH
+    
+    # Aqui consolidamos: Libs do GROMACS + Libs do CUDA + O que já existia
+    export LD_LIBRARY_PATH=$GMXLDLIB:/usr/local/cuda/lib64:$LD_LIBRARY_PATH
+    
+    export MANPATH=$GMXMAN:$MANPATH
+
+%labels
+    Author "Patrick Allan dos Santos Faustino"
+    Version "2026.02.14"
+    Stack "Ubuntu 24.04 | CUDA 12 | GROMACS 2026.0 with NNPOT"
+
+```
+
+>[!WARNING]
+> Mantenha sempre uma versão <= do CUDA do contêiner em relação ao CUDA instalado no gridUNESP.
+>
+
+No arquivo [build.sh](gridunesp/build.sh), será enviado a tarefa de criar o contêiner para processamento do gridUNESP.
+
+```
+#!/bin/bash
+#SBATCH -t 24:00:00
+#SBATCH --job-name=apptainer
+#SBATCH --cpus-per-task=16
+
+export INPUT="gromacs-gpu.def"
+export OUTPUT="ubuntu2404.sif"
+export VERBOSE="1"
+
+job-nanny apptainer build ubuntu2404.sif gromacs-gpu.def
+
+```
+```
+sbatch build.sh
 ```
 
 >[!TIP]
+> Faça o download e backup do arquivo `ubuntu2404.sif`. Esse arquivo é o contêiner criado e pode ser utilizado em qualquer computador compatível.
 >
->Se desejar, instale o [GRUB CUSTOMIZER](https://www.edivaldobrito.com.br/grub-customizer-no-ubuntu/) para gerenciar o inicializador e [MAINLINE](https://www.edivaldobrito.com.br/como-instalar-o-ubuntu-mainline-kernel-installer-no-ubuntu-e-derivados/) para gerenciar o kernel instalado.
->
->```
->sudo add-apt-repository ppa:danielrichter2007/grub-customizer
->sudo apt update
->sudo apt install grub-customizer
->```
->
->```
->sudo add-apt-repository ppa:cappelikan/ppa
->sudo apt update
->sudo apt install mainline
->```
->
+
 
 ---
 ## 🔎 Instalando CUDA 13.x
