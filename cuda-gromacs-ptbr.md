@@ -6,14 +6,14 @@
 
 <img src="picture_2.png" alt="computer">
 
-> Tutorial para compilar o GROMACS 2026.0 com suporte NNPOT-PyTorch (Redes Neurais) em GPU, utilizando CUDA 13.1 no Ubuntu 24.04.3 Kernel 6.8, para utilizar aceleração GPU em desktop.
+> Tutorial para compilar o GROMACS 2026.0 com suporte NNPOT-PyTorch (Redes Neurais) em GPU, utilizando CUDA 13.1 no Ubuntu 24.04.4 Kernel 6.8.
 
 ## 💻 Computador testado e pré-requisitos:
-- CPU Ryzen 9 5900XT, Memória 2x16 GB DDR4, Chipset X570, GPU RTX 4070 Ti MSI Gaming Trio X, dual boot com Windows 11 e Ubuntu 24.04 instalados no mesmo SSD.
+- CPU Ryzen 9 5900XT, Memória 2x16 GB DDR4, Chipset X570, GPU MSI RTX 4070 Ti Gaming Trio X, em dual boot com Windows 11.
 
 Antes de começar, verifique se você atendeu aos seguintes requisitos:
 
-- Você tem uma máquina linux `Ubuntu 24.04.x` com instalação limpa e atualizado.
+- Você tem uma máquina linux `Ubuntu 24.04` com instalação limpa e atualizado.
 - Você tem uma GPU série `Ada Lovelace`.
 - Documentações [CUDA 13](https://docs.nvidia.com/cuda/index.html), [Drivers NVidia](https://docs.nvidia.com/datacenter/tesla/driver-installation-guide/introduction.html) e [GROMACS 2026.x](https://manual.gromacs.org/current/index.html).
 
@@ -33,16 +33,11 @@ sudo apt update && sudo apt upgrade
 Verifique também a versão do kernel (⚠️ versão = 6.8):
 ```
 uname -r
-```
-
-Outras verificações de versão de bibliotecas podem ser realizadas:
-```
 cat /etc/os-release
 cmake --version
 g++ --version
 ldd --version
 ```
-
 
 Verifique seu diretorio padrão `$HOME`, pois será o caminho utilizado para a maioria das instalações e configurações. Explore!
 
@@ -53,7 +48,7 @@ Verifique seu diretorio padrão `$HOME`, pois será o caminho utilizado para a m
 > sudo apt install linux-image-generic
 > ```
 >
->Para remover kernel antigos incompatíveis:
+> Para remover kernel antigos incompatíveis:
 > ```
 > dpkg --list | egrep -i --color 'linux-image|linux-headers'
 > ```
