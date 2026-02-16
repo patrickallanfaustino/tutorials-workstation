@@ -8,7 +8,7 @@ Bem-vindo ao meu repositório no GitHub, onde você encontrará uma coleção de
 
 - 🔴 [Workflow de Instalação Gromacs 2026.x com ROCm 6.x no Ubuntu 24.04 Noble Numbat (PT-BR)](https://github.com/patrickallanfaustino/tutorials-workstation/blob/main/rocm-acpp-gromacs-ptbr.md)
 - 🟢 [Workflow de Instalação Gromacs 2026.x com CUDA 13.x no Ubuntu 24.04 Noble Numbat (PT-BR)](https://github.com/patrickallanfaustino/tutorials-workstation/blob/main/cuda-gromacs-ptbr.md)
-- 🔵 [Workflow para gridUNESP]()
+- 🔵 [Workflow para gridUNESP](https://github.com/patrickallanfaustino/tutorials-workstation/blob/main/gridunesp-ptbr.md)
 
 ## Workflow de Dinâmicas Moleculares 🧬
 
