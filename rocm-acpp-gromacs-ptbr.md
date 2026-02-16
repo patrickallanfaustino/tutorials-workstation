@@ -1,4 +1,4 @@
-# Workflow de Instalação Gromacs 2026.x com ROCm 6.x e AdaptiveCpp 25.x no Ubuntu 24.04 Noble Numbat
+# Workflow de Instalação Gromacs 2026.x com ROCm 6.x no Ubuntu 24.04 Noble Numbat
 
 ![GitHub repo size](https://img.shields.io/github/repo-size/patrickallanfaustino/tutorials?style=for-the-badge)
 ![GitHub language count](https://img.shields.io/github/languages/count/patrickallanfaustino/tutorials?style=for-the-badge)
@@ -6,14 +6,14 @@
 
 <img src="picture_1.png" alt="computer">
 
-> Tutorial para compilar o GROMACS 2025.4 com suporte NNPOT-PyTorch (Redes Neurais), usando HIP/AdaptiveCpp 25.10 em backend e ROCm 6.4 no Ubuntu 24.04.3 Kernel 6.14, para utilizar aceleração GPU AMD em desktop.
+> Tutorial para compilar o GROMACS 2026.0 com suporte NNPOT-PyTorch (Redes Neurais) em GPU, utilizando ROCm 6.4 (AdaptiveCpp 25.x como opcional) no Ubuntu 24.04.4 Kernel 6.8.
 
 ## 💻 Computador testado e pré-requisitos:
 - CPU Ryzen 7 2700X, Memória 2x16 GB DDR4, Chipset X470, GPU ASRock RX 6600 8 GB e Ubuntu 24.04.
 
 Antes de começar, verifique se você atendeu aos seguintes requisitos:
 
-- Você tem uma máquina linux `Ubuntu 24.04.x` com instalação limpa e atualizado.
+- Você tem uma máquina linux `Ubuntu 24.04` com instalação limpa e atualizado.
 - Você tem uma GPU série `AMD RDNA2`. Testado com arquiteturas `RDNA3`.
 - Documentações [ROCm 6.4](https://rocm.docs.amd.com/projects/install-on-linux/en/docs-6.4.3/index.html), [AdaptiveCpp 25.xx](https://github.com/AdaptiveCpp/AdaptiveCpp) e [GROMACS 2026.x](https://manual.gromacs.org/current/index.html).
 
@@ -30,43 +30,29 @@ sudo add-apt-repository ppa:ubuntu-toolchain-r/test
 sudo apt update && sudo apt upgrade
 ```
 
-Verifique também a versão do kernel (⚠️ versão = 6.8 Ok!):
+Verifique também a versão do kernel (⚠️ versão = 6.8):
 ```
 uname -r
+cat /etc/os-release
+cmake --version
+g++ --version
+ldd --version
 ```
+
 Verifique seu diretorio padrão `$HOME`, pois será o caminho utilizado para a maioria das instalações e configurações. Explore!
 
 >[!TIP]
 >
->Para instalar o Kernel 6.8 GA (recomendado):
+> Para instalar o Kernel 6.8 GA (recomendado):
 > ```
 > sudo apt install linux-image-generic
 > ```
+>
+> Para remover kernel antigos incompatíveis:
+> ```
+> dpkg --list | egrep -i --color 'linux-image|linux-headers'
+> ```
 > 
-
-Algumas configurações podem ajudar em sistemas dual boot:
-```
-# Instalar codecs, fontes e outros softwares
-sudo apt install ubuntu-restricted-extras
-
-# Conflitos de horários entre Windows e Ubuntu
-timedatectl set-local-rtc 1 --adjust-system-clock
-
-# Performance
-echo 'vm.swappiness=10' | sudo tee -a /etc/sysctl.conf
-
-# Gerenciamento de memória
-sudo apt install zram-config
-
-# Acesso ao disco NTFS do Windows
-sudo apt install ntfs-3g
-
-# Reparo de boot GRUB. Selecione Recommended repair.
-sudo add-apt-repository ppa:yannubuntu/boot-repair
-sudo apt update
-sudo apt install boot-repair
-boot-repair
-```
 
 ---
 ## 🔧 Instalando Timeshif
@@ -194,7 +180,7 @@ sudo snap install indicator-sensors
 
 ---
 
-## 🔨 Instalando AdaptiveCpp 25.x
+## 🔨 Instalando AdaptiveCpp 25.x (opcional)
 
 O [AdaptiveCpp 25.x](https://github.com/AdaptiveCpp/AdaptiveCpp) irá trabalhar em backend com `rocm`. Recomenda-se o uso da pasta `Downloads`. Para instalar:
 
@@ -251,14 +237,21 @@ unzip libtorch-shared-with-deps-2.9.0+cpu.zip
 
 Podemos instalar algumas bibliotecas auxiliares para o GROMACS:
 ```
-sudo apt install grace hwloc texlive libhdf5-dev hdf5-tools libfftw3-dev libopenblas-dev imagemagick libpng-dev libjpeg-dev libtiff-dev libxml2-dev libtinyxml2-dev libzstd-dev zlib1g-dev
-```
-
-Por fim, antes de instalar podemos verificar a versão de algumas bibliotecas instaladas:
-```
-cmake --version
-g++ --version
-ldd --version
+sudo apt install grace \
+hwloc \
+texlive \
+libhdf5-dev \
+hdf5-tools \
+libfftw3-dev \
+libopenblas-dev \
+imagemagick \
+libpng-dev \
+libjpeg-dev \
+libtiff-dev \
+libxml2-dev \
+libtinyxml2-dev \
+libzstd-dev \
+zlib1g-dev
 ```
 
 A partir de agora, você poderá seguir a documentação oficial [guia de instalação](https://manual.gromacs.org/current/install-guide/index.html).
