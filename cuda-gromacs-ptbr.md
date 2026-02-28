@@ -276,8 +276,12 @@ sudo mkdir build && cd build
 Para compilar com Cmake (versão >=3.28):
 ```
 sudo cmake .. \
+-DCMAKE_BUILD_TYPE=Release \
 -DGMX_BUILD_OWN_FFTW=ON \
 -DREGRESSIONTEST_DOWNLOAD=ON \
+-DGMX_THREAD_MPI=ON \
+-DCMAKE_C_FLAGS="-O3 -march=native -mtune=native" \
+-DCMAKE_CXX_FLAGS="-O3 -march=native -mtune=native" \
 -DGMX_GPU=CUDA \
 -DCUDAToolkit_ROOT=/usr/local/cuda \
 -DCUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda \
