@@ -52,7 +52,19 @@ Verifique seu diretorio padrão `$HOME`, pois será o caminho utilizado para a m
 > ```
 > dpkg --list | egrep -i --color 'linux-image|linux-headers'
 > ```
-> 
+>
+> Para atualizar as versões do gcc e cmake:
+>```
+>sudo apt install -y gcc-14 g++-14
+>sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-14 100 --slave /usr/bin/g++ g++ /usr/bin/g++-14
+>```
+>```
+>test -f /usr/share/doc/kitware-archive-keyring/copyright ||
+>wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | sudo tee /usr/share/keyrings/kitware-archive-keyring.gpg >/dev/null
+>echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/>noble main' | sudo tee /etc/apt/sources.list.d/kitware.list >/dev/null
+>sudo apt update
+>```
+>
 
 Algumas configurações podem ajudar em sistemas dual boot:
 ```
