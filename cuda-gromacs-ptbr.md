@@ -269,7 +269,9 @@ libtinyxml2-dev \
 libzstd-dev \
 zlib1g-dev \
 build-essential \
-pkg-config
+pkg-config \
+pybind11-dev \
+python3-pybind11
 ```
 
 A partir de agora, você poderá seguir a documentação oficial [guia de instalação](https://manual.gromacs.org/current/install-guide/index.html).
