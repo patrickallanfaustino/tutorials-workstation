@@ -254,11 +254,12 @@ Podemos instalar algumas bibliotecas auxiliares para o GROMACS:
 ```
 sudo apt install grace \
 hwloc \
+libhwloc-dev \
 texlive \
 libhdf5-dev \
 hdf5-tools \
-libfftw3-dev \
 libopenblas-dev \
+liblapack-dev \
 imagemagick \
 libpng-dev \
 libjpeg-dev \
@@ -266,7 +267,9 @@ libtiff-dev \
 libxml2-dev \
 libtinyxml2-dev \
 libzstd-dev \
-zlib1g-dev
+zlib1g-dev \
+build-essential \
+pkg-config
 ```
 
 A partir de agora, você poderá seguir a documentação oficial [guia de instalação](https://manual.gromacs.org/current/install-guide/index.html).
@@ -299,6 +302,7 @@ sudo cmake .. \
 -DGMX_NNPOT=TORCH \
 -DGMX_EXTERNAL_TINYXML2=ON \
 -DGMX_EXTERNAL_ZLIB=ON \
+-DGMX_PYTHON_PACKAGE=ON \
 -DCMAKE_PREFIX_PATH="$HOME/Downloads/libtorch;/usr/local/cuda"
 ```
 
