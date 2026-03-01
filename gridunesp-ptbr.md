@@ -6,16 +6,16 @@
 
 <img src="picture_gridunesp2.png" alt="gridunesp">
 
-> Tutorial para criar contêiner com suporte ao uso de GPU CUDA no gridUNESP.
+> Tutorial para criar container com suporte ao uso de GPU CUDA no gridUNESP.
 
 ⚠️ Antes de começar, leia a documentação do [gridUNESP](https://www.ncc.unesp.br/gridunesp/docs/v2/index.html) e documentações complementares [CUDA 13](https://docs.nvidia.com/cuda/index.html) e [GROMACS 2026.x](https://manual.gromacs.org/current/index.html).
 
 ---
-## 🔧 Criando o contêiner com Apptainer
+## 🔧 Criando o container com Apptainer
 
-A tecnica de contêineres com apptainer, docker e outros softwares busca criar imagens e ambientes de sistemas com bibliotecas instaladas o qual o processamento é feito dentro do contêiner que se comunica com o host principal. Recentemente, o gridUNESP implementou a contêinirização em seus servidores.
+A tecnica de containeres com apptainer, docker e outros softwares busca criar imagens e ambientes de sistemas com bibliotecas instaladas o qual o processamento é feito dentro do contêiner que se comunica com o host principal. Recentemente, o gridUNESP implementou a contêinirização em seus servidores.
 
-Para criar um contêiner, precisamos de dois arquivos: [gromacs-gpu.def](gridunesp/gromacs-gpu.def) e [build.sh](gridunesp/build.sh).
+Para criar um container, precisamos de dois arquivos: [gromacs-gpu.def](gridunesp/gromacs-gpu.def) e [build.sh](gridunesp/build.sh).
 
 No [gromacs-gpu.def](gridunesp/gromacs-gpu.def), será feito o download da imagem do ubuntu 24.04 com bibliotecas CUDA pré instaladas do DockerHub, será instalado bibliotecas dependências do gromacs 2026.0 incluindo o PyTorch 2.10 para CUDA, compilado o gromacs e por ultimo configurado os paths do sistema.
 
@@ -44,6 +44,21 @@ From: nvidia/cuda:12.9.1-devel-ubuntu24.04
     nvcc --version
     cat /etc/os-release
     uname -r
+    g++ --version
+    ldd --version
+
+    # Instalação do repositório Kitware para o CMake atualizado
+    apt install -y wget gpg
+    test -f /usr/share/doc/kitware-archive-keyring/copyright || \
+    wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | \
+    tee /usr/share/keyrings/kitware-archive-keyring.gpg >/dev/null
+    
+    echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ noble main' | \
+    tee /etc/apt/sources.list.d/kitware.list >/dev/null
+    
+    apt update
+    apt install -y cmake
+    cmake --version
     
     # Instalação de dependências de compilação e Python
     apt install -y \
@@ -52,22 +67,21 @@ From: nvidia/cuda:12.9.1-devel-ubuntu24.04
         openmpi-common \
         libopenmpi-dev \
         libgomp1 \
-        wget \
         unzip \
-        cmake \
-        gcc \
-        g++ \
+        gcc-14 \
+        g++-14 \
         freeglut3-dev \
         curl \
         build-essential \
-        libfftw3-dev \
         libxml2-dev \
         git \
         hwloc \
+        libhwloc-dev \
         libopenblas-dev \
+        liblapack-dev \
         libgl1 \
         libglib2.0-0 \
-        texlive\
+        texlive \
         libhdf5-dev \
         hdf5-tools \
         libtinyxml2-dev \
@@ -77,8 +91,16 @@ From: nvidia/cuda:12.9.1-devel-ubuntu24.04
         python3 \
         python3-pip \
         python3-venv \
-        python3-dev \
-        
+        python3-dev
+
+    # Configuração do GCC
+    update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-14 100 --slave /usr/bin/g++ g++ /usr/bin/g++-14
+    g++ --version
+    
+    # Limpeza
+    apt autoremove -y
+    apt autoclean -y
+    
     # Configuração de Timezone
     ln -fs /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
     dpkg-reconfigure -f noninteractive tzdata
@@ -100,14 +122,15 @@ From: nvidia/cuda:12.9.1-devel-ubuntu24.04
     cd build
     
     cmake .. \
+        -DCMAKE_BUILD_TYPE=Release \
         -DGMX_BUILD_OWN_FFTW=ON \
         -DREGRESSIONTEST_DOWNLOAD=ON \
         -DGMX_GPU=CUDA \
         -DCUDAToolkit_ROOT=/usr/local/cuda \
-	    -DCUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda \
-	    -DGMX_HWLOC=ON \
-	    -DGMX_USE_PLUMED=ON \
-	    -DGMX_USE_COLVARS=INTERNAL \
+        -DCUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda \
+        -DGMX_HWLOC=ON \
+        -DGMX_USE_PLUMED=ON \
+        -DGMX_USE_COLVARS=INTERNAL \
         -DGMX_USE_HDF5=ON \
         -DGMX_NNPOT=TORCH \
         -DGMX_EXTERNAL_TINYXML2=ON \
@@ -124,7 +147,7 @@ From: nvidia/cuda:12.9.1-devel-ubuntu24.04
     exec "$@"
 
 %environment
-    # --- Python ---
+    # --- Python (Ubuntu 24.04 usa v3.12) ---
     export PYTHONPATH=/usr/local/lib/python3.12/dist-packages:$PYTHONPATH
 
     # --- Variáveis do GROMACS (Definições) ---
@@ -158,12 +181,12 @@ No arquivo [build.sh](gridunesp/build.sh), será enviado a tarefa de criar o con
 **[build.sh](gridunesp/build.sh):**
 ```
 #!/bin/bash
-#SBATCH -t 24:00:00
+#SBATCH -t 23:30:00
 #SBATCH --job-name=apptainer
 #SBATCH --cpus-per-task=16
 
 export INPUT="gromacs-gpu.def"
-export OUTPUT="ubuntu2404.sif"
+export OUTPUT="*"
 export VERBOSE="1"
 
 job-nanny apptainer build ubuntu2404.sif gromacs-gpu.def
@@ -179,7 +202,7 @@ sbatch build.sh
 
 
 ---
-## 🔎 Check do Contêiner
+## 🔎 Check do Container
 
 Caso queira realizar um check para verificar as versões das bibliotecas no contêiner e demais ajustes, utilize o arquivo [check.sh](gridunesp/check.sh) e [test.sh](gridunesp/test.sh).
 
@@ -197,30 +220,36 @@ Para a dinâmica, utilize os arquivos de exemplo [md1.sh](gridunesp/md1.sh) e [r
 
 **[md1.sh](gridunesp/md1.sh):**
 ```
-#!/bin/bash
+!/bin/bash
 
     # Verifica a versão do Gromacs
     gmx --version
     
     # Diretório de trabalho
-    cd md1
+    cd rep1
     
     # Gerar arquivo .tpr
     gmx grompp -v -f inputs/md.mdp -c npt.gro -t npt.cpt -o md_500ns.tpr -p topol.top
     
     # Dinâmica de produção
-    gmx mdrun -v -deffnm md_500ns
+    gmx mdrun -v -deffnm md_500ns -nb gpu -bonded gpu -update gpu -pin on -nt 16 -ntmpi 1
+
+    # Continuação da dinâmica de produção
+    # gmx mdrun -v -deffnm md_500ns -cpi md_500ns.cpt -nb gpu -bonded gpu -update gpu -pin on -nt 16 -ntmpi 1
 
 ```
 
 **[run1.sh](gridunesp/run1.sh):**
 ```
 #!/bin/bash
-#SBATCH -t 24:00:00
+#SBATCH -t 23:30:00
+#SBATCH --partition=gpu
 #SBATCH --gres=gpu:2
 #SBATCH --mem=16G
-#SBATCH --job-name=c12_1
-#SBATCH --cpus-per-task=32
+#SBATCH --job-name=job_
+#SBATCH --cpus-per-task=16
+#SBATCH --mail-user=patrick.faustino@unesp.br
+#SBATCH --mail-type=BEGIN,END,FAIL
 
 export INPUT="*"
 export OUTPUT="*"
@@ -246,15 +275,15 @@ ssh usuario@access.grid.unesp.br    # para acesso
 ```
 ```
 squeue -u usuario    # lista tarefas do usuario
-squeue -a    # lista todas as tarefas do grid
+squeue -a            # lista todas as tarefas do grid
 ```
 ```
-sbatch job.sh    # submete a tarefa
-scancel 00000000    # cancela a tarefa, onde 00000000 é o numero atribuido a tarefa
+sbatch job.sh                 # submete a tarefa
+scancel 00000000              # cancela a tarefa, onde 00000000 é o numero atribuido a tarefa
 scontrol show job 00000000    # verifica detalhes da tarefa
 ```
 ```
-share -a | grep usuario    # verifica o FairShare, quanto maior for, maior a prioridade.
+share -a | grep usuario       # verifica o FairShare, quanto maior for, maior a prioridade.
 ```
 ```
 squeue -o "%.18i %.9Q %.8j %.8u %.10V %.6D %R" --sort=-p,i --states=PD    # verifica a fila das próximas tarefas
