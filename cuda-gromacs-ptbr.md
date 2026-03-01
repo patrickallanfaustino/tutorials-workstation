@@ -6,7 +6,7 @@
 
 <img src="picture_2.png" alt="computer">
 
-> Tutorial para compilar o GROMACS 2026.0 com suporte NNPOT-PyTorch (Redes Neurais) em GPU, utilizando CUDA 13.1 no Ubuntu 24.04.4 Kernel 6.8.
+> Tutorial para compilar o GROMACS 2026.0 com suporte NNPOT-PyTorch (Redes Neurais) em GPU, utilizando CUDA 13.1 no Ubuntu 24.04.4 Kernel 6.17.
 
 ## 💻 Computador testado e pré-requisitos:
 - CPU Ryzen 9 5900XT, Memória 2x16 GB DDR4, Chipset X570, GPU MSI RTX 4070 Ti Gaming Trio X, em dual boot com Windows 11.
@@ -30,7 +30,7 @@ sudo add-apt-repository ppa:ubuntu-toolchain-r/test
 sudo apt update && sudo apt upgrade
 ```
 
-Verifique também a versão do kernel (⚠️ versão = 6.8):
+Verifique também a versão do kernel (⚠️ versão = 6.8 ou 6.17):
 ```
 uname -r
 cat /etc/os-release
@@ -43,17 +43,22 @@ Verifique seu diretorio padrão `$HOME`, pois será o caminho utilizado para a m
 
 >[!TIP]
 >
-> Para instalar o Kernel 6.8 GA (recomendado):
+> Para instalar o Kernel 6.8 GA (General Availability):
 > ```
 > sudo apt install linux-image-generic
 > ```
->
+> 
+> Para instalar o Kernel 6.17 HWE (Hardware Enablement):
+> ```
+> sudo apt install --install-recommends linux-generic-hwe-24.04
+> ```
+> 
 > Para remover kernel antigos incompatíveis:
 > ```
 > dpkg --list | egrep -i --color 'linux-image|linux-headers'
 > ```
 >
-> Para atualizar as versões do gcc e cmake:
+> Para atualizar as versões do gcc e cmake (recomendado):
 >```
 >sudo apt install gcc-14 g++-14
 >sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-14 100 --slave /usr/bin/g++ g++ /usr/bin/g++-14
@@ -73,7 +78,7 @@ Algumas configurações podem ajudar em sistemas dual boot:
 # Instalar codecs, fontes e outros softwares
 sudo apt install ubuntu-restricted-extras
 
-# Conflitos de horários entre Windows e Ubuntu
+# Conflitos de horários entre Windows e Ubuntu para casos de dualboot
 timedatectl set-local-rtc 1 --adjust-system-clock
 
 # Performance
@@ -167,7 +172,7 @@ apt search nvidia-driver | grep -E "^nvidia-driver-[0-9]+"
 
 Instalação:
 ```
-sudo apt install cuda-toolkit cuda-drivers   # ou nvidia-driver-590
+sudo apt install cuda-toolkit nvidia-driver-590 libnccl2 libnccl-dev
 sudo apt install nvidia-gds
 ```
 
