@@ -1,0 +1,148 @@
+Bootstrap: docker
+From: nvidia/cuda:12.9.1-devel-ubuntu24.04
+
+%post
+    # --- 1. Preparação do Sistema ---
+    export DEBIAN_FRONTEND=noninteractive
+    
+    # Define variáveis de ambiente para a fase de compilação
+    export CUDA_HOME=/usr/local/cuda
+    export PATH=$CUDA_HOME/bin:$PATH
+    export LD_LIBRARY_PATH=$CUDA_HOME/lib64:$LD_LIBRARY_PATH
+    
+    apt update
+    
+    # Trava todos os pacotes que começam com 'cuda', 'libnvidia', ou 'libcudnn'
+    apt-mark hold $(apt-cache pkgnames | grep -E "^cuda|^libnvidia|^libcudnn")
+    
+    apt upgrade -y
+    
+    # Verificação do sistema
+    nvcc --version
+    cat /etc/os-release
+    uname -r
+    g++ --version
+    ldd --version
+
+    # Instalação do repositório Kitware para o CMake atualizado
+    apt install -y wget gpg
+    test -f /usr/share/doc/kitware-archive-keyring/copyright || \
+    wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | \
+    tee /usr/share/keyrings/kitware-archive-keyring.gpg >/dev/null
+    
+    echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ noble main' | \
+    tee /etc/apt/sources.list.d/kitware.list >/dev/null
+    
+    apt update
+    apt install -y cmake
+    cmake --version
+    
+    # Instalação de dependências de compilação e Python
+    apt install -y \
+        libboost-all-dev \
+        openmpi-bin \
+        openmpi-common \
+        libopenmpi-dev \
+        libgomp1 \
+        unzip \
+        gcc-14 \
+        g++-14 \
+        freeglut3-dev \
+        curl \
+        build-essential \
+        libxml2-dev \
+        git \
+        hwloc \
+        libhwloc-dev \
+        libopenblas-dev \
+        liblapack-dev \
+        libgl1 \
+        libglib2.0-0 \
+        texlive \
+        libhdf5-dev \
+        hdf5-tools \
+        libtinyxml2-dev \
+        libzstd-dev \
+        zlib1g-dev \
+        tzdata \
+        python3 \
+        python3-pip \
+        python3-venv \
+        python3-dev
+
+    # Configuração do GCC
+    update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-14 100 --slave /usr/bin/g++ g++ /usr/bin/g++-14
+    g++ --version
+    
+    # Limpeza
+    apt autoremove -y
+    apt autoclean -y
+    
+    # Configuração de Timezone
+    ln -fs /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
+    dpkg-reconfigure -f noninteractive tzdata
+
+    # --- 2. Compilação do GROMACS 2026.0 ---
+    GROMACS_VERSION=2026.0
+    
+    cd /opt
+    wget https://download.pytorch.org/libtorch/cu128/libtorch-shared-with-deps-2.10.0%2Bcu128.zip
+    unzip libtorch-shared-with-deps-2.10.0+cu128.zip
+    rm libtorch-shared-with-deps-2.10.0+cu128.zip
+    mv libtorch /usr/local/libtorch
+
+    wget https://ftp.gromacs.org/gromacs/gromacs-${GROMACS_VERSION}.tar.gz
+    tar xfz gromacs-${GROMACS_VERSION}.tar.gz
+    cd gromacs-${GROMACS_VERSION}
+    
+    mkdir build
+    cd build
+    
+    cmake .. \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DGMX_BUILD_OWN_FFTW=ON \
+        -DREGRESSIONTEST_DOWNLOAD=ON \
+        -DGMX_GPU=CUDA \
+        -DCUDAToolkit_ROOT=/usr/local/cuda \
+        -DCUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda \
+        -DGMX_HWLOC=ON \
+        -DGMX_USE_PLUMED=ON \
+        -DGMX_USE_COLVARS=INTERNAL \
+        -DGMX_USE_HDF5=ON \
+        -DGMX_NNPOT=TORCH \
+        -DGMX_EXTERNAL_TINYXML2=ON \
+        -DGMX_EXTERNAL_ZLIB=ON \
+        -DCMAKE_PREFIX_PATH="/usr/local/libtorch;/usr/local/cuda" \
+        -DCMAKE_INSTALL_PREFIX=/usr/local/gromacs
+
+    make -j$(nproc)
+    make install -j$(nproc)
+    
+%runscript
+    echo "Container GROMACS 2026.0 (GridUNESP Edition) Iniciado..."
+    echo "Autor: Patrick Allan dos Santos Faustino"
+    exec "$@"
+
+%environment
+    # --- Python (Ubuntu 24.04 usa v3.12) ---
+    export PYTHONPATH=/usr/local/lib/python3.12/dist-packages:$PYTHONPATH
+
+    # --- Variáveis do GROMACS (Definições) ---
+    export GMXBIN=/usr/local/gromacs/bin
+    export GMXLDLIB=/usr/local/gromacs/lib
+    export GMXMAN=/usr/local/gromacs/share/man
+    export GMXDATA=/usr/local/gromacs/share/gromacs
+    
+    # --- Atualização dos Caminhos (Tudo em uma linha só) ---
+    # Ordem de prioridade: GROMACS -> CUDA -> Sistema
+    export PATH=$GMXBIN:$PATH
+    
+    # Aqui consolidamos: Libs do GROMACS + Libs do CUDA + O que já existia
+    export LD_LIBRARY_PATH=$GMXLDLIB:/usr/local/cuda/lib64:$LD_LIBRARY_PATH
+    
+    export MANPATH=$GMXMAN:$MANPATH
+
+%labels
+    Author "Patrick Allan dos Santos Faustino"
+    Version "2026.02.14"
+    Stack "Ubuntu 24.04 | CUDA 12 | GROMACS 2026.0 with NNPOT"
