@@ -548,7 +548,7 @@ pip install packmol
 ```
 conda create -n mbar python=3.10
 conda activate mbar
-conda install -c conda-forge alchemlyb pymbar jax jaxlib
+conda install -c conda-forge alchemlyb pymbar jax jaxlib seaborn "jaxlib=*=*cuda*"
 ```
 
 [MDAnalysis](https://www.mdanalysis.org/) é "agnóstica" quanto ao formato de arquivo (lê GROMACS, Amber, CHARMM, NAMD, etc. sem precisar converter). É orientada a objetos, permitindo seleções de átomos muito complexas e poderosas. É excelente para escrever ferramentas de análise personalizadas, embora possa ser ligeiramente mais lenta que o MDTraj em cálculos massivos.
