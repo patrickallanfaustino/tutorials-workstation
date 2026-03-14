@@ -546,10 +546,9 @@ pip install packmol
 [Alchemlyb](https://github.com/alchemistry/alchemlyb) é uma biblioteca voltado para análises de energia livres altamente eficiente, utilizando aprendizagem de máquina nas análises. Para instalar:
 
 ```
-cd $HOME
-python3 -m venv mbar
-source $HOME/mbar/bin/activate
-pip install alchemlyb jax pymbar pandas pybar[jax]
+conda create -n mbar python=3.10
+conda activate mbar
+conda install -c conda-forge alchemlyb pymbar jax jaxlib
 ```
 
 [MDAnalysis](https://www.mdanalysis.org/) é "agnóstica" quanto ao formato de arquivo (lê GROMACS, Amber, CHARMM, NAMD, etc. sem precisar converter). É orientada a objetos, permitindo seleções de átomos muito complexas e poderosas. É excelente para escrever ferramentas de análise personalizadas, embora possa ser ligeiramente mais lenta que o MDTraj em cálculos massivos.
