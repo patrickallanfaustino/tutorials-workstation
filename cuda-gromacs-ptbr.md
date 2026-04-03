@@ -436,7 +436,7 @@ sudo apt install curl
 curl -fsSL https://install.julialang.org | sh
 ```
 
-Para atualizar, utilize no terminal `juliaup update`.
+Para atualizar, utilize no terminal `juliaup update`. Para remover utilize `juliaup self uninstall`.
 
 ---
 ## 🧰 Instalando ferramentas para topologias: OpenBabel, AmberTools/ACPYPE, CGenFF, LigParGen e Packmol.
