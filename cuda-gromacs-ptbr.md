@@ -271,7 +271,11 @@ zlib1g-dev \
 build-essential \
 pkg-config \
 pybind11-dev \
-python3-pybind11
+python3-pybind11 \
+python3.12 \
+python3.12-dev \
+python3-dev \
+python3-full
 ```
 
 A partir de agora, você poderá seguir a documentação oficial [guia de instalação](https://manual.gromacs.org/current/install-guide/index.html).
