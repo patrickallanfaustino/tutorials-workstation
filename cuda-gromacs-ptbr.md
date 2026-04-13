@@ -6,7 +6,7 @@
 
 <img src="picture_2.png" alt="computer">
 
-> Tutorial para compilar o GROMACS 2026.0 com suporte NNPOT-PyTorch (Redes Neurais) em GPU, utilizando CUDA 13.1 no Ubuntu 24.04.4 Kernel 6.17.
+> Tutorial para compilar o GROMACS 2026.1 com suporte NNPOT-PyTorch (Redes Neurais) em GPU, utilizando CUDA 13.2 no Ubuntu 24.04.4 Kernel 6.17.
 
 ## 💻 Computador testado e pré-requisitos:
 - CPU Ryzen 9 5900XT, Memória 2x16 GB DDR4, Chipset X570, GPU MSI RTX 4070 Ti Gaming Trio X, em dual boot com Windows 11.
@@ -21,7 +21,12 @@ Você vai precisar atualizar e instalar pacotes em sua máquina:
 ```
 sudo apt update && sudo apt upgrade
 sudo apt autoremove && sudo apt autoclean
-sudo apt install build-essential libboost-all-dev git cmake cmake-curses-gui ttf-mscorefonts-installer
+sudo apt install build-essential \
+    libboost-all-dev \
+    git \
+    cmake \
+    cmake-curses-gui \
+    ttf-mscorefonts-installer
 ```
 
 Para adicionar ferramentas necessárias ou atualizar com versões mais recentes:
@@ -60,8 +65,8 @@ Verifique seu diretorio padrão `$HOME`, pois será o caminho utilizado para a m
 >
 > Para atualizar as versões do gcc e cmake (recomendado):
 >```
->sudo apt install gcc-14 g++-14
->sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-14 100 --slave /usr/bin/g++ g++ /usr/bin/g++-14
+>sudo apt install gcc-15 g++-15
+>sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-15 100 --slave /usr/bin/g++ g++ /usr/bin/g++-15
 >```
 >```
 >test -f /usr/share/doc/kitware-archive-keyring/copyright ||
@@ -89,12 +94,6 @@ sudo apt install zram-config
 
 # Acesso ao disco NTFS do Windows
 sudo apt install ntfs-3g
-
-# Reparo de boot GRUB. Selecione Recommended repair.
-sudo add-apt-repository ppa:yannubuntu/boot-repair
-sudo apt update
-sudo apt install boot-repair
-boot-repair
 ```
 
 ---
@@ -144,7 +143,20 @@ Instale os pre-requisitos para CUDA:
 ```
 sudo apt update
 sudo apt install "linux-headers-$(uname -r)" "linux-modules-extra-$(uname -r)"
-sudo apt install g++ freeglut3-dev build-essential ca-certificates software-properties-common dkms curl wget libx11-dev libxmu-dev libxi-dev libglu1-mesa-dev libfreeimage-dev libglfw3-dev
+sudo apt install g++ \
+    freeglut3-dev \
+    build-essential \
+    ca-certificates \
+    software-properties-common \
+    dkms \
+    curl \
+    wget \
+    libx11-dev \
+    libxmu-dev \
+    libxi-dev \
+    libglu1-mesa-dev \
+    libfreeimage-dev \
+    libglfw3-dev
 ```
 
 Adicionar o repositório oficial NVIDIA CUDA:
@@ -178,7 +190,7 @@ sudo apt install nvidia-gds
 
 Para configurar o compilador NVCC, edite o `~/.bashrc` e adicione:
 ```
-export CUDA_HOME=/usr/local/cuda-13.1
+export CUDA_HOME=/usr/local/cuda
 export LD_LIBRARY_PATH=$CUDA_HOME/lib64:$LD_LIBRARY_PATH
 export PATH=$CUDA_HOME/bin:$PATH
 ```
@@ -246,44 +258,44 @@ sudo snap install indicator-sensors
 **LIBTORCH!** É possivel instalar a biblioteca [libtorch](https://pytorch.org/) para utilizar Redes Neurais. Verifique a versão mais recente. Utilize a pasta `Downloads`.
 ```
 cd $HOME/Downloads
-wget https://download.pytorch.org/libtorch/cu130/libtorch-shared-with-deps-2.9.1%2Bcu130.zip
-unzip libtorch-shared-with-deps-2.9.1+cu130.zip
+wget https://download.pytorch.org/libtorch/cu130/libtorch-shared-with-deps-2.11.0%2Bcu130.zip
+unzip libtorch-shared-with-deps-2.11.0+cu130.zip
 ```
 
 Podemos instalar algumas bibliotecas auxiliares para o GROMACS:
 ```
 sudo apt install grace \
-hwloc \
-libhwloc-dev \
-texlive \
-libhdf5-dev \
-hdf5-tools \
-libopenblas-dev \
-liblapack-dev \
-imagemagick \
-libpng-dev \
-libjpeg-dev \
-libtiff-dev \
-libxml2-dev \
-libtinyxml2-dev \
-libzstd-dev \
-zlib1g-dev \
-build-essential \
-pkg-config \
-pybind11-dev \
-python3-pybind11 \
-python3.12 \
-python3.12-dev \
-python3-dev \
-python3-full
+    hwloc \
+    libhwloc-dev \
+    texlive \
+    libhdf5-dev \
+    hdf5-tools \
+    libopenblas-dev \
+    liblapack-dev \
+    imagemagick \
+    libpng-dev \
+    libjpeg-dev \
+    libtiff-dev \
+    libxml2-dev \
+    libtinyxml2-dev \
+    libzstd-dev \
+    zlib1g-dev \
+    build-essential \
+    pkg-config \
+    pybind11-dev \
+    python3-pybind11 \
+    python3.12 \
+    python3.12-dev \
+    python3-dev \
+    python3-full
 ```
 
 A partir de agora, você poderá seguir a documentação oficial [guia de instalação](https://manual.gromacs.org/current/install-guide/index.html).
 ```
 cd $HOME/Downloads
-wget ftp://ftp.gromacs.org/gromacs/gromacs-2026.0.tar.gz
-tar -xvf gromacs-2026.0.tar.gz
-cd gromacs-2026.0
+wget ftp://ftp.gromacs.org/gromacs/gromacs-2026.1.tar.gz
+tar -xvf gromacs-2026.1.tar.gz
+cd gromacs-2026.1
 sudo mkdir build && cd build
 ```
 
@@ -293,13 +305,17 @@ sudo cmake .. \
 -DCMAKE_BUILD_TYPE=Release \
 -DGMX_BUILD_OWN_FFTW=ON \
 -DREGRESSIONTEST_DOWNLOAD=ON \
+-DGMX_OPENMP=ON \
 -DGMX_THREAD_MPI=ON \
+-DGMX_SIMD=AVX2_256 \
 -DCMAKE_C_FLAGS="-O3 -march=native -mtune=native" \
 -DCMAKE_CXX_FLAGS="-O3 -march=native -mtune=native" \
 -DGMX_GPU=CUDA \
+-DGMX_GPU_FFT_LIBRARY=cuFFT \
 -DCUDAToolkit_ROOT=/usr/local/cuda \
 -DCUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda \
 -DCMAKE_CUDA_ARCHITECTURES=native \
+-DGMX_GPU_NB_CLUSTER_SIZE=8 \
 -DCMAKE_INSTALL_PREFIX=$HOME/gromacs-cuda-torch \
 -DGMX_HWLOC=ON \
 -DGMX_USE_HDF5=ON \
@@ -308,7 +324,6 @@ sudo cmake .. \
 -DGMX_NNPOT=TORCH \
 -DGMX_EXTERNAL_TINYXML2=ON \
 -DGMX_EXTERNAL_ZLIB=ON \
--DGMX_PYTHON_PACKAGE=ON \
 -DCMAKE_PREFIX_PATH="$HOME/Downloads/libtorch;/usr/local/cuda"
 ```
 
