@@ -282,8 +282,6 @@ sudo apt install grace \
     zlib1g-dev \
     build-essential \
     pkg-config \
-    pybind11-dev \
-    python3-pybind11 \
     python3.12 \
     python3.12-dev \
     python3-dev \
@@ -307,7 +305,6 @@ sudo cmake .. \
 -DREGRESSIONTEST_DOWNLOAD=ON \
 -DGMX_OPENMP=ON \
 -DGMX_THREAD_MPI=ON \
--DGMX_SIMD=AVX2_256 \
 -DCMAKE_C_FLAGS="-O3 -march=native -mtune=native" \
 -DCMAKE_CXX_FLAGS="-O3 -march=native -mtune=native" \
 -DGMX_GPU=CUDA \
@@ -315,7 +312,6 @@ sudo cmake .. \
 -DCUDAToolkit_ROOT=/usr/local/cuda \
 -DCUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda \
 -DCMAKE_CUDA_ARCHITECTURES=native \
--DGMX_GPU_NB_CLUSTER_SIZE=8 \
 -DCMAKE_INSTALL_PREFIX=$HOME/gromacs-cuda-torch \
 -DGMX_HWLOC=ON \
 -DGMX_USE_HDF5=ON \
