@@ -232,8 +232,8 @@ nvcc --version
 O aplicativo [LACT](https://github.com/ilya-zlobintsev/LACT) é utilizado para controlar e realizar overclocking em GPU AMD, Intel e Nvidia em sistemas GNU/Linux.
 ```
 cd $HOME/Downloads
-wget https://github.com/ilya-zlobintsev/LACT/releases/download/v0.8.4/lact-0.8.4-0.amd64.ubuntu-2404.deb
-sudo dpkg -i lact-0.8.4-0.amd64.ubuntu-2404.deb
+wget https://github.com/ilya-zlobintsev/LACT/releases/download/v0.9.0/lact-0.9.0-0.amd64.ubuntu-2404.deb
+sudo dpkg -i lact-0.9.0-0.amd64.ubuntu-2404.deb
 sudo systemctl enable --now lactd
 ```
 
