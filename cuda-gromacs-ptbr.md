@@ -493,7 +493,7 @@ conda install --channel conda-forge ambertools openbabel
 Em conjunto com o AmberTools, o [ACPYPE](https://github.com/alanwilter/acpype) é um pacote em python para gerar topologias de moléculas. Para instalar e utilizar:
 
 ```
-pip install acpype
+conda install -c conda-forge acpype
 acpype --version
 
 acpype -i ethanol.mol2               # exemplo de uso para uma molécula de etanol.
