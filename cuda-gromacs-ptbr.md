@@ -436,7 +436,9 @@ vmd
 
 O [Pymol](https://www.pymol.org/) é outro software muito utilizado para visualização de moléculas:
 ```
-sudo snap install pymol-oss
+conda create -n pymol python=3.10
+conda activate pymol
+conda install -c conda-forge pymol-open-source
 ```
 
 ---
