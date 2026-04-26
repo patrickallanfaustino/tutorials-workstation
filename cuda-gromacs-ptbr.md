@@ -69,6 +69,7 @@ Verifique seu diretorio padrão `$HOME`, pois será o caminho utilizado para a m
 >```
 >```
 >sudo apt update && sudo apt install -y ca-certificates gpg wget
+>
 >wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | \
 >  gpg --dearmor - | \
 >  sudo tee /usr/share/keyrings/kitware-archive-keyring.gpg >/dev/null
