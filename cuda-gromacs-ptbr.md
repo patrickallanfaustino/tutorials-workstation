@@ -25,7 +25,8 @@ sudo apt install build-essential \
     libboost-all-dev \
     git \
     cmake \
-    cmake-curses-gui
+    cmake-curses-gui \
+    software-properties-common
 ```
 
 Para adicionar ferramentas necessárias ou atualizar com versões mais recentes:
@@ -182,12 +183,13 @@ sudo apt update
 Para avaliar as versões de drivers e CUDA disponíveis:
 ```
 apt search cuda-toolkit | grep -E "^cuda-toolkit"
+apt search cuda-drivers | grep -E "^cuda-drivers"
 apt search nvidia-driver | grep -E "^nvidia-driver-[0-9]+"
 ```
 
 Instalação:
 ```
-sudo apt install cuda-toolkit nvidia-driver-590 libnccl2 libnccl-dev
+sudo apt install cuda-toolkit cuda-drivers libnccl2 libnccl-dev
 sudo apt install nvidia-gds
 ```
 
@@ -275,6 +277,9 @@ sudo apt install grace \
     hdf5-tools \
     libopenblas-dev \
     liblapack-dev \
+    libblas-dev \
+    gfortran \
+    libfftw3-dev \
     imagemagick \
     libpng-dev \
     libjpeg-dev \
@@ -290,9 +295,9 @@ sudo apt install grace \
 A partir de agora, você poderá seguir a documentação oficial [guia de instalação](https://manual.gromacs.org/current/install-guide/index.html).
 ```
 cd $HOME/Downloads
-wget ftp://ftp.gromacs.org/gromacs/gromacs-2026.1.tar.gz
-tar -xvf gromacs-2026.1.tar.gz
-cd gromacs-2026.1
+wget ftp://ftp.gromacs.org/gromacs/gromacs-2026.2.tar.gz
+tar -xvf gromacs-2026.2.tar.gz
+cd gromacs-2026.2
 sudo mkdir build && cd build
 ```
 
