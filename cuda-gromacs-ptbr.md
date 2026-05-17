@@ -304,7 +304,7 @@ sudo mkdir build && cd build
 
 Para compilar com Cmake (versão >=3.28):
 ```
-sudo cmake .. \
+cmake .. \
 -DCMAKE_BUILD_TYPE=Release \
 -DGMX_BUILD_OWN_FFTW=ON \
 -DREGRESSIONTEST_DOWNLOAD=ON \
@@ -332,9 +332,9 @@ Note que criei uma pasta chamada `gromacs-cuda-torch` para os arquivos compilado
 
 Agora é o momento de compilar, checar e instalar:
 ```
-sudo make -j$(nproc)
-sudo make check -j$(nproc)
-sudo make install -j$(nproc)
+make -j$(nproc)
+make check -j$(nproc)
+make install -j$(nproc)
 ```
 
 Para carregar a biblioteca e invocar o GROMACS:
