@@ -263,8 +263,8 @@ sudo snap install indicator-sensors
 **LIBTORCH!** É possivel instalar a biblioteca [libtorch](https://pytorch.org/) para utilizar Redes Neurais. Verifique a versão mais recente. Utilize a pasta `Downloads`.
 ```
 cd $HOME/Downloads
-wget https://download.pytorch.org/libtorch/cu130/libtorch-shared-with-deps-2.11.0%2Bcu130.zip
-unzip libtorch-shared-with-deps-2.11.0+cu130.zip
+wget https://download.pytorch.org/libtorch/cu132/libtorch-shared-with-deps-2.12.0%2Bcu132.zip
+unzip libtorch-shared-with-deps-2.12.0+cu132.zip
 ```
 
 Podemos instalar algumas bibliotecas auxiliares para o GROMACS:
@@ -275,6 +275,7 @@ sudo apt install grace \
     texlive \
     libhdf5-dev \
     hdf5-tools \
+    libhdf5-openmpi-dev \
     libopenblas-dev \
     liblapack-dev \
     libblas-dev \
