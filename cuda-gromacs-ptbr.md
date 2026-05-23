@@ -571,7 +571,7 @@ pip install packmol
 [Alchemlyb](https://github.com/alchemistry/alchemlyb) é uma biblioteca voltado para análises de energia livres altamente eficiente, utilizando aprendizagem de máquina nas análises. Para instalar:
 
 ```
-conda create -n mbar python=3.10
+conda create -n mbar
 conda activate mbar
 conda install -c conda-forge alchemlyb pymbar jax jaxlib seaborn "jaxlib=*=*cuda*"
 ```
