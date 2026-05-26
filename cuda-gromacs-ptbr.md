@@ -484,6 +484,10 @@ obabel -ismi ethanol.smi -opdb -O ethanol.pdb --title ETHANOL --gen3d --minimize
 ou
 
 obabel -:'CCO' -ogro -O ethanol.gro --title ETHANOL --gen3d --minimize --sd --ff GAFF --log
+
+ou
+
+obabel ethanol.gro -O ethanol.mol2
 ```
 
 >[!NOTE]
