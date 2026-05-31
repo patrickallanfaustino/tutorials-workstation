@@ -534,7 +534,7 @@ Para criar o ambiente e instalar:
 ```
 conda create --name ligpargen python=3.7
 conda activate ligpargen
-conda install -c rdkit rdkit
+conda install --channel conda-forge rdkit
 conda install --channel conda-forge openbabel
 ```
 ```
