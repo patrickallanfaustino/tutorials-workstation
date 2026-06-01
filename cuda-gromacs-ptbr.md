@@ -464,11 +464,27 @@ curl -fsSL https://install.julialang.org | sh
 Para atualizar, utilize no terminal `juliaup update`. Para remover utilize `juliaup self uninstall`.
 
 ---
-## 🧰 Instalando ferramentas para topologias: OpenBabel, AmberTools/ACPYPE, CGenFF, LigParGen e Packmol.
+## 🧰 Instalando ferramentas para topologias: Toolkit, OpenBabel, AmberTools/ACPYPE, CGenFF, LigParGen e Packmol.
 
 >[!NOTE]
 >A adoção de ambientes isolados visa assegurar a manutenção e mitigar incompatibilidades entre bibliotecas.
 >
+
+**TOOLKIT**: é uma caixa de ferramenta com bibliotecas utilizadas em bioinformatica.
+
+```
+conda create --name mdtoolkit python=3.12
+
+conda activate mdtoolkit
+
+conda install -c conda-forge \
+rdkit openbabel py3dmol pillow \
+numpy scipy pandas matplotlib seaborn \
+scikit-learn jupyterlab ipykernel \
+pdbfixer openmm pdb2pqr propka biopython requests
+
+conda install -c salilab modeller
+```
 
 [OpenBabel](https://openbabel.org/docs/index.html) é um pacote usado para manipular dados de modelagem molecular, química, etc. Para instalar:
 
@@ -481,11 +497,9 @@ Para uso:
 ```
 obabel -ismi ethanol.smi -opdb -O ethanol.pdb --title ETHANOL --gen3d --minimize --sd --ff GAFF --log
 
-ou
-
 obabel -:'CCO' -ogro -O ethanol.gro --title ETHANOL --gen3d --minimize --sd --ff GAFF --log
 
-ou
+obabel -:"CC(=O)OC1=CC=CC=C1C(=O)O" -opdb -O aspirin.pdb --title ASPIRIN --gen3d --minimize --sd --ff GAFF --log
 
 obabel ethanol.gro -O ethanol.mol2
 ```
@@ -549,11 +563,11 @@ ligpargen -h
 Para gerar topologia de moléculas, utilize:
 
 ```
-ligpargen -s 'CCO' -n ethanol -p molecule -r ETH -c 0 -o 3 -cgen CM1A-LBCC -verbose -check
+ligpargen -s 'CCO' -n ethanol -p molecule -r ETH -c 0 -o 3 -cgen CM1A -verbose -check
 
 ou
 
-ligpargen -i ethanol.pdb -n ethanol -p molecule -r ETH -c 0 -o 3 -cgen CM1A-LBCC -verbose -check
+ligpargen -i ethanol.pdb -n ethanol -p molecule -r ETH -c 0 -o 3 -cgen CM1A -verbose -check
 ```
 
 [Packmol](https://m3g.github.io/packmol/) é uma biblioteca criada para construir configurações iniciais de sistemas complexos para simulação. Para instalar:
