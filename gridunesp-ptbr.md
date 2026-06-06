@@ -1,4 +1,4 @@
-# Workflow para Dinâmica Molecular no gridUNESP
+# Workflow para Dinâmica Molecular utilizando gridUNESP
 
 ![GitHub repo size](https://img.shields.io/github/repo-size/patrickallanfaustino/tutorials?style=for-the-badge)
 ![GitHub language count](https://img.shields.io/github/languages/count/patrickallanfaustino/tutorials?style=for-the-badge)
@@ -272,23 +272,20 @@ sbatch run1.sh
 
 ```
 ssh usuario@access.grid.unesp.br    # para acesso
-```
-```
+
 squeue -u usuario    # lista tarefas do usuario
 squeue -a            # lista todas as tarefas do grid
-```
-```
+
 sbatch job.sh                 # submete a tarefa
 scancel 00000000              # cancela a tarefa, onde 00000000 é o numero atribuido a tarefa
 scontrol show job 00000000    # verifica detalhes da tarefa
-```
-```
-share -a | grep usuario       # verifica o FairShare, quanto maior for, maior a prioridade.
-```
-```
+
+sshare -a | grep usuario       # verifica o FairShare, quanto maior for, maior a prioridade.
+
+
 squeue -o "%.18i %.9Q %.8j %.8u %.10V %.6D %R" --sort=-p,i --states=PD    # verifica a fila das próximas tarefas
-```
-```
+
+
 tail -f slurm-00000000.out    # acompanha o processamento da tarefa
 ```
 
