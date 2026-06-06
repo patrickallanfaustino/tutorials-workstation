@@ -483,6 +483,7 @@ numpy scipy pandas matplotlib seaborn \
 scikit-learn jupyterlab ipykernel \
 pdbfixer openmm pdb2pqr propka biopython requests
 
+conda config --append channels salilab
 conda install -c salilab modeller
 ```
 
