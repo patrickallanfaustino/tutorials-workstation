@@ -263,7 +263,7 @@ sudo snap install indicator-sensors
 ---
 ## 💎 Instalação do GROMACS 2026.x
 
-**LIBTORCH!** É possivel instalar a biblioteca [libtorch](https://pytorch.org/) para utilizar Redes Neurais. Verifique a versão mais recente. Utilize a pasta `Downloads`.
+**LIBTORCH** É possivel instalar a biblioteca [libtorch](https://pytorch.org/) para utilizar Redes Neurais. Verifique a versão mais recente. Utilize a pasta `Downloads`.
 ```
 cd $HOME/Downloads
 wget https://download.pytorch.org/libtorch/cu130/libtorch-shared-with-deps-2.11.0%2Bcu130.zip
@@ -282,6 +282,8 @@ sudo apt install grace \
     libopenblas-dev \
     liblapack-dev \
     libblas-dev \
+    openmpi-bin \
+    libopenmpi-dev \
     gfortran \
     libfftw3-dev \
     imagemagick \
@@ -294,6 +296,24 @@ sudo apt install grace \
     zlib1g-dev \
     build-essential \
     pkg-config
+```
+
+**PLUMED 2.x** Para instalar a biblioteca [Plumed](https://www.plumed.org/):
+```
+wget https://github.com/plumed/plumed2/releases/download/v2.10.0/plumed-2.10.0.tgz
+tar -xzf plumed-2.10.0.tgz
+cd plumed-2.10.0
+./configure --prefix=$HOME/plumed --enable-mpi CXX=mpicxx CC=mpicc CXXFLAGS="-O3"
+make -j$(nproc)
+make install
+```
+
+Atualize no `.bashrc`:
+```
+export PLUMED_PREFIX=$HOME/plumed
+export PATH="$PLUMED_PREFIX/bin:$PATH"
+export LD_LIBRARY_PATH="$PLUMED_PREFIX/lib:$LD_LIBRARY_PATH"
+export PLUMED_KERNEL="$PLUMED_PREFIX/lib/libplumedKernel.so"
 ```
 
 A partir de agora, você poderá seguir a documentação oficial [guia de instalação](https://manual.gromacs.org/current/install-guide/index.html).
@@ -330,6 +350,11 @@ cmake .. \
 -DGMX_EXTERNAL_ZLIB=ON \
 -DCMAKE_PREFIX_PATH="$HOME/Downloads/libtorch;/usr/local/cuda"
 ```
+
+>[!NOTE]
+>
+>Para compilar com plumed deve ser utilizado `-DGMX_MPI=ON` e excluir `-DGMX_OPENMP=ON` e `-DGMX_THREAD_MPI=ON`.
+>
 
 Note que criei uma pasta chamada `gromacs-cuda-torch` para os arquivos compilados e indiquei com `-DCMAKE_INSTALL_PREFIX`, pois isso facilita a atualização do GROMACS no futuro.
 
