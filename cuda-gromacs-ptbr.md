@@ -300,8 +300,8 @@ sudo apt install grace \
 
 **PLUMED 2.x** Para instalar a biblioteca [Plumed](https://www.plumed.org/):
 ```
-wget https://github.com/plumed/plumed2/releases/download/v2.10.0/plumed-2.10.0.tgz
-tar -xzf plumed-2.10.0.tgz
+wget https://github.com/plumed/plumed2/releases/download/v2.10.0/plumed-src-2.10.0.tgz
+tar -xzf plumed-src-2.10.0.tgz
 cd plumed-2.10.0
 ./configure --prefix=$HOME/plumed --enable-mpi CXX=mpicxx CC=mpicc CXXFLAGS="-O3"
 make -j$(nproc)
