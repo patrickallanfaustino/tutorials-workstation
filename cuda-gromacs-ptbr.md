@@ -9,7 +9,7 @@
 > Tutorial para compilar o GROMACS 2026.1 com suporte NNPOT-PyTorch (Redes Neurais) em GPU, utilizando CUDA 13.2 no Ubuntu 24.04.4 Kernel 6.17.
 
 ## 💻 Computador testado e pré-requisitos:
-- CPU Ryzen 9 5900XT, Memória 2x16 GB DDR4, Chipset X570, GPU MSI RTX 4070 Ti Gaming Trio X, em dual boot com Windows 11.
+- Verificar minha [Workstation](https://github.com/patrickallanfaustino).
 
 Antes de começar, verifique se você atendeu aos seguintes requisitos:
 
@@ -21,12 +21,16 @@ Você vai precisar atualizar e instalar pacotes em sua máquina:
 ```
 sudo apt update && sudo apt upgrade
 sudo apt autoremove && sudo apt autoclean
-sudo apt install build-essential \
+sudo apt install \
+    build-essential \
     libboost-all-dev \
     git \
     cmake \
     cmake-curses-gui \
-    software-properties-common
+    software-properties-common \
+    ca-certificates \
+    gpg \
+    wget
 ```
 
 Para adicionar ferramentas necessárias ou atualizar com versões mais recentes:
@@ -69,7 +73,6 @@ Verifique seu diretorio padrão `$HOME`, pois será o caminho utilizado para a m
 >sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-15 100 --slave /usr/bin/g++ g++ /usr/bin/g++-15
 >```
 >```
->sudo apt update && sudo apt install -y ca-certificates gpg wget
 >
 ># Adicione a chave GPG do Kitware
 >wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | \
@@ -81,7 +84,6 @@ Verifique seu diretorio padrão `$HOME`, pois será o caminho utilizado para a m
 >  sudo tee /etc/apt/sources.list.d/kitware.list
 >
 >sudo apt update
->sudo apt install cmake
 >```
 >
 
@@ -150,7 +152,8 @@ Instale os pre-requisitos para CUDA:
 ```
 sudo apt update
 sudo apt install "linux-headers-$(uname -r)" "linux-modules-extra-$(uname -r)"
-sudo apt install g++ \
+sudo apt install \
+    g++ \
     freeglut3-dev \
     build-essential \
     ca-certificates \
@@ -275,7 +278,6 @@ Podemos instalar algumas bibliotecas auxiliares para o GROMACS:
 sudo apt install grace \
     hwloc \
     libhwloc-dev \
-    texlive \
     libhdf5-dev \
     hdf5-tools \
     libhdf5-openmpi-dev \
@@ -294,7 +296,6 @@ sudo apt install grace \
     libtinyxml2-dev \
     libzstd-dev \
     zlib1g-dev \
-    build-essential \
     pkg-config
 ```
 
@@ -310,18 +311,16 @@ make install
 
 Atualize no `.bashrc`:
 ```
-export PLUMED_PREFIX=$HOME/plumed
-export PATH="$PLUMED_PREFIX/bin:$PATH"
-export LD_LIBRARY_PATH="$PLUMED_PREFIX/lib:$LD_LIBRARY_PATH"
-export PLUMED_KERNEL="$PLUMED_PREFIX/lib/libplumedKernel.so"
+export PATH="$HOME/plumed/bin:$PATH"
+export LD_LIBRARY_PATH="$HOME/plumed/lib:$LD_LIBRARY_PATH"
+export PLUMED_KERNEL="$HOME/plumed/lib/libplumedKernel.so"
 ```
 
 A partir de agora, você poderá seguir a documentação oficial [guia de instalação](https://manual.gromacs.org/current/install-guide/index.html).
 ```
 cd $HOME/Downloads
 wget ftp://ftp.gromacs.org/gromacs/gromacs-2026.2.tar.gz
-tar -xvf gromacs-2026.2.tar.gz
-cd gromacs-2026.2
+tar -xvf gromacs-2026.2.tar.gz && cd gromacs-2026.2
 sudo mkdir build && cd build
 ```
 
@@ -353,7 +352,7 @@ cmake .. \
 
 >[!NOTE]
 >
->Para compilar com plumed deve ser utilizado `-DGMX_MPI=ON` e excluir `-DGMX_OPENMP=ON` e `-DGMX_THREAD_MPI=ON`.
+>Para compilar com Plumed deve ser utilizado `-DGMX_MPI=ON` e excluir `-DGMX_OPENMP=ON` e `-DGMX_THREAD_MPI=ON`.
 >
 
 Note que criei uma pasta chamada `gromacs-cuda-torch` para os arquivos compilados e indiquei com `-DCMAKE_INSTALL_PREFIX`, pois isso facilita a atualização do GROMACS no futuro.
@@ -377,13 +376,13 @@ gmx -version
 >
 
 ---
-## 🐍 Instalando ANACONDA e PyTorch
+## 🐍 Instalando MINICONDA e PyTorch
 
-O [Anaconda](https://www.anaconda.com) é um importante pacote de bibliotecas Python voltados para o uso científico.
+O [Miniconda](https://www.anaconda.com/docs/getting-started/miniconda/main) é um importante pacote de bibliotecas Python voltados para o uso científico.
 ```
 cd $HOME/Downloads
-wget https://repo.anaconda.com/archive/Anaconda3-2025.12-2-Linux-x86_64.sh
-bash Anaconda3-2025.12-2-Linux-x86_64.sh
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+bash Miniconda3-latest-Linux-x86_64.sh
 source ~/.bashrc
 conda config --set auto_activate_base false
 conda info
@@ -392,13 +391,11 @@ conda info
 Com os comandos acima será carregado no prompt (`source ~/.bashrc`) o conda `base`. Para desativar o carregamento automatico, utilizar `conda config --set auto_activate_base false`.
 
 >[!TIP]
->
->Faça o download do pacote [Anaconda](https://www.anaconda.com/download) mais recente.
->
+>Para atualizar o gerenciador de pacotes conda use `conda update conda`. Para atualizar as bibliotecas dentro de um ambiente `conda update --all` e para uma limpeza `conda clean --all -y`.
 
 >[!WARNING]
 >
->Certifique de que a instalação será no diretório `$HOME/anaconda3` confirmando `yes` para todas as respostas. **NÃO UTILIZE `sudo`**.
+>Certifique de que a instalação será no diretório `$HOME/miniconda3` confirmando `yes` para todas as respostas. **NÃO UTILIZE `sudo`**.
 >
 
 Agora, vamos criar um ambiente virtual e instalar o [Pytorch](https://pytorch.org/get-started/locally/). No diretório `$HOME`, crie um ambiente `gromacs-nnpot`:
@@ -443,15 +440,15 @@ python -m openmm.testInstallation
 ```
 
 >[!NOTE]
->***Extra:*** para compilar no Conda com suporte Torch:
+>***Extra:*** para compilar no Conda:
 >```
->conda create --name openmm-conda
->conda activate openmm-conda
->conda install -c conda-forge openmm cuda-version=13 openmmforcefields openmm-torch openmm-ml
+>conda create --name openmm
+>conda activate openmm
+>conda install -c conda-forge openmm
 >```
 >
 
-Para remover o ambiente conda criado `conda env remove --name openmm-conda` e para listar todas os ambientes utilize `conda env list`.
+Para remover o ambiente conda criado `conda env remove --name openmm` e para listar todas os ambientes utilize `conda env list`.
 
 ---
 ## 🧬 Instalando VMD e Pymol
@@ -506,20 +503,13 @@ conda install -c conda-forge \
 rdkit openbabel py3dmol pillow \
 numpy scipy pandas matplotlib seaborn \
 scikit-learn jupyterlab ipykernel \
-pdbfixer openmm pdb2pqr propka biopython requests
+pdbfixer openmm pdb2pqr propka biopython requests notebook
 
 conda config --append channels salilab
 conda install -c salilab modeller
 ```
 
-[OpenBabel](https://openbabel.org/docs/index.html) é um pacote usado para manipular dados de modelagem molecular, química, etc. Para instalar:
-
-```
-sudo apt install openbabel
-obabel --version
-```
-
-Para uso:
+Para utilizar o openbabel:
 ```
 obabel -ismi ethanol.smi -opdb -O ethanol.pdb --title ETHANOL --gen3d --minimize --sd --ff GAFF --log
 
@@ -531,7 +521,7 @@ obabel ethanol.gro -O ethanol.mol2
 ```
 
 >[!NOTE]
->***Extra:*** para mais informações sobre todas as funções disponiveis, consulte `obabel -Hall`.
+> Para utilizar o notebook `jupyter notebook`.
 >
 
 [AmberTools](https://ambermd.org/AmberTools.php) é uma coleção de programas gratuitos e de código aberto usados ​​para configurar, executar e analisar simulações moleculares.. Para instalar:
@@ -567,6 +557,7 @@ python cgenff_charmm2gmx_py3_nx2.py ETH ethanol.mol2 ethanol.str charmm36-jul202
 ```
 sudo apt install csh
 export BOSSdir=PATH_TO_BOSS_DIRECTORY            # pode ser incluido no arquivo ~/.bashrc
+export PATH=$BOSSdir/scripts:$BOSSdir/exe:$PATH
 ```
 
 Para criar o ambiente e instalar:
@@ -574,8 +565,7 @@ Para criar o ambiente e instalar:
 ```
 conda create --name ligpargen python=3.7
 conda activate ligpargen
-conda install --channel conda-forge rdkit
-conda install --channel conda-forge openbabel
+conda install -c conda-forge rdkit openbabel
 ```
 ```
 cd $HOME
