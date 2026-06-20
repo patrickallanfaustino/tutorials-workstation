@@ -444,7 +444,7 @@ python -m openmm.testInstallation
 >```
 >conda create --name openmm
 >conda activate openmm
->conda install -c conda-forge openmm
+>conda install -c conda-forge openmm openmmforcefields
 >```
 >
 
