@@ -542,7 +542,7 @@ acpype --version
 acpype -i ethanol.mol2               # exemplo de uso para uma molécula de etanol.
 ```
 
-[CGenFF](https://cgenff.com/) é um servidor web para gerar topologias de moléculas para o campo de força CHARMM36. É possivel obter as topologias e coordenadas diretamente no formato para Gromacs ou obter o arquivo `.str` para posterior conversão em ambiente. É necessário obter a molécula de interesse no formato `.mol2`.
+[CGenFF](https://cgenff.com/) é um servidor web para gerar topologias de moléculas para o campo de força CHARMM36. É possivel obter as topologias e coordenadas diretamente no formato para Gromacs ou obter o arquivo `.str` para posterior conversão em ambiente. É necessário obter a molécula de interesse no formato `.mol2`. (⚠️ Verifique o suporte 32bits das bibliotecas do sistema!)
 
 ```
 conda create --name cgenff python=3.7
