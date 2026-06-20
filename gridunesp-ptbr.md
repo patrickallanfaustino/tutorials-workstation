@@ -186,7 +186,7 @@ Para a dinâmica, utilize os arquivos de exemplo [md1.sh](gridunesp/md1.sh) e [r
 #SBATCH --mail-user=patrick.faustino@unesp.br
 #SBATCH --mail-type=BEGIN,END,FAIL
 
-export INPUT="job_rep1 gromacs-gpu.sif md1.sh"
+export INPUT="rep1 gromacs-gpu.sif md1.sh"
 export OUTPUT="*"
 export VERBOSE="1"
 
