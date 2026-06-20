@@ -1,0 +1,101 @@
+Bootstrap: docker
+From: nvidia/cuda:12.9.1-devel-ubuntu24.04
+
+%post
+    # --- 1. Preparação do Sistema ---
+    export DEBIAN_FRONTEND=noninteractive
+    export CUDA_HOME=/usr/local/cuda
+    export PATH=$CUDA_HOME/bin:$PATH
+    export LD_LIBRARY_PATH=$CUDA_HOME/lib64:$LD_LIBRARY_PATH
+    
+    apt update
+    apt-mark hold $(apt-cache pkgnames | grep -E "^cuda|^libnvidia|^libcudnn") 2>/dev/null || true
+    apt upgrade -y
+    
+    nvcc --version
+    cat /etc/os-release
+    uname -r
+    g++ --version
+    ldd --version
+    
+    apt install -y \
+        build-essential \
+        libboost-all-dev \
+        cmake \
+        unzip \
+        bzip2 \
+        file \
+        gcc \
+        g++ \
+        gfortran \
+        perl \
+        gawk \
+        curl \
+        git \
+        hwloc \
+        libhwloc-dev \
+        libopenblas-dev \
+        liblapack-dev \
+        libfftw3-dev \
+        wget \
+        ca-certificates
+    
+    apt autoremove -y
+    apt autoclean -y
+    
+    ln -fs /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
+    dpkg-reconfigure -f noninteractive tzdata
+
+    # --- 2. Compilação do GROMACS ---
+    GROMACS_VERSION=2026.2
+    
+    cd /opt
+    wget https://download.pytorch.org/libtorch/cu128/libtorch-shared-with-deps-2.10.0%2Bcu128.zip
+    unzip libtorch-shared-with-deps-2.10.0+cu128.zip
+    rm libtorch-shared-with-deps-2.10.0+cu128.zip
+    mv libtorch /usr/local/libtorch
+
+    wget https://ftp.gromacs.org/gromacs/gromacs-${GROMACS_VERSION}.tar.gz
+    tar xfz gromacs-${GROMACS_VERSION}.tar.gz
+    cd gromacs-${GROMACS_VERSION}
+    
+    mkdir build
+    cd build
+    
+    cmake .. \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DGMX_BUILD_OWN_FFTW=ON \
+        -DREGRESSIONTEST_DOWNLOAD=ON \
+        -DGMX_SIMD=AVX_512 \
+        -DGMX_GPU=CUDA \
+        -DCUDAToolkit_ROOT=/usr/local/cuda \
+        -DCUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda \
+        -DGMX_HWLOC=ON \
+        -DGMX_USE_PLUMED=ON \
+        -DGMX_USE_COLVARS=INTERNAL \
+        -DGMX_NNPOT=TORCH \
+        -DCMAKE_PREFIX_PATH="/usr/local/libtorch;/usr/local/cuda" \
+        -DCMAKE_INSTALL_PREFIX=/usr/local/gromacs
+
+    make -j$(nproc)
+    make install -j$(nproc)
+    
+%environment
+    # --- Variáveis do GROMACS (Definições) ---
+    export GMXBIN=/usr/local/gromacs/bin
+    export GMXLDLIB=/usr/local/gromacs/lib
+    export GMXMAN=/usr/local/gromacs/share/man
+    export GMXDATA=/usr/local/gromacs/share/gromacs
+    export PATH=$GMXBIN:$PATH
+    export LD_LIBRARY_PATH=$GMXLDLIB:/usr/local/cuda/lib64:$LD_LIBRARY_PATH
+    export MANPATH=$GMXMAN:$MANPATH
+
+%runscript
+    echo "Conteiner GROMACS Classic iniciado..."
+    echo "Autor: Patrick Allan dos Santos Faustino, PhD"
+    exec "$@"
+
+%labels
+    Author "Patrick Allan dos Santos Faustino"
+    Version "2026.06.19"
+    Stack "Ubuntu 24.04 | CUDA 12 (sm_89) | GROMACS 2026.2 with NNPOT"
