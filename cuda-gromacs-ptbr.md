@@ -501,9 +501,9 @@ conda activate mdtoolkit
 
 conda install -c conda-forge \
 rdkit openbabel py3dmol pillow \
-numpy scipy pandas matplotlib seaborn \
-scikit-learn jupyterlab ipykernel notebook nglview \
-parmed dssp pymbar statsmodels tqdm numba networkx plotly ipympl pytest \
+numpy scipy pandas matplotlib plotly seaborn scikit-learn \
+jupyterlab ipykernel notebook nglview watermark \
+parmed dssp pymbar alchemlyb statsmodels tqdm numba networkx ipympl pytest \
 pdbfixer openmm pdb2pqr propka biopython requests
 
 conda config --append channels salilab
