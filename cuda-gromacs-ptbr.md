@@ -624,7 +624,7 @@ conda install -c conda-forge alchemlyb pymbar jax jaxlib seaborn "jaxlib=*=*cuda
 ```
 conda create --name mdanalysis
 conda activate mdanalysis
-conda install -c conda-forge mdanalysis waterdynamics
+conda install -c conda-forge mdanalysis waterdynamics mdaencore
 ```
 
 [MDTraj](https://www.mdtraj.org/1.9.8.dev0/index.html) projetada para ser extremamente rápida e eficiente em memória, utiliza arrays do NumPy nativamente. É ideal para processar grandes volumes de dados (Big Data) e para converter formatos de trajetória. É frequentemente a escolha preferida para alimentar pipelines de Machine Learning devido à sua integração fácil com o ecossistema Scikit-learn/NumPy.
