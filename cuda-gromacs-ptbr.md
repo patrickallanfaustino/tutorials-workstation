@@ -521,8 +521,16 @@ obabel -:"CC(=O)OC1=CC=CC=C1C(=O)O" -opdb -O aspirin.pdb --title ASPIRIN --gen3d
 obabel ethanol.gro -O ethanol.mol2
 ```
 
+Temas para o jupyter notebook:
+```
+pip install theme-darcula
+pip install jupyterlab-theme-solarized-dark
+pip install jupyterlab-day
+pip install jupyterlab-solarized-light-theme
+```
+
 >[!NOTE]
-> Para utilizar o notebook `jupyter notebook`.
+> Para utilizar o notebook `jupyter lab`.
 >
 
 [AmberTools](https://ambermd.org/AmberTools.php) é uma coleção de programas gratuitos e de código aberto usados ​​para configurar, executar e analisar simulações moleculares.. Para instalar:
