@@ -503,7 +503,7 @@ conda install -c conda-forge \
 rdkit openbabel py3dmol pillow \
 numpy scipy pandas matplotlib plotly seaborn scikit-learn \
 jupyterlab ipykernel notebook nglview watermark jupyterlab-language-pack-pt-BR \
-parmed dssp pymbar alchemlyb statsmodels tqdm numba networkx ipympl pytest \
+parmed panedr pyedr dssp pymbar alchemlyb statsmodels tqdm numba networkx ipympl pytest \
 pdbfixer openmm pdb2pqr propka biopython requests netcdf4 pyjuliapkg
 
 conda config --append channels salilab
