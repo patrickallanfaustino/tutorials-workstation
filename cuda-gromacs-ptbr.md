@@ -588,11 +588,11 @@ ligpargen -h
 Para gerar topologia de moléculas, utilize:
 
 ```
-ligpargen -s 'CCO' -n ethanol -p molecule -r ETH -c 0 -o 3 -cgen CM1A -verbose -check
+ligpargen -s 'CCO' -n ethanol -p molecule -r ETH -c 0 -o 3 -cgen CM1A-LBCC -verbose -check
 
 ou
 
-ligpargen -i ethanol.pdb -n ethanol -p molecule -r ETH -c 0 -o 3 -cgen CM1A -verbose -check
+ligpargen -s CC(=O)[O-] -n ethanol -p molecule -r CAR -c -1 -o 3 -cgen CM1A -verbose -check
 ```
 
 [Packmol](https://m3g.github.io/packmol/) é uma biblioteca criada para construir configurações iniciais de sistemas complexos para simulação. Para instalar:
