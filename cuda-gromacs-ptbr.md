@@ -6,7 +6,7 @@
 
 <img src="picture_2.png" alt="computer">
 
-> Tutorial para compilar o GROMACS 2026.1 com suporte NNPOT-PyTorch (Redes Neurais) em GPU, utilizando CUDA 13.2 no Ubuntu 24.04.4 Kernel 6.17.
+> Tutorial para compilar o GROMACS 2026.3 com suporte NNPOT-PyTorch (Redes Neurais) em GPU, utilizando CUDA 13.2 no Ubuntu 24.04.4 Kernel 6.17.
 
 ## 💻 Computador testado e pré-requisitos:
 - Verificar minha [Workstation](https://github.com/patrickallanfaustino).
@@ -70,7 +70,9 @@ Verifique seu diretorio padrão `$HOME`, pois será o caminho utilizado para a m
 > Para atualizar as versões do gcc e cmake (recomendado):
 >```
 >sudo apt install gcc-15 g++-15
->sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-15 100 --slave /usr/bin/g++ g++ /usr/bin/g++-15
+>sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-15 100
+>sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-15 100
+>sudo update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-15 100
 >```
 >```
 >
@@ -269,8 +271,8 @@ sudo snap install indicator-sensors
 **LIBTORCH** É possivel instalar a biblioteca [libtorch](https://pytorch.org/) para utilizar Redes Neurais. Verifique a versão mais recente. Utilize a pasta `Downloads`.
 ```
 cd $HOME/Downloads
-wget https://download.pytorch.org/libtorch/cu130/libtorch-shared-with-deps-2.11.0%2Bcu130.zip
-unzip libtorch-shared-with-deps-2.11.0+cu130.zip
+wget https://download.pytorch.org/libtorch/cu130/libtorch-shared-with-deps-2.10.0%2Bcu130.zip
+unzip libtorch-shared-with-deps-2.10.0+cu130.zip
 ```
 
 Podemos instalar algumas bibliotecas auxiliares para o GROMACS:
@@ -301,10 +303,14 @@ sudo apt install grace \
 
 **PLUMED 2.x** Para instalar a biblioteca [Plumed](https://www.plumed.org/):
 ```
-wget https://github.com/plumed/plumed2/releases/download/v2.10.0/plumed-src-2.10.0.tgz
+wget https://github.com/plumed/plumed2/releases/download/v2.10.0/plumed-2.10.0.tgz
 tar -xzf plumed-src-2.10.0.tgz
 cd plumed-2.10.0
-./configure --prefix=$HOME/plumed --enable-mpi CXX=mpicxx CC=mpicc CXXFLAGS="-O3"
+./configure \
+  --prefix=$HOME/plumed \
+  --enable-mpi \
+  --enable-modules=all \
+  CXX=mpicxx CC=mpicc
 make -j$(nproc)
 make install
 ```
@@ -319,8 +325,8 @@ export PLUMED_KERNEL="$HOME/plumed/lib/libplumedKernel.so"
 A partir de agora, você poderá seguir a documentação oficial [guia de instalação](https://manual.gromacs.org/current/install-guide/index.html).
 ```
 cd $HOME/Downloads
-wget ftp://ftp.gromacs.org/gromacs/gromacs-2026.2.tar.gz
-tar -xvf gromacs-2026.2.tar.gz && cd gromacs-2026.2
+wget ftp://ftp.gromacs.org/gromacs/gromacs-2026.3.tar.gz
+tar -xvf gromacs-2026.3.tar.gz && cd gromacs-2026.3
 sudo mkdir build && cd build
 ```
 
@@ -349,11 +355,6 @@ cmake .. \
 -DGMX_EXTERNAL_ZLIB=ON \
 -DCMAKE_PREFIX_PATH="$HOME/Downloads/libtorch;/usr/local/cuda"
 ```
-
->[!NOTE]
->
->Para compilar com Plumed deve ser utilizado `-DGMX_MPI=ON` e excluir `-DGMX_OPENMP=ON` e `-DGMX_THREAD_MPI=ON`.
->
 
 Note que criei uma pasta chamada `gromacs-cuda-torch` para os arquivos compilados e indiquei com `-DCMAKE_INSTALL_PREFIX`, pois isso facilita a atualização do GROMACS no futuro.
 
